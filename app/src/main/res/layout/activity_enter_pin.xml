@@ -181,6 +181,38 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/btn8"
         app:layout_constraintTop_toBottomOf="@+id/btn6" />
+    <Button
+        android:id="@+id/btnOk"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:layout_marginTop="16dp"
+        style="?android:attr/borderlessButtonStyle"
+        android:background="@drawable/btn_numpad_pressed"
+        android:text="Ok"
+        app:layout_constraintEnd_toEndOf="@+id/btn9"
+        app:layout_constraintStart_toStartOf="@+id/btn9"
+        app:layout_constraintTop_toBottomOf="@+id/btn9" />
+
+    <Button
+        android:id="@+id/btn_forget_pin"
+        android:textColor="@android:color/white"
+        android:layout_width="0dp"
+        android:layout_height="57dp"
+        android:layout_marginStart="70dp"
+        android:layout_marginLeft="70dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="70dp"
+        android:textSize="20sp"
+        android:layout_marginRight="70dp"
+        android:background="@drawable/btn_primary_pressed"
+        android:layout_marginBottom="8dp"
+        android:textAllCaps="false"
+        android:text="Forget Pin"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView7"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn0"
+        app:layout_constraintVertical_bias="0.19999999" />
 
     <TextView
         android:id="@+id/textView2"
@@ -250,36 +282,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/btnOk"
-        android:layout_width="75dp"
-        android:layout_height="75dp"
-        android:layout_marginTop="16dp"
-        android:text="Button"
-        app:layout_constraintEnd_toEndOf="@+id/btn9"
-        app:layout_constraintStart_toStartOf="@+id/btn9"
-        app:layout_constraintTop_toBottomOf="@+id/btn9" />
 
-    <Button
-        android:id="@+id/btn_forget_pin"
-        android:textColor="@android:color/white"
-        android:layout_width="0dp"
-        android:layout_height="57dp"
-        android:layout_marginStart="70dp"
-        android:layout_marginLeft="70dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="70dp"
-        android:textSize="20sp"
-        android:layout_marginRight="70dp"
-        android:background="@drawable/btn_primary_pressed"
-
-        android:layout_marginBottom="8dp"
-        android:textAllCaps="false"
-        android:text="Forget Pin"
-        app:layout_constraintBottom_toBottomOf="@+id/imageView7"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn0"
-        app:layout_constraintVertical_bias="0.19999999" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
