@@ -19,6 +19,7 @@
         app:layout_constraintBottom_toBottomOf="@+id/btn16"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
+        android:fontFamily="@font/corsa_grotesk_regular"
         app:layout_constraintStart_toEndOf="@+id/btn16"
         app:layout_constraintTop_toTopOf="@+id/btn16" />
 
@@ -34,6 +35,7 @@
         android:textSize="@dimen/text_numpad"
         app:layout_constraintBottom_toBottomOf="@+id/btn14"
         app:layout_constraintEnd_toEndOf="parent"
+        android:fontFamily="@font/corsa_grotesk_regular"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/btn14"
         app:layout_constraintTop_toTopOf="@+id/btn14" />
@@ -50,6 +52,7 @@
         app:layout_constraintEnd_toStartOf="@+id/btn11"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/btn"
+        android:fontFamily="@font/corsa_grotesk_regular"
         app:layout_constraintTop_toTopOf="@+id/btn" />
 
     <Button
@@ -65,6 +68,7 @@
         app:layout_constraintBottom_toTopOf="@+id/btn17"
         app:layout_constraintEnd_toStartOf="@+id/btn14"
         app:layout_constraintHorizontal_bias="0.5"
+        android:fontFamily="@font/corsa_grotesk_regular"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btn" />
 
@@ -75,6 +79,7 @@
         android:layout_height="80dp"
         android:background="@drawable/btn_numpad_pressed"
         android:text="8"
+        android:fontFamily="@font/corsa_grotesk_regular"
         android:textSize="@dimen/text_numpad"
         app:layout_constraintBottom_toBottomOf="@+id/btn13"
         app:layout_constraintEnd_toStartOf="@+id/btn15"
@@ -91,6 +96,7 @@
         android:text="0"
         android:textSize="@dimen/text_numpad"
         app:layout_constraintBottom_toBottomOf="@+id/btn17"
+        android:fontFamily="@font/corsa_grotesk_regular"
         app:layout_constraintEnd_toStartOf="@+id/btn18"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/btn17"
@@ -104,6 +110,7 @@
         android:layout_marginStart="24dp"
         android:layout_marginLeft="24dp"
         android:background="@drawable/btn_numpad_pressed"
+        android:fontFamily="@font/corsa_grotesk_regular"
         android:text="1"
         android:textSize="@dimen/text_numpad"
         app:layout_constraintBottom_toTopOf="@+id/btn"
@@ -125,6 +132,7 @@
         android:textSize="@dimen/text_numpad"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/btn16"
+        android:fontFamily="@font/corsa_grotesk_regular"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btn13" />
@@ -143,6 +151,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/btn12"
+        android:fontFamily="@font/corsa_grotesk_regular"
         app:layout_constraintTop_toTopOf="@+id/btn12" />
 
     <Button
@@ -155,6 +164,7 @@
         android:textSize="@dimen/text_numpad"
         app:layout_constraintBottom_toBottomOf="@+id/btn19"
         app:layout_constraintEnd_toStartOf="@+id/btn1"
+        android:fontFamily="@font/corsa_grotesk_regular"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/btn19"
         app:layout_constraintTop_toTopOf="@+id/btn19" />
@@ -186,6 +196,8 @@
         android:layout_marginRight="8dp"
         android:text="Please enter desired amount"
         android:textAlignment="center"
+        android:fontFamily="@font/corsa_grotesk_regular"
+        android:textStyle="bold"
         android:textColor="@android:color/black"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -194,6 +206,7 @@
 
     <TextView
         android:id="@+id/textView8"
+        android:fontFamily="@font/corsa_grotesk_regular"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
@@ -218,6 +231,7 @@
         android:text="3"
         android:textSize="@dimen/text_numpad"
         app:layout_constraintBottom_toBottomOf="@+id/btn10"
+        android:fontFamily="@font/corsa_grotesk_regular"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/btn10"
@@ -225,6 +239,7 @@
 
     <TextView
         android:id="@+id/textView9"
+        android:fontFamily="@font/corsa_grotesk_regular"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
