@@ -61,7 +61,7 @@
         android:layout_marginEnd="70dp"
         android:layout_marginRight="70dp"
         android:layout_marginBottom="45dp"
-        android:background="@drawable/btn_primary_pressed"
+        android:background="@drawable/btn_primary_black_pressed"
         android:fontFamily="@font/corsa_grotesk_regular"
         android:text="cancel"
         android:textSize="@dimen/btn_text"
