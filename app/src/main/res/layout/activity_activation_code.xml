@@ -104,7 +104,7 @@
         android:textSize="@dimen/btn_text"
         android:textAllCaps="false"
         android:fontFamily="@font/corsa_grotesk_regular"
-        android:textColor="@android:color/white"
+        android:textColor="@color/btn_text_white_color"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
