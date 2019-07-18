@@ -6,6 +6,28 @@
     android:background="@drawable/bg"
     android:layout_height="match_parent">
 
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:background="@android:color/black"
+        android:layout_height="wrap_content"
+        app:titleTextColor="@android:color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" >
+
+        <TextView
+            android:id="@+id/toolbar_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="Activation Code"
+            android:fontFamily="@font/corsa_grotesk_regular"
+            android:textColor="@android:color/white"
+            android:textSize="20sp" />
+    </androidx.appcompat.widget.Toolbar>
     <EditText
         android:id="@+id/editText5"
         android:layout_width="78dp"
@@ -76,19 +98,19 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:layout_marginLeft="32dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="32dp"
-        android:fontFamily="@font/corsa_grotesk_regular"
         android:layout_marginRight="32dp"
-        android:textColor="@android:color/black"
         android:layout_marginBottom="8dp"
+        android:fontFamily="@font/corsa_grotesk_regular"
         android:text="Please enter the activation code to start using the device"
         android:textAlignment="center"
+        android:textColor="@android:color/black"
         android:textSize="@dimen/text_label_all"
         app:layout_constraintBottom_toTopOf="@+id/guideline2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/toolbar" />
 
     <Button
         android:id="@+id/button"
