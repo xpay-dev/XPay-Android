@@ -29,65 +29,66 @@
             android:textSize="20sp" />
     </androidx.appcompat.widget.Toolbar>
     <EditText
-        android:id="@+id/editText5"
+        android:id="@+id/edtext4"
         android:layout_width="78dp"
         android:layout_height="50dp"
         android:background="@drawable/tv_activation"
         android:ems="10"
-        android:inputType="textPersonName"
-        android:text="zxcv"
+        android:digits="0123456789qwertzuiopasdfghjklyxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM"
+        android:maxLength="4"
         android:textAlignment="center"
-        app:layout_constraintBottom_toBottomOf="@+id/editText4"
+        app:layout_constraintBottom_toBottomOf="@+id/edtext3"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         android:fontFamily="@font/corsa_grotesk_regular"
-        app:layout_constraintStart_toEndOf="@+id/editText4"
-        app:layout_constraintTop_toTopOf="@+id/editText4" />
+        app:layout_constraintStart_toEndOf="@+id/edtext3"
+        app:layout_constraintTop_toTopOf="@+id/edtext3" />
 
     <EditText
-        android:id="@+id/editText2"
+        android:id="@+id/edtext2"
+        android:layout_width="78dp"
+        android:layout_height="50dp"
+        android:background="@drawable/tv_activation"
+
+        android:ems="10"
+        android:digits="0123456789qwertzuiopasdfghjklyxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM"
+        android:maxLength="4"
+        android:textAlignment="center"
+        android:fontFamily="@font/corsa_grotesk_regular"
+        app:layout_constraintBottom_toBottomOf="@+id/edtext1"
+        app:layout_constraintEnd_toStartOf="@+id/edtext3"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/edtext1"
+        app:layout_constraintTop_toTopOf="@+id/edtext1" />
+
+    <EditText
+        android:id="@+id/edtext3"
         android:layout_width="78dp"
         android:layout_height="50dp"
         android:background="@drawable/tv_activation"
         android:ems="10"
-        android:inputType="textPersonName"
-        android:text="asdf"
-        android:textAlignment="center"
-        android:fontFamily="@font/corsa_grotesk_regular"
-        app:layout_constraintBottom_toBottomOf="@+id/editText3"
-        app:layout_constraintEnd_toStartOf="@+id/editText4"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/editText3"
-        app:layout_constraintTop_toTopOf="@+id/editText3" />
-
-    <EditText
-        android:id="@+id/editText4"
-        android:layout_width="78dp"
-        android:layout_height="50dp"
-        android:background="@drawable/tv_activation"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:text="jhjk"
+        android:digits="0123456789qwertzuiopasdfghjklyxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM"
+        android:maxLength="4"
         android:fontFamily="@font/corsa_grotesk_regular"
         android:textAlignment="center"
-        app:layout_constraintBottom_toBottomOf="@+id/editText2"
-        app:layout_constraintEnd_toStartOf="@+id/editText5"
+        app:layout_constraintBottom_toBottomOf="@+id/edtext2"
+        app:layout_constraintEnd_toStartOf="@+id/edtext4"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/editText2"
-        app:layout_constraintTop_toTopOf="@+id/editText2" />
+        app:layout_constraintStart_toEndOf="@+id/edtext2"
+        app:layout_constraintTop_toTopOf="@+id/edtext2" />
 
     <EditText
-        android:id="@+id/editText3"
+        android:id="@+id/edtext1"
         android:layout_width="78dp"
         android:layout_height="50dp"
         android:layout_marginTop="8dp"
         android:background="@drawable/tv_activation"
         android:ems="10"
-        android:inputType="textPersonName"
-        android:text="qwer"
+        android:maxLength="4"
+        android:digits="0123456789qwertzuiopasdfghjklyxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM"
         android:fontFamily="@font/corsa_grotesk_regular"
         android:textAlignment="center"
-        app:layout_constraintEnd_toStartOf="@+id/editText2"
+        app:layout_constraintEnd_toStartOf="@+id/edtext2"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/guideline2" />
@@ -113,7 +114,7 @@
         app:layout_constraintTop_toBottomOf="@+id/toolbar" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/btnActivate"
         android:layout_width="0dp"
         android:layout_height="@dimen/btn_height"
         android:layout_marginStart="80dp"
@@ -125,6 +126,7 @@
         android:text="Activate"
         android:textSize="@dimen/btn_text"
         android:textAllCaps="false"
+        android:enabled="false"
         android:fontFamily="@font/corsa_grotesk_regular"
         android:textColor="@color/btn_text_white_color"
         app:layout_constraintEnd_toEndOf="parent"
@@ -142,11 +144,11 @@
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         android:text="Having trouble? Help"
-        android:textSize="18sp"
+        android:textSize="@dimen/text_small"
         android:fontFamily="@font/corsa_grotesk_regular"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button" />
+        app:layout_constraintTop_toBottomOf="@+id/btnActivate" />
 
     <TextView
         android:id="@+id/textView4"
@@ -159,7 +161,7 @@
         android:layout_marginRight="32dp"
         android:text="By Activating , you agree to our terms of service and public policy"
         android:textAlignment="center"
-        android:textSize="18sp"
+        android:textSize="@dimen/text_small"
         app:layout_constraintEnd_toEndOf="parent"
         android:fontFamily="@font/corsa_grotesk_regular"
         app:layout_constraintHorizontal_bias="0.51"
@@ -194,7 +196,7 @@
         android:text="Invalid Activation Code"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editText3" />
+        app:layout_constraintTop_toBottomOf="@+id/edtext1" />
 
     <TextView
         android:id="@+id/textView6"

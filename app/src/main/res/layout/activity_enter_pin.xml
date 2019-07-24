@@ -7,7 +7,7 @@
     android:layout_height="match_parent">
 
     <ImageButton
-        android:id="@+id/btnOk2"
+        android:id="@+id/btnClear"
         style="?android:attr/borderlessButtonStyle"
         android:layout_width="75dp"
         android:layout_height="75dp"
@@ -33,16 +33,16 @@
         app:layout_constraintTop_toBottomOf="@+id/btn8" />
 
     <ImageView
-        android:id="@+id/imageView3"
+        android:id="@+id/img4"
         android:layout_width="35dp"
         android:layout_height="35dp"
         android:layout_marginEnd="80dp"
         android:layout_marginRight="80dp"
-        android:src="@drawable/ic_pin_cirlce_dot"
-        app:layout_constraintBottom_toBottomOf="@+id/imageView4"
+        android:background="@drawable/ic_pin_circle"
+        app:layout_constraintBottom_toBottomOf="@+id/img3"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/imageView4"
-        app:layout_constraintTop_toTopOf="@+id/imageView4"
+        app:layout_constraintStart_toEndOf="@+id/img3"
+        app:layout_constraintTop_toTopOf="@+id/img3"
         app:layout_constraintVertical_bias="0.100000024" />
 
     <Button
@@ -150,7 +150,7 @@
         android:textSize="@dimen/text_numpad"
         app:layout_constraintEnd_toStartOf="@+id/btn2"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView5" />
+        app:layout_constraintTop_toBottomOf="@+id/img1" />
 
     <Button
         android:id="@+id/btn5"
@@ -203,7 +203,7 @@
         app:layout_constraintTop_toBottomOf="@+id/btn6" />
 
     <ImageButton
-        android:id="@+id/btnOk"
+        android:id="@+id/btnSubmit"
         style="?android:attr/borderlessButtonStyle"
         android:layout_width="75dp"
         android:layout_height="75dp"
@@ -257,40 +257,40 @@
         app:layout_constraintTop_toBottomOf="@+id/imageView6" />
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/img2"
         android:layout_width="35dp"
         android:layout_height="35dp"
         android:layout_marginStart="3dp"
         android:layout_marginLeft="3dp"
-        app:layout_constraintBottom_toBottomOf="@+id/imageView5"
-        app:layout_constraintEnd_toStartOf="@+id/imageView4"
-        app:layout_constraintStart_toEndOf="@+id/imageView5"
-        app:layout_constraintTop_toTopOf="@+id/imageView5"
+        app:layout_constraintBottom_toBottomOf="@+id/img1"
+        app:layout_constraintEnd_toStartOf="@+id/img3"
+        app:layout_constraintStart_toEndOf="@+id/img1"
+        app:layout_constraintTop_toTopOf="@+id/img1"
         app:layout_constraintVertical_bias="0.0"
-        android:src="@drawable/ic_pin_cirlce_dot" />
+        android:background="@drawable/ic_pin_circle" />
 
     <ImageView
-        android:id="@+id/imageView4"
+        android:id="@+id/img3"
         android:layout_width="35dp"
         android:layout_height="35dp"
         android:layout_marginEnd="3dp"
         android:layout_marginRight="3dp"
-        app:layout_constraintBottom_toBottomOf="@+id/imageView"
-        app:layout_constraintEnd_toStartOf="@+id/imageView3"
-        app:layout_constraintStart_toEndOf="@+id/imageView"
-        app:layout_constraintTop_toTopOf="@+id/imageView"
+        app:layout_constraintBottom_toBottomOf="@+id/img2"
+        app:layout_constraintEnd_toStartOf="@+id/img4"
+        app:layout_constraintStart_toEndOf="@+id/img2"
+        app:layout_constraintTop_toTopOf="@+id/img2"
         app:layout_constraintVertical_bias="0.0"
-        android:src="@drawable/ic_pin_cirlce_dot" />
+        android:background="@drawable/ic_pin_circle" />
 
     <ImageView
-        android:id="@+id/imageView5"
+        android:id="@+id/img1"
         android:layout_width="35dp"
         android:layout_height="35dp"
         android:layout_marginStart="80dp"
         android:layout_marginLeft="80dp"
         android:layout_marginTop="8dp"
-        android:src="@drawable/ic_pin_cirlce_dot"
-        app:layout_constraintEnd_toStartOf="@+id/imageView"
+        android:background="@drawable/ic_pin_circle"
+        app:layout_constraintEnd_toStartOf="@+id/img2"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
