@@ -1,6 +1,7 @@
 <resources>
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="text_numpad">24sp</dimen>
+    <dimen name="text_small">18dp</dimen>
     <dimen name="btn_height">57dp</dimen>
     <dimen name="text_label_all">23sp</dimen>
     <dimen name="btn_text">23sp</dimen>

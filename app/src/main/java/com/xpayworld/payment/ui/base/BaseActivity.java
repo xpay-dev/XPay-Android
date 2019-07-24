@@ -8,6 +8,7 @@ import com.xpayworld.payment.PaymentApplication;
 import com.xpayworld.payment.di.component.ActivityComponent;
 import com.xpayworld.payment.di.component.DaggerActivityComponent;
 import com.xpayworld.payment.di.module.ActivityModule;
+import com.xpayworld.payment.ui.base.kt.BaseFragmentkt;
 
 public abstract class BaseActivity extends AppCompatActivity implements MvpView , BaseFragment.Callback {
 
