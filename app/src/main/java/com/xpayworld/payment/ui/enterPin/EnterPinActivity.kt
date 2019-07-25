@@ -34,17 +34,16 @@ class EnterPinActivity: BaseActivitykt(){
 
    internal inner  class  didTapClear: View.OnClickListener{
         override fun onClick(p0: View?) {
-
-         strCode =  strCode.substring(strCode.length-1)
+        print(strCode.length)
+        strCode = strCode.dropLast(1)
             shouldUpdateCodeImage()
-
         }
     }
 
     inner class didTapNumpad : View.OnClickListener{
         override fun onClick(v: View?) {
 
-            if (strCode.length <= 4){
+            if (strCode.length <= 3){
                 strCode += (v as Button).text
             }
             shouldUpdateCodeImage()
