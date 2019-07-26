@@ -27,7 +27,6 @@ public abstract class BaseFragment  extends Fragment implements MvpView {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-
         return inflater.inflate(getLayoutId(), container, false);
     }
 

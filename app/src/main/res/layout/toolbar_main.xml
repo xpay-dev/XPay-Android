@@ -3,10 +3,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@android:color/black"
+    android:background="@color/colorPrimaryDark"
     android:elevation="4dp"
-    app:theme="@style/ToolBarTheme"
-    app:title="">
+    android:id="@+id/toolbar"
+    app:theme="@style/AppTheme.AppBarOverlay"
+    >
 
     <TextView
         android:id="@+id/toolbar_title"

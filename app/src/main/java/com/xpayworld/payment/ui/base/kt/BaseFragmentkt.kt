@@ -2,7 +2,10 @@ package com.xpayworld.payment.ui.base.kt
 
 import android.content.Context
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
+import androidx.annotation.LayoutRes
 import androidx.fragment.app.Fragment
 import com.xpayworld.payment.ui.base.BaseActivity
 import dagger.android.support.AndroidSupportInjection
@@ -20,15 +23,20 @@ abstract  class BaseFragmentkt : Fragment(), MvpViewkt {
         }
     }
 
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        return inflater.inflate(getLayout(), container, false)
+    }
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
-        performDependencyInjection()
+//        performDependencyInjection()
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setUp()
+        initView()
     }
 
     override fun hideProgress() {
@@ -47,6 +55,9 @@ abstract  class BaseFragmentkt : Fragment(), MvpViewkt {
         fun onFragmentAttached()
         fun onFragmentDetached(tag: String)
     }
-    abstract fun setUp()
+    @LayoutRes
+    abstract fun getLayout(): Int
+
+    abstract fun initView()
 
 }

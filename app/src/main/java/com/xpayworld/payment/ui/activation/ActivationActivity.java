@@ -15,8 +15,6 @@ public class ActivationActivity extends BaseActivity{
     @Override
     public void initViews() {
         text.addTextChangedListener(new onChanged());
-
-
     }
 
     @Override

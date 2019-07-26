@@ -51,7 +51,9 @@ class EnterPinActivity: BaseActivitykt(){
     }
     fun shouldUpdateCodeImage(){
         for (x in 0 until codeImg.size){
-            codeImg[x].background = if (strCode.length >= x+1) ContextCompat.getDrawable( applicationContext,R.drawable.ic_pin_cirlce_dot) else ContextCompat.getDrawable( applicationContext,R.drawable.ic_pin_circle)
+            val img = if (strCode.length >= x+1) R.drawable.ic_pin_cirlce_dot else R.drawable.ic_pin_circle
+            codeImg[x].setBackgroundResource(img)
+
         }
     }
 }
