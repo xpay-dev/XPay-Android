@@ -14,7 +14,7 @@ abstract  class BaseFragmentkt : Fragment(), MvpViewkt {
 
     private var parentActivity: BaseActivity? = null
 
-    override fun onAttach(context: Context?) {
+    override fun onAttach(context: Context) {
         super.onAttach(context)
         if (context is BaseActivity) {
             val activity = context as BaseActivity?
@@ -29,11 +29,13 @@ abstract  class BaseFragmentkt : Fragment(), MvpViewkt {
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
-//        performDependencyInjection()
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(false)
+
+
     }
 
+    
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initView()

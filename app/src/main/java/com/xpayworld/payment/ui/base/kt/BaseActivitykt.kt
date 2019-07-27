@@ -10,7 +10,7 @@ abstract  class BaseActivitykt : AppCompatActivity(), MvpViewkt {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(getLayout())
-        //dperformDI()
+       // performDI()
         initView()
 
     }
@@ -20,7 +20,6 @@ abstract  class BaseActivitykt : AppCompatActivity(), MvpViewkt {
     }
 
     override fun hideProgress() {
-        hideProgress()
 
     }
 
