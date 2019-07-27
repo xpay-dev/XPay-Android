@@ -12,7 +12,7 @@
         android:name=".PaymentApplication"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".ui.transaction.Dashboard"
+            android:name=".ui.transaction.DashboardActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
