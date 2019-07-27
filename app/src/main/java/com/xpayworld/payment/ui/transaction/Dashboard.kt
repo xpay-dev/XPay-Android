@@ -35,7 +35,7 @@ class Dashboard  : BaseActivitykt(){
     }
 
 
-private fun setUpDrawerToggle() {
+    private fun setUpDrawerToggle() {
     val mDrawerToggle = object : ActionBarDrawerToggle(this, drawer_layout, toolbar,
             R.string.openDrawer, R.string.closeDrawer) {}
     drawer_layout.addDrawerListener(mDrawerToggle)
