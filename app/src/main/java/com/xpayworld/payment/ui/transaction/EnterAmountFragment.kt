@@ -26,9 +26,9 @@ class EnterAmountFragment : BaseFragmentkt() {
     override fun initView() {
 
         shouldAdjustPaddigTop()
-
+        showAmount()
         // Numpad Button
-        numpad = listOf(btn1,btn2,btn3,btn4,btn5,btn6,btn7,btn8,btn9)
+        numpad = listOf(btn1,btn2,btn3,btn4,btn5,btn6,btn7,btn8,btn9,btn0)
         numpad.forEach { btn: Button -> btn.setOnClickListener(OnClickButton())}
 
         // Numpad Button Image
@@ -74,7 +74,9 @@ class EnterAmountFragment : BaseFragmentkt() {
 
     inner class OnClickButton : View.OnClickListener {
         override fun onClick(v: View?) {
-            if (strAmount.length == 8) return
+            val len = strAmount.length
+            if (len == 8) return
+            if (len == 0 && (v as Button).text == "0") return
 
             strAmount += (v as Button).text
             showAmount()
@@ -86,7 +88,7 @@ class EnterAmountFragment : BaseFragmentkt() {
         val df = DecimalFormat("###,###,###.##")
 
         if (len in 1..8){
-            this.formatedAmount =  df.format((strAmount.toDouble()/100))
+            this.formatedAmount =  df.format((strAmount.toFloat()/100))
         }
         else if (len == 0){
             this.formatedAmount = "0.00"

@@ -16,10 +16,8 @@ class ProcessTransactionFragment : BaseFragmentkt() {
     override fun initView() {
         (activity as DrawerLocker).drawerEnabled(false)
 
-
         btnCancel.setOnClickListener {
-
-            findNavController().popBackStack()
+            findNavController().navigateUp()
             (activity as DrawerLocker).drawerEnabled(true)
         }
     }
