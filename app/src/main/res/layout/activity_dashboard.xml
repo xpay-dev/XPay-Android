@@ -31,9 +31,12 @@
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/nav_view"
         app:menu="@menu/menu_main"
+        app:itemTextColor="@color/white"
         android:layout_width="wrap_content"
+        android:background="@android:color/black"
         android:layout_height="match_parent"
         android:layout_gravity="start"
+        app:itemTextAppearance="@style/NavDrawerTextStyle"
         app:headerLayout="@layout/nav_header"
         android:fitsSystemWindows="true"/>
 </androidx.drawerlayout.widget.DrawerLayout>
