@@ -7,8 +7,8 @@ import android.widget.ImageButton
 import androidx.navigation.findNavController
 import com.xpayworld.payment.R
 import com.xpayworld.payment.ui.base.kt.BaseFragmentkt
+import com.xpayworld.payment.util.formattedAmount
 import kotlinx.android.synthetic.main.fragment_enter_amount.*
-import kotlinx.android.synthetic.main.toolbar_main.*
 import kotlinx.android.synthetic.main.view_enter_amount.*
 import java.text.DecimalFormat
 
@@ -20,20 +20,24 @@ class EnterAmountFragment : BaseFragmentkt() {
     var strAmount = ""
     var formatedAmount = ""
 
+
     override fun getLayout(): Int {
         return R.layout.fragment_enter_amount
     }
-    override fun initView() {
+
+    override fun initView(v: View) {
 
         shouldAdjustPaddigTop()
-        showAmount()
+        // Initial Display
+        tvAmount.text = formattedAmount(strAmount)
+
         // Numpad Button
-        numpad = listOf(btn1,btn2,btn3,btn4,btn5,btn6,btn7,btn8,btn9,btn0)
-        numpad.forEach { btn: Button -> btn.setOnClickListener(OnClickButton())}
+        numpad = listOf(btn1, btn2, btn3, btn4, btn5, btn6, btn7, btn8, btn9, btn0)
+        numpad.forEach { btn: Button -> btn.setOnClickListener(OnClickButton()) }
 
         // Numpad Button Image
-        numpadImg = listOf(btnClear,btnOk)
-        numpadImg.forEach { btn : ImageButton -> btn.setOnClickListener(OnClickImgButton())}
+        numpadImg = listOf(btnClear, btnOk)
+        numpadImg.forEach { btn: ImageButton -> btn.setOnClickListener(OnClickImgButton()) }
 
         btnCredit.setOnClickListener {
 
@@ -51,22 +55,24 @@ class EnterAmountFragment : BaseFragmentkt() {
         }
     }
 
-
     override fun onAttach(context: Context) {
         super.onAttach(context)
         (activity as DrawerLocker).drawerEnabled(true)
     }
 
 
-    inner class OnClickImgButton : View.OnClickListener{
+    inner class OnClickImgButton : View.OnClickListener {
         override fun onClick(v: View?) {
-            when(v as ImageButton){
-                btnClear ->{
+            when (v as ImageButton) {
+                btnClear -> {
                     strAmount = strAmount.dropLast(1)
-                    showAmount()
+                    tvAmount.text = formattedAmount(strAmount)
                 }
-                btnOk ->{
-                    v.findNavController().navigate(R.id.action_enter_amount_fragment_to_process_tranaction_fragment)
+                btnOk -> {
+                    if (strAmount.isEmpty()) return
+
+                    val direction = EnterAmountFragmentDirections.actionEnterAmountFragmentToProcessTranactionFragment(strAmount)
+                    v.findNavController().navigate(direction)
                 }
             }
         }
@@ -79,25 +85,12 @@ class EnterAmountFragment : BaseFragmentkt() {
             if (len == 0 && (v as Button).text == "0") return
 
             strAmount += (v as Button).text
-            showAmount()
+           tvAmount.text = formattedAmount(strAmount)
         }
     }
-
-   private fun showAmount(){
-        val len = strAmount.length
-        val df = DecimalFormat("###,###,###.##")
-
-        if (len in 1..8){
-            this.formatedAmount =  df.format((strAmount.toFloat()/100))
-        }
-        else if (len == 0){
-            this.formatedAmount = "0.00"
-        }
-       tvAmount.text = formatedAmount
-    }
-
-    private fun shouldAdjustPaddigTop(){
-        btnCredit.setPadding(0,10,0,0)
-        btnDebit.setPadding(0,10,0,0)
+    private fun shouldAdjustPaddigTop() {
+        btnCredit.setPadding(0, 10, 0, 0)
+        btnDebit.setPadding(0, 10, 0, 0)
     }
 }
+

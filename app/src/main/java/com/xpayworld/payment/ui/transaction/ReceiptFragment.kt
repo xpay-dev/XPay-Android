@@ -1,4 +1,4 @@
-package com.xpayworld.payment.ui.reports
+package com.xpayworld.payment.ui.transaction
 
 
 import android.os.Bundle
@@ -9,13 +9,12 @@ import android.view.ViewGroup
 import com.xpayworld.payment.R
 
 
-class ReportsFragment : Fragment() {
+class ReceiptFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_reports, container, false)
+        return inflater.inflate(R.layout.fragment_receipt, container, false)
     }
-
 
 }

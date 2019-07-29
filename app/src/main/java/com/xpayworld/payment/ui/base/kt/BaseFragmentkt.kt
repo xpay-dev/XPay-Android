@@ -38,7 +38,7 @@ abstract  class BaseFragmentkt : Fragment(), MvpViewkt {
     
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        initView()
+        initView(view)
     }
 
     override fun hideProgress() {
@@ -60,6 +60,6 @@ abstract  class BaseFragmentkt : Fragment(), MvpViewkt {
     @LayoutRes
     abstract fun getLayout(): Int
 
-    abstract fun initView()
+    abstract fun initView(view: View)
 
 }

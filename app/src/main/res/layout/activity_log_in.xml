@@ -34,10 +34,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
-        android:textSize="@dimen/text_label_all"
+        android:text="Email Address / Username"
         android:textAllCaps="false"
         android:textColor="@android:color/black"
-        android:text="Email Address / Username"
+        android:textSize="@dimen/text_label_all"
         app:layout_constraintBottom_toTopOf="@+id/editText"
         app:layout_constraintStart_toStartOf="@+id/editText" />
 
@@ -62,10 +62,10 @@
         android:id="@+id/textView14"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="@dimen/text_label_all"
         android:layout_marginTop="32dp"
-        android:textColor="@android:color/black"
         android:text="Password"
+        android:textColor="@android:color/black"
+        android:textSize="@dimen/text_label_all"
         app:layout_constraintStart_toStartOf="@+id/editText"
         app:layout_constraintTop_toBottomOf="@+id/editText" />
 

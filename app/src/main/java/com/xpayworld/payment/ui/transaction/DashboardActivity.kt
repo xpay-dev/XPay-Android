@@ -18,14 +18,14 @@ import kotlinx.android.synthetic.main.activity_dashboard.*
 import kotlinx.android.synthetic.main.toolbar_main.*
 
 
+class DashboardActivity : BaseActivitykt(), DrawerLocker , ToolbarDelegate{
 
-class DashboardActivity  : BaseActivitykt() , DrawerLocker{
 
 
     private lateinit var drawerLayout: DrawerLayout
     private lateinit var navController: NavController
-    private lateinit var toolbar : Toolbar
-    private lateinit var toogle :  ActionBarDrawerToggle
+    private lateinit var toolbar: Toolbar
+    private lateinit var toogle: ActionBarDrawerToggle
 
 
     override fun initView() {
@@ -37,11 +37,12 @@ class DashboardActivity  : BaseActivitykt() , DrawerLocker{
         setSupportActionBar(toolbar)
 
         supportActionBar?.setDisplayShowHomeEnabled(true)
-        supportActionBar?.title =""
+        supportActionBar?.title = ""
 
         drawerLayout = binding.drawerLayout
 
-        navController = findNavController( R.id.nav_host_fragment)
+        navController = findNavController(R.id.nav_host_fragment)
+
         binding.navigationView.setupWithNavController(navController)
 
         navController.addOnDestinationChangedListener { controller, destination, arguments ->
@@ -52,19 +53,23 @@ class DashboardActivity  : BaseActivitykt() , DrawerLocker{
 
     private fun setUpDrawerToggle() {
         toogle = object : ActionBarDrawerToggle(this, drawerLayout, toolbar,
-            R.string.openDrawer, R.string.closeDrawer) {
+                R.string.openDrawer, R.string.closeDrawer) {
 
-    }
+        }
         drawerLayout.addDrawerListener(toogle)
         toogle.syncState()
     }
+
     override fun onSupportNavigateUp(): Boolean {
         return navController.navigateUp()
     }
 
     override fun onBackPressed() {
         super.onBackPressed()
-        drawerEnabled(true)
+//        navController.popBackStack()
+//        findNavController().popBackStack()
+//        drawerEnabled(true)
+
     }
 
     // to disable / hide humberger menu
@@ -72,5 +77,9 @@ class DashboardActivity  : BaseActivitykt() , DrawerLocker{
         val lockMode = if (enabled) DrawerLayout.LOCK_MODE_UNLOCKED else DrawerLayout.LOCK_MODE_LOCKED_CLOSED
         drawerLayout.setDrawerLockMode(lockMode)
         toogle.isDrawerIndicatorEnabled = enabled
+    }
+    override fun showToolbar(visible: Boolean) {
+        if (visible) supportActionBar?.show() else supportActionBar?.hide()
+        drawerEnabled(visible)
     }
 }

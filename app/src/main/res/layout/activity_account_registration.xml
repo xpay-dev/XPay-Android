@@ -26,15 +26,15 @@
                 android:id="@+id/editText7"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:paddingStart="20dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginRight="20dp"
                 android:layout_marginBottom="30dp"
                 android:background="@drawable/tv_activation"
                 android:ems="10"
-                android:inputType="textPersonName"
                 android:hint="Full Name"
+                android:inputType="textPersonName"
+                android:paddingStart="20dp"
                 android:paddingLeft="20dp" />
 
             <EditText
@@ -42,14 +42,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginLeft="20dp"
-                android:paddingStart="20dp"
-                android:paddingLeft="20dp"
                 android:layout_marginRight="20dp"
                 android:layout_marginBottom="30dp"
                 android:background="@drawable/tv_activation"
                 android:ems="10"
+                android:hint="Company Name"
                 android:inputType="textPersonName"
-                android:hint="Company Name" />
+                android:paddingStart="20dp"
+                android:paddingLeft="20dp" />
 
             <EditText
                 android:id="@+id/editText9"
@@ -60,10 +60,10 @@
                 android:layout_marginBottom="30dp"
                 android:background="@drawable/tv_activation"
                 android:ems="10"
-                android:paddingStart="20dp"
-                android:paddingLeft="20dp"
+                android:hint="Business Type"
                 android:inputType="textPersonName"
-               android:hint="Business Type" />
+                android:paddingStart="20dp"
+                android:paddingLeft="20dp" />
 
             <EditText
                 android:id="@+id/editText11"
@@ -74,10 +74,10 @@
                 android:layout_marginBottom="30dp"
                 android:background="@drawable/tv_activation"
                 android:ems="10"
-                android:paddingStart="20dp"
-                android:paddingLeft="20dp"
+                android:hint="Email Address"
                 android:inputType="textPersonName"
-                android:hint="Email Address" />
+                android:paddingStart="20dp"
+                android:paddingLeft="20dp" />
 
             <EditText
                 android:id="@+id/editText10"
@@ -85,13 +85,13 @@
                 android:layout_height="50dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
-                android:paddingStart="20dp"
-                android:paddingLeft="20dp"
                 android:layout_marginBottom="30dp"
                 android:background="@drawable/tv_activation"
                 android:ems="10"
+                android:hint="Phone Number"
                 android:inputType="textPersonName"
-                android:hint="Phone Number" />
+                android:paddingStart="20dp"
+                android:paddingLeft="20dp" />
         </LinearLayout>
     </ScrollView>
 
@@ -112,9 +112,9 @@
         android:layout_marginEnd="80dp"
         android:layout_marginRight="80dp"
         android:background="@drawable/btn_primary_black_pressed"
+        android:fontFamily="@font/corsa_grotesk_regular"
         android:text="Register"
         android:textAllCaps="false"
-        android:fontFamily="@font/corsa_grotesk_regular"
         android:textColor="@color/btn_text_white_color"
         android:textSize="@dimen/btn_text"
         app:layout_constraintEnd_toEndOf="parent"
@@ -128,10 +128,10 @@
         android:layout_height="@dimen/btn_height"
         android:layout_marginTop="16dp"
         android:background="@drawable/btn_primary_white_pressed"
+        android:fontFamily="@font/corsa_grotesk_regular"
         android:text="Cancel"
         android:textAllCaps="false"
         android:textSize="@dimen/btn_text"
-        android:fontFamily="@font/corsa_grotesk_regular"
         app:layout_constraintEnd_toEndOf="@+id/button6"
         app:layout_constraintStart_toStartOf="@+id/button6"
         app:layout_constraintTop_toBottomOf="@+id/button6" />
@@ -144,13 +144,13 @@
         android:layout_marginLeft="20dp"
         android:layout_marginTop="32dp"
         android:layout_marginEnd="8dp"
-        android:textStyle="bold"
         android:layout_marginRight="8dp"
-        android:textSize="19sp"
-        android:text="Fill out of the following forms below"
-        android:textColor="@android:color/black"
         android:fontFamily="@font/corsa_grotesk_regular"
+        android:text="Fill out of the following forms below"
         android:textAllCaps="false"
+        android:textColor="@android:color/black"
+        android:textSize="19sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"

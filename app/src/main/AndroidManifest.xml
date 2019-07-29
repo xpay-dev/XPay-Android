@@ -22,7 +22,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <!--<activity android:name=".ui.activation.ActiviationActivity"></activity>-->
+        <!--<activity android:name=".ui.activation.ActivationFragment"></activity>-->
     </application>
 
 </manifest>
