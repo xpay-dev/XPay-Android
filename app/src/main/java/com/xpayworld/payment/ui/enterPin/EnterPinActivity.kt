@@ -3,21 +3,22 @@ package com.xpayworld.payment.ui.enterPin
 import android.view.View
 import android.widget.Button
 import android.widget.ImageView
+import androidx.databinding.DataBindingUtil
 import com.xpayworld.payment.R
+import com.xpayworld.payment.databinding.ActivityEnterPinBinding
 import com.xpayworld.payment.ui.base.kt.BaseActivitykt
 import kotlinx.android.synthetic.main.activity_enter_pin.*
 
 class EnterPinActivity: BaseActivitykt(){
 
     var numpad = listOf<Button>()
-
     var strCode = ""
     var codeImg = listOf<ImageView>()
-    override fun getLayout(): Int {
-        return R.layout.activity_enter_pin
-    }
 
     override fun initView() {
+
+        val binding : ActivityEnterPinBinding = DataBindingUtil.setContentView(this,R.layout.activity_enter_pin)
+
         codeImg = listOf(img1,img2,img3,img4)
         numpad = listOf(btn3,btn2,btn3,btn4,btn5,btn6,btn7,btn8,btn9,btn0)
         numpad.forEach { it.setOnClickListener(didTapNumpad())}

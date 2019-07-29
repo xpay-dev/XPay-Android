@@ -1,14 +1,18 @@
 package com.xpayworld.payment.ui.transaction
 
+import android.os.Bundle
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.widget.Toolbar
+import androidx.databinding.DataBindingUtil
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.NavController
 
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI.setupWithNavController
+import androidx.navigation.ui.setupWithNavController
 import com.xpayworld.payment.R
+import com.xpayworld.payment.databinding.ActivityDashboardBinding
 import com.xpayworld.payment.ui.base.kt.BaseActivitykt
 import kotlinx.android.synthetic.main.activity_dashboard.*
 import kotlinx.android.synthetic.main.toolbar_main.*
@@ -23,11 +27,11 @@ class DashboardActivity  : BaseActivitykt() , DrawerLocker{
     private lateinit var toolbar : Toolbar
     private lateinit var toogle :  ActionBarDrawerToggle
 
-    override fun getLayout(): Int {
-        return  R.layout.activity_dashboard
-    }
+
     override fun initView() {
 
+        val binding: ActivityDashboardBinding = DataBindingUtil.setContentView(this,
+                R.layout.activity_dashboard)
 
         toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
@@ -35,10 +39,10 @@ class DashboardActivity  : BaseActivitykt() , DrawerLocker{
         supportActionBar?.setDisplayShowHomeEnabled(true)
         supportActionBar?.title =""
 
-        drawerLayout = drawer_layout
+        drawerLayout = binding.drawerLayout
 
         navController = findNavController( R.id.nav_host_fragment)
-        setupWithNavController(nav_view, navController)
+        binding.navigationView.setupWithNavController(navController)
 
         navController.addOnDestinationChangedListener { controller, destination, arguments ->
             toolbar_title.text = controller.currentDestination?.label

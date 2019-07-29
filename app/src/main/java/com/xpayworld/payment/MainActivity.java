@@ -20,6 +20,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_activation_code);
 //        Toolbar toolbar = findViewById(R.id.toolbar);
 //        setSupportActionBar(toolbar);
+
+
+
     }
 
 }

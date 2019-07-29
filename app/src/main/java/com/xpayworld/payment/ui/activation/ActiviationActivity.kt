@@ -3,20 +3,25 @@ package com.xpayworld.payment.ui.activation
 import android.text.Editable
 import android.text.TextWatcher
 import android.widget.EditText
+import androidx.databinding.DataBindingUtil
 import com.xpayworld.payment.R
+import com.xpayworld.payment.databinding.ActivityActivationCodeBinding
+import com.xpayworld.payment.databinding.ActivityDashboardBinding
 import com.xpayworld.payment.ui.base.kt.BaseActivitykt
 import kotlinx.android.synthetic.main.activity_activation_code.*
 
-class  ActiviationActivitykt : BaseActivitykt(){
+class  ActiviationActivity : BaseActivitykt(){
 
     var edtextList = listOf<EditText>()
     var strCode  = ""
-    override fun getLayout(): Int {
-      return R.layout.activity_activation_code
-        }
+
 
     override fun initView() {
-       edtextList = listOf(edtext1,edtext2,edtext3,edtext4)
+
+        val binding: ActivityActivationCodeBinding = DataBindingUtil.setContentView(this,
+                R.layout.activity_activation_code)
+
+        edtextList = listOf(edtext1,edtext2,edtext3,edtext4)
         edtextList.forEach { it.addTextChangedListener(onChangedEditText())}
     }
 
@@ -27,6 +32,8 @@ class  ActiviationActivitykt : BaseActivitykt(){
         }
 
         override fun afterTextChanged(p0: Editable?) {
+
+
             strCode = ""
             if (edtext1.isFocused && edtext1.text.length == 4){
                 edtext2.requestFocus()

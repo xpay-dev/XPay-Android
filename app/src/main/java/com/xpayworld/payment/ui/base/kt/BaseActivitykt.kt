@@ -9,8 +9,7 @@ abstract  class BaseActivitykt : AppCompatActivity(), MvpViewkt {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(getLayout())
-       // performDI()
+
         initView()
 
     }
@@ -23,7 +22,6 @@ abstract  class BaseActivitykt : AppCompatActivity(), MvpViewkt {
 
     }
 
-    @LayoutRes abstract fun getLayout(): Int
 
     abstract fun initView()
 
