@@ -26,17 +26,17 @@
         tools:layout="@layout/fragment_process_transaction" >
         <action
             android:id="@+id/action_process_transaction_to_blankFragment"
-            app:destination="@id/blankFragment"
+            app:destination="@id/signatureFragment"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right"/>
     </fragment>
     <fragment
-        android:id="@+id/blankFragment"
-        android:name="com.xpayworld.payment.BlankFragment"
-        android:label="fragment_blank"
-        tools:layout="@layout/fragment_blank" />
+        android:id="@+id/signatureFragment"
+        android:name="com.xpayworld.payment.ui.transaction.SignatureFragment"
+        android:label="Signature"
+        tools:layout="@layout/fragment_signature" />
     <fragment
         android:id="@+id/historyFragment"
         android:name="com.xpayworld.payment.ui.history.transactionHistory"

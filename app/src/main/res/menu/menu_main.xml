@@ -2,6 +2,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.xpayworld.payment.MainActivity">
+    <group android:checkableBehavior="single" >
     <item
         android:id="@+id/transactionFragment"
         android:orderInCategory="100"
@@ -22,5 +23,5 @@
         android:orderInCategory="100"
         android:title="Preference"
         app:showAsAction="never" />
-
+    </group>
 </menu>
