@@ -4,12 +4,18 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
 import android.widget.EditText
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.findNavController
 import com.xpayworld.payment.R
 import com.xpayworld.payment.ui.base.kt.BaseFragmentkt
 import com.xpayworld.payment.ui.transaction.DrawerLocker
 import com.xpayworld.payment.util.SharedPrefStorage
 import kotlinx.android.synthetic.main.fragment_activation_code.*
+
+
+
 
 class ActivationFragment : BaseFragmentkt() {
     override fun getLayout(): Int {
@@ -18,7 +24,7 @@ class ActivationFragment : BaseFragmentkt() {
 
     var edtextList = listOf<EditText>()
     var strCode = ""
-
+    lateinit var viewModel : ActivationViewModel
 
     override fun initView(v: View) {
         (activity as DrawerLocker).drawerEnabled(false)
@@ -26,14 +32,13 @@ class ActivationFragment : BaseFragmentkt() {
         edtextList = listOf(edtext1, edtext2, edtext3, edtext4)
         edtextList.forEach { it.addTextChangedListener(onChangedEditText()) }
 
-        btnActivate.setOnClickListener {
+        viewModel = ViewModelProviders.of(activity!!).get(ActivationViewModel::class.java)
+        viewModel.loadingVisibility.observe(this, Observer{
+            isShow -> if (isShow == true) showProgress() else hideProgress()
+        })
 
-            val sharedPref = context?.let { it -> SharedPrefStorage(it) }
-            sharedPref?.writeMessage("activationKey",strCode)
 
-            val direction = ActivationFragmentDirections.actionActiviationFragmentToEnterPinFragment()
-           it?.findNavController()?.navigate(direction)
-        }
+        btnActivate.setOnClickListener(viewModel.activateClickListener)
     }
 
     internal inner class onChangedEditText : TextWatcher {
