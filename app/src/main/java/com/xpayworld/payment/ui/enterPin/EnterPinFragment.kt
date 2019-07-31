@@ -38,7 +38,6 @@ class EnterPinFragment : BaseFragmentkt() {
 
         shouldCheckActivationKey()
 
-        (activity as ToolbarDelegate).showToolbar(false)
         codeImg = listOf(img1, img2, img3, img4)
         numpad = listOf(btn1, btn2, btn3, btn4, btn5, btn6, btn7, btn8, btn9, btn0)
         numpad.forEach { it.setOnClickListener(OnClickNumpad()) }
@@ -51,45 +50,16 @@ class EnterPinFragment : BaseFragmentkt() {
         val sharedPref = context?.let { it -> SharedPrefStorage(it) }
         if (sharedPref!!.isEmpty("activationKey")){
             findNavController().navigate(R.id.activationFragment)
-            return
+        }
+        else{
+            (activity as ToolbarDelegate).showToolbar(false)
         }
     }
-
-//    fun wscall(){
-//    val api =   RetrofitClient().getRetrofit().create(ActivationApi::class.java)
-//
-//        val pos = PosWsRequest()
-//
-//        pos.ActivationKey = ""
-//        pos.GPSLat= "0.0"
-//        pos.GPSLong = "0.0"
-//        pos.RToken = ""
-//        pos.SystemMode = "Live"
-//
-//        val activate = Activation()
-//        activate.IMEI =""
-//        activate.IP =""
-//        activate.Manufacturer = ""
-//        activate.Model = ""
-//        activate.POSWSRequest = pos
-//         api.activation(activate).subscribeOn(Schedulers.io())
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .doOnSubscribe {  }
-//                .doAfterSuccess{}
-//                .subscribe(
-//                        { result ->
-//
-//
-//                        },
-//                        { }
-//                ).dispose()
-//    }
 
       private fun shouldUpdateCodeImage() {
         for (x in 0 until codeImg.size) {
             val img = if (strCode.length >= x + 1) R.drawable.ic_pin_cirlce_dot else R.drawable.ic_pin_circle
             codeImg[x].setBackgroundResource(img)
-
         }
     }
     inner class OnClickSubmit : View.OnClickListener {

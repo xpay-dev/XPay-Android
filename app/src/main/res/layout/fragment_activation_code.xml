@@ -24,6 +24,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
         <EditText
             android:id="@+id/edtext4"
             android:layout_width="78dp"
@@ -179,7 +180,7 @@
             app:layout_constraintGuide_percent="0.2" />
 
         <TextView
-            android:id="@+id/textView5"
+            android:id="@+id/tvErrorTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
@@ -195,7 +196,7 @@
             app:layout_constraintTop_toBottomOf="@+id/edtext1" />
 
         <TextView
-            android:id="@+id/textView6"
+            android:id="@+id/tvErrorMessage"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
@@ -209,7 +210,15 @@
             android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView5" />
+            app:layout_constraintTop_toBottomOf="@+id/tvErrorTitle" />
+
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/errorGroup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="invisible"
+            app:constraint_referenced_ids="tvErrorTitle,tvErrorMessage"
+            tools:layout_editor_absoluteX="411dp" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

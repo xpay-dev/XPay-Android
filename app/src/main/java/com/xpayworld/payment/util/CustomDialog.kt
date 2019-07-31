@@ -25,9 +25,10 @@ class CustomDialog(context: Context) : DialogUI {
 //
 //    }
 //
-//    override fun onError(): Dialog {
-//
-//    }
+    override fun onError(): Dialog {
+
+     return  mDialog!!
+    }
 
     override fun onDismiss() {
         mDialog!!.dismiss()

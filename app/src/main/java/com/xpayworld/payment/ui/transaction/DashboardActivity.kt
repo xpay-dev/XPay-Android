@@ -20,8 +20,6 @@ import kotlinx.android.synthetic.main.toolbar_main.*
 
 class DashboardActivity : BaseActivitykt(), DrawerLocker , ToolbarDelegate{
 
-
-
     private lateinit var drawerLayout: DrawerLayout
     private lateinit var navController: NavController
     private lateinit var toolbar: Toolbar
@@ -53,9 +51,7 @@ class DashboardActivity : BaseActivitykt(), DrawerLocker , ToolbarDelegate{
 
     private fun setUpDrawerToggle() {
         toogle = object : ActionBarDrawerToggle(this, drawerLayout, toolbar,
-                R.string.openDrawer, R.string.closeDrawer) {
-
-        }
+                R.string.openDrawer, R.string.closeDrawer) {}
         drawerLayout.addDrawerListener(toogle)
         toogle.syncState()
     }
@@ -69,7 +65,6 @@ class DashboardActivity : BaseActivitykt(), DrawerLocker , ToolbarDelegate{
 //        navController.popBackStack()
 //        findNavController().popBackStack()
 //        drawerEnabled(true)
-
     }
 
     // to disable / hide humberger menu

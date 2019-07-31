@@ -1,23 +1,29 @@
 package com.xpayworld.payment.ui.activation
 
+import android.os.Handler
 import android.view.View
-import android.widget.Button
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import com.xpayworld.payment.network.PosWsRequest
+import com.xpayworld.payment.network.PosWsResponse
 import com.xpayworld.payment.network.RetrofitClient
 import com.xpayworld.payment.network.activateApp.Activation
 import com.xpayworld.payment.network.activateApp.ActivationApi
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
+import java.util.*
 
 
 class ActivationViewModel : ViewModel() {
 
     val loadingVisibility: MutableLiveData<Boolean> = MutableLiveData()
 
-    val activateClickListener = View.OnClickListener { onClickActivate() }
+    val activateClickListener = View.OnClickListener {onClickActivate()}
+
+    val  networkError : MutableLiveData<Throwable> = MutableLiveData()
+    val  apiError : MutableLiveData<Boolean> = MutableLiveData()
 
     private lateinit var subscription: Disposable
 
@@ -48,12 +54,19 @@ class ActivationViewModel : ViewModel() {
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe { loadingVisibility.value = true }
                 .doAfterTerminate { loadingVisibility.value = false }
+
                 .subscribe(
                         { result ->
-
+                            val hasError = result?.body()?.ErrNumber !=0
+                            if (hasError) {
+                                apiError.value = hasError
+                                Handler().postDelayed({
+                                    apiError.value = !hasError
+                                }, 1000)
+                            }
                         },
                         {
-                            loadingVisibility.value = false
+                            networkError.value = it
                         })
     }
 }

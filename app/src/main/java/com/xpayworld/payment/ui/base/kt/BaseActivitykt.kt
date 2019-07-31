@@ -8,7 +8,7 @@ import dagger.android.AndroidInjection
 abstract  class BaseActivitykt : AppCompatActivity(), MvpViewkt {
 
     override fun onCreate(savedInstanceState: Bundle?) {
-       // performDI()
+
         super.onCreate(savedInstanceState)
 
         initView()

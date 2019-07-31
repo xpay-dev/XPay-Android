@@ -5,13 +5,10 @@ import android.text.TextWatcher
 import android.view.View
 import android.widget.EditText
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
-import androidx.navigation.findNavController
 import com.xpayworld.payment.R
 import com.xpayworld.payment.ui.base.kt.BaseFragmentkt
 import com.xpayworld.payment.ui.transaction.DrawerLocker
-import com.xpayworld.payment.util.SharedPrefStorage
 import kotlinx.android.synthetic.main.fragment_activation_code.*
 
 
@@ -36,9 +33,22 @@ class ActivationFragment : BaseFragmentkt() {
         viewModel.loadingVisibility.observe(this, Observer{
             isShow -> if (isShow == true) showProgress() else hideProgress()
         })
+        viewModel.apiError.observe(this, Observer {
+           if (it) {
+               errorGroup.visibility = View.VISIBLE
+               edtextList.forEach { editText -> editText.setBackgroundResource(R.drawable.tv_error)}
+           }
+           else{
 
+           }
+        })
+        viewModel.networkError.observe(this, Observer {
+
+        })
 
         btnActivate.setOnClickListener(viewModel.activateClickListener)
+
+
     }
 
     internal inner class onChangedEditText : TextWatcher {
@@ -49,8 +59,6 @@ class ActivationFragment : BaseFragmentkt() {
         }
 
         override fun afterTextChanged(p0: Editable?) {
-
-
             strCode = ""
             if (edtext1.isFocused && edtext1.text.length == 4) {
                 edtext2.requestFocus()

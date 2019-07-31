@@ -5,8 +5,10 @@ import android.view.View
 import android.widget.Button
 import android.widget.ImageButton
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import com.xpayworld.payment.R
 import com.xpayworld.payment.ui.base.kt.BaseFragmentkt
+import com.xpayworld.payment.util.SharedPrefStorage
 import com.xpayworld.payment.util.formattedAmount
 import kotlinx.android.synthetic.main.fragment_enter_amount.*
 import kotlinx.android.synthetic.main.view_enter_amount.*
@@ -26,6 +28,7 @@ class EnterAmountFragment : BaseFragmentkt() {
     }
 
     override fun initView(v: View) {
+        shouldCheckActivationKey()
 
         shouldAdjustPaddigTop()
         // Initial Display
@@ -52,6 +55,16 @@ class EnterAmountFragment : BaseFragmentkt() {
             btnCredit.setBackgroundResource(R.drawable.tab_indenticator_clear)
             //Note: should execute the setBackgroundResource first before adjust the padding
             shouldAdjustPaddigTop()
+        }
+    }
+
+    private fun shouldCheckActivationKey(){
+        val sharedPref = context?.let { it -> SharedPrefStorage(it) }
+        if (sharedPref!!.isEmpty("activationKey")){
+            findNavController().navigate(R.id.activationFragment)
+        }
+        else{
+
         }
     }
 
