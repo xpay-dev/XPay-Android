@@ -4,6 +4,7 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
 import android.widget.EditText
+import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.xpayworld.payment.R
@@ -12,13 +13,12 @@ import com.xpayworld.payment.ui.transaction.DrawerLocker
 import kotlinx.android.synthetic.main.fragment_activation_code.*
 
 
-
-
 class ActivationFragment : BaseFragmentkt() {
+
     override fun getLayout(): Int {
         return R.layout.fragment_activation_code
     }
-
+    
     var edtextList = listOf<EditText>()
     var strCode = ""
     lateinit var viewModel : ActivationViewModel
@@ -35,15 +35,16 @@ class ActivationFragment : BaseFragmentkt() {
         })
         viewModel.apiError.observe(this, Observer {
            if (it) {
-               errorGroup.visibility = View.VISIBLE
                edtextList.forEach { editText -> editText.setBackgroundResource(R.drawable.tv_error)}
+               errorGroup.visibility = View.VISIBLE
            }
            else{
-
+               errorGroup.visibility = View.GONE
+               edtextList.forEach { editText -> editText.setBackgroundResource(R.drawable.tv_activation)}
            }
         })
         viewModel.networkError.observe(this, Observer {
-
+            showNetworkError()
         })
 
         btnActivate.setOnClickListener(viewModel.activateClickListener)

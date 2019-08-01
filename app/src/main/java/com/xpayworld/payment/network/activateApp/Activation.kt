@@ -6,28 +6,28 @@ import com.xpayworld.payment.network.PosWsRequest
 class Activation{
 
     @SerializedName("IMEI")
-     var IMEI: String? = null
+     var imei: String? = null
 
     @SerializedName("IP")
-     var IP: String? = null
+     var ip: String? = null
 
     @SerializedName("Manufacturer")
-     var Manufacturer: String? = null
+     var manufacturer: String? = null
 
     @SerializedName("Model")
-     var Model: String? = null
+     var model: String? = null
 
     @SerializedName("OS")
-     var OS: String? = null
+     var os: String? = null
 
-    @SerializedName("POSWSRequest")
-     var POSWSRequest: PosWsRequest? = null
+    @SerializedName("PosWsRequest")
+     var posWsRequest: PosWsRequest? = null
 
     @SerializedName("PhoneNumber")
-     var PhoneNumber: String? = null
+     var phoneNumber: String? = null
 
     @SerializedName("Platform")
-     var Platform: String? = null
+     var platform: String? = null
     @SerializedName("PosType")
-     var PosType: String? = null
+     var postType: String? = null
 }

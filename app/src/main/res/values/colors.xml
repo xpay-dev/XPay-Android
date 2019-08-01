@@ -6,4 +6,5 @@
     <color name="white">#ffffff</color>
     <color name="green">#4cd964</color>
     <color name="red">#f22121</color>
+    <color name="bg_dialog">#d5d5d5</color>
 </resources>

@@ -5,18 +5,18 @@ import com.google.gson.annotations.SerializedName
 class PosWsRequest {
 
     @SerializedName("ActivationKey")
-     var ActivationKey: String? = null
+     var activationKey: String? = null
 
     @SerializedName("GPSLat")
-     var GPSLat: String? = null
+     var gpsLat: String? = null
 
     @SerializedName("GPSLong")
-     var GPSLong: String? = null
+     var gpsLong: String? = null
 
     @SerializedName("RToken")
-     var RToken: String? = null
+     var rToken: String? = null
 
     @SerializedName("SystemMode")
-     var SystemMode: String? = null
+     var systemMode: String? = null
 
 }

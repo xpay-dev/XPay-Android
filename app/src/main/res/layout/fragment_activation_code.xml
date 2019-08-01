@@ -187,6 +187,7 @@
             android:layout_marginLeft="8dp"
             android:layout_marginTop="64dp"
             android:layout_marginEnd="8dp"
+            android:textColor="@color/red"
             android:layout_marginRight="8dp"
             android:fontFamily="@font/corsa_grotesk_regular"
             android:text="Invalid Activation Code"
@@ -204,6 +205,7 @@
             android:layout_marginTop="16dp"
             android:layout_marginEnd="24dp"
             android:layout_marginRight="24dp"
+            android:textColor="@color/red"
             android:fontFamily="@font/corsa_grotesk_regular"
             android:text="Please enter the correct activation that was sent into your email"
             android:textAlignment="center"
@@ -215,10 +217,10 @@
         <androidx.constraintlayout.widget.Group
             android:id="@+id/errorGroup"
             android:layout_width="wrap_content"
+            android:visibility="gone"
             android:layout_height="wrap_content"
-            android:visibility="invisible"
             app:constraint_referenced_ids="tvErrorTitle,tvErrorMessage"
-            tools:layout_editor_absoluteX="411dp" />
+            tools:layout_editor_absoluteX="0dp" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

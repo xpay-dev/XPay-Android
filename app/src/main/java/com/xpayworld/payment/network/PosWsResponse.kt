@@ -6,28 +6,28 @@ import com.google.gson.annotations.SerializedName
 class PosWsResponse {
 
     @SerializedName("AccountId")
-     val AccountId: String? = null
+     val accountId: String? = null
 
     @SerializedName("ErrNumber")
-     val ErrNumber: Int? = null
+     val errNumber: String? = null
 
     @SerializedName("Message")
-     val Message: String? = null
+     val message: String? = null
 
     @SerializedName("MobileAppId")
-     val MobileAppId: String? = null
+     val mobileAppId: String? = null
 
 
     @SerializedName("RToken")
-     val RToken: String? = null
+     val rToken: String? = null
 
     @SerializedName("SequenceNumber")
-     val SequenceNumber: String? = null
+     val sequenceNumber: String? = null
 
     @SerializedName("Status")
-     val Status: String? = null
+     val status: String? = null
 
     @SerializedName("UpdatePending")
-     val UpdatePending: Boolean = false
+     val updatePending: Boolean = false
 
 }

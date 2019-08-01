@@ -18,6 +18,10 @@ abstract  class BaseActivitykt : AppCompatActivity(), MvpViewkt {
 
     }
 
+    override fun showNetworkError() {
+
+    }
+
     override fun hideProgress() {
 
     }

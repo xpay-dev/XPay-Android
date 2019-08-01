@@ -14,7 +14,7 @@ import dagger.android.support.AndroidSupportInjection
 abstract class BaseFragmentkt : Fragment(), MvpViewkt {
 
     private var parentActivity: BaseActivity? = null
-    var dialog: CustomDialog? = null
+    private lateinit var dialog: CustomDialog
     override fun onAttach(context: Context) {
         super.onAttach(context)
         if (context is BaseActivity) {
@@ -42,12 +42,17 @@ abstract class BaseFragmentkt : Fragment(), MvpViewkt {
     }
 
     override fun hideProgress() {
-        dialog?.onDismiss()
+        dialog.onDismiss()
     }
 
     override fun showProgress() {
-        dialog?.onLoading()?.show()
+        dialog.onLoading().show()
     }
+
+    override fun showNetworkError() {
+        dialog.onError().show()
+    }
+
 
     private fun performDependencyInjection() = AndroidSupportInjection.inject(this)
 
