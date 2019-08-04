@@ -3,92 +3,60 @@ package com.xpayworld.payment.ui.enterPin
 import android.view.View
 import android.widget.Button
 import android.widget.ImageView
-import androidx.navigation.findNavController
+import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import com.xpayworld.payment.R
-import com.xpayworld.payment.network.*
 import com.xpayworld.payment.ui.base.kt.BaseFragmentkt
-import com.xpayworld.payment.ui.transaction.DrawerLocker
 import com.xpayworld.payment.ui.transaction.ToolbarDelegate
-import com.xpayworld.payment.util.CustomDialog
 import com.xpayworld.payment.util.SharedPrefStorage
-import io.reactivex.Observable
-import io.reactivex.SingleObserver
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.Disposable
-import io.reactivex.schedulers.Schedulers
+
 import kotlinx.android.synthetic.main.fragment_enter_pin.*
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import retrofit2.Retrofit
-import java.util.*
+import androidx.lifecycle.Observer
 
 class EnterPinFragment : BaseFragmentkt() {
 
     var numpad = listOf<Button>()
-    var strCode = ""
     var codeImg = listOf<ImageView>()
-    private lateinit var subscription: Disposable
+    lateinit var viewModel: EnterPinModelView
+
     override fun getLayout(): Int {
         return R.layout.fragment_enter_pin
     }
 
     override fun initView(view: View) {
 
+        codeImg = listOf(img1, img2, img3, img4)
+
+        numpad = listOf(btn1, btn2, btn3, btn4, btn5, btn6, btn7, btn8, btn9, btn0)
+
+        viewModel = ViewModelProviders.of(activity!!).get(EnterPinModelView::class.java)
+
         shouldCheckActivationKey()
 
-        codeImg = listOf(img1, img2, img3, img4)
-        numpad = listOf(btn1, btn2, btn3, btn4, btn5, btn6, btn7, btn8, btn9, btn0)
-        numpad.forEach { it.setOnClickListener(OnClickNumpad()) }
+        numpad.forEach { it.setOnClickListener(viewModel.numpadClickListener) }
+        viewModel.pinCode
+                .observe(this, Observer {
+                    println(it)
+                    shouldUpdateCodeImage(it)
+                })
+        viewModel.hideToolbar.observe(this, Observer { (activity as ToolbarDelegate).showToolbar(it)})
 
-        btnSubmit.setOnClickListener(OnClickSubmit())
-        btnClear.setOnClickListener(OnClickClear())
+        btnSubmit.setOnClickListener(viewModel.sumbitClickListener)
+        btnClear.setOnClickListener(viewModel.clearClickListener)
     }
 
-    private fun shouldCheckActivationKey(){
+    private fun shouldCheckActivationKey() {
         val sharedPref = context?.let { it -> SharedPrefStorage(it) }
-        if (sharedPref!!.isEmpty("activationKey")){
+        if (sharedPref!!.isEmpty("activationKey")) {
             findNavController().navigate(R.id.activationFragment)
         }
-        else{
-            (activity as ToolbarDelegate).showToolbar(false)
-        }
     }
 
-      private fun shouldUpdateCodeImage() {
+    private fun shouldUpdateCodeImage(pinCode: String) {
         for (x in 0 until codeImg.size) {
-            val img = if (strCode.length >= x + 1) R.drawable.ic_pin_cirlce_dot else R.drawable.ic_pin_circle
+            val img = if (pinCode.length >= x + 1) R.drawable.ic_pin_cirlce_dot else R.drawable.ic_pin_circle
             codeImg[x].setBackgroundResource(img)
         }
     }
-    inner class OnClickSubmit : View.OnClickListener {
-        override fun onClick(v: View?) {
-            val direction = EnterPinFragmentDirections.actionEnterPinFragmentToTransactionFragment()
-            v?.findNavController()?.navigate(direction)
-            (activity as ToolbarDelegate).showToolbar(true)
-        }
-    }
-
-    internal inner class OnClickClear : View.OnClickListener {
-        override fun onClick(p0: View?) {
-
-            showProgress()
-            strCode = strCode.dropLast(1)
-            shouldUpdateCodeImage()
-        }
-    }
-
-    inner class OnClickNumpad : View.OnClickListener {
-        override fun onClick(v: View?) {
-            if (strCode.length <= 3) {
-                strCode += (v as Button).text
-            }
-            shouldUpdateCodeImage()
-        }
-    }
-
-
-
 
 }

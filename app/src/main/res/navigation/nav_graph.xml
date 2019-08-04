@@ -21,7 +21,7 @@
     <fragment
         android:id="@+id/enterPinFragment"
         android:name="com.xpayworld.payment.ui.enterPin.EnterPinFragment"
-        android:label="fragment_enter_pin"
+        android:label="Enter Pin"
         tools:layout="@layout/fragment_enter_pin">
         <action
             android:id="@+id/action_enterPinFragment_to_transactionFragment"
