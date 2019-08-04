@@ -19,19 +19,22 @@ class ActivationViewModel : ViewModel() {
 
     val loadingVisibility: MutableLiveData<Boolean> = MutableLiveData()
 
-    val activateClickListener = View.OnClickListener {
-        onClickActivate(it)
-    }
-
+    val activateClickListener = View.OnClickListener { onClickActivate(it)}
+    val hideToolbar : MutableLiveData<Boolean> = MutableLiveData()
     val  networkError : MutableLiveData<Throwable> = MutableLiveData()
     val  apiError : MutableLiveData<Boolean> = MutableLiveData()
 
     private lateinit var subscription: Disposable
 
 
+    init {
+        hideToolbar.value = false
+    }
+
     override fun onCleared() {
         super.onCleared()
         subscription.dispose()
+
     }
 
     private fun onClickActivate(v : View) {

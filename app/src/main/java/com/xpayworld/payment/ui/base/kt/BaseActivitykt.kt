@@ -3,29 +3,41 @@ package com.xpayworld.payment.ui.base.kt
 import android.os.Bundle
 import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
+import com.xpayworld.payment.util.CustomDialog
 import dagger.android.AndroidInjection
 
-abstract  class BaseActivitykt : AppCompatActivity(), MvpViewkt {
-
+abstract  class BaseActivitykt : AppCompatActivity(), MvpViewkt ,BaseFragmentkt.CallBack{
+    private lateinit var dialog: CustomDialog
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
-
+        dialog = CustomDialog(applicationContext)
         initView()
     }
 
     override fun showProgress() {
-
+        runOnUiThread {
+            dialog.onLoading().show()}
     }
 
     override fun showNetworkError() {
-
+        runOnUiThread {
+            dialog.onError().show()
+        }
     }
 
     override fun hideProgress() {
+        runOnUiThread {
+            dialog.onDismiss()}
+    }
+
+    override fun onFragmentAttached() {
 
     }
 
+    override fun onFragmentDetached(tag: String) {
+
+    }
 
     abstract fun initView()
 

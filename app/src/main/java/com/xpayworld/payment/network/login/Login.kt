@@ -5,17 +5,18 @@ import com.xpayworld.payment.network.PosWsRequest
 
 class Login {
     @SerializedName("AppVersion")
-    private var AppVersion = ""
+    var appVersion = ""
 
     @SerializedName("Pin")
-    private var Pin = ""
+    var pin = ""
+
     @SerializedName("Password")
-    private var Password = ""
+    var password = ""
 
     @SerializedName("Username")
-    private var UserName = ""
+     var userName = ""
 
 
-    @SerializedName("posWsRequest")
-    private var POSWSRequest: PosWsRequest? = null
+    @SerializedName("PosWsRequest")
+     var posWsRequest: PosWsRequest? = null
 }

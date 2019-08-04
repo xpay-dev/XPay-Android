@@ -10,15 +10,16 @@ import androidx.fragment.app.Fragment
 import com.xpayworld.payment.ui.base.BaseActivity
 import com.xpayworld.payment.util.CustomDialog
 import dagger.android.support.AndroidSupportInjection
+import kotlin.concurrent.thread
 
 abstract class BaseFragmentkt : Fragment(), MvpViewkt {
 
-    private var parentActivity: BaseActivity? = null
+    private var parentActivity: BaseActivitykt? = null
     private lateinit var dialog: CustomDialog
     override fun onAttach(context: Context) {
         super.onAttach(context)
         if (context is BaseActivity) {
-            val activity = context as BaseActivity?
+            val activity = context as BaseActivitykt?
             this.parentActivity = activity
             activity?.onFragmentAttached()
         }
@@ -31,6 +32,7 @@ abstract class BaseFragmentkt : Fragment(), MvpViewkt {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        dialog = CustomDialog(context!!)
         setHasOptionsMenu(false)
     }
 
@@ -38,19 +40,25 @@ abstract class BaseFragmentkt : Fragment(), MvpViewkt {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initView(view)
-        dialog = CustomDialog(context!!)
+
     }
 
     override fun hideProgress() {
-        dialog.onDismiss()
+        activity?.runOnUiThread {
+            dialog.onDismiss()
+        }
     }
 
     override fun showProgress() {
-        dialog.onLoading().show()
+        activity?.runOnUiThread {
+            dialog.onLoading().show()
+        }
     }
 
     override fun showNetworkError() {
-        dialog.onError().show()
+        activity?.runOnUiThread {
+            dialog.onError().show()
+        }
     }
 
 
