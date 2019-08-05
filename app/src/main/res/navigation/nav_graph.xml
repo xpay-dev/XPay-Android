@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/enterPinFragment">
+
+    <fragment
+        android:id="@+id/activationFragment"
+        android:name="com.xpayworld.payment.ui.activation.ActivationFragment"
+        android:label="Activation Code"
+        tools:layout="@layout/fragment_activation_code">
+        <action
+            android:id="@+id/action_activiationFragment_to_enterPinFragment"
+            app:destination="@id/enterPinFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
+    <fragment
+        android:id="@+id/enterPinFragment"
+        android:name="com.xpayworld.payment.ui.enterPin.EnterPinFragment"
+        android:label="Enter Pin"
+        tools:layout="@layout/fragment_enter_pin">
+        <action
+            android:id="@+id/action_enterPinFragment_to_transactionFragment"
+            app:destination="@id/transactionFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            />
+    </fragment>
+
+    <fragment
+        android:id="@+id/transactionFragment"
+        android:name="com.xpayworld.payment.ui.transaction.EnterAmountFragment"
+        android:label="Transaction"
+        tools:layout="@layout/fragment_enter_amount">
+        <action
+            android:id="@+id/action_enter_amount_fragment_to_process_tranaction_fragment"
+            app:destination="@id/processTransactionFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
+    <fragment
+        android:id="@+id/processTransactionFragment"
+        android:name="com.xpayworld.payment.ui.transaction.ProcessTransactionFragment"
+        android:label="Please Swipe or Insert Card"
+        tools:layout="@layout/fragment_process_transaction">
+        <action
+            android:id="@+id/action_process_transaction_to_signatureFragment"
+            app:destination="@id/signatureFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            />
+        <argument
+            android:name="amount"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/signatureFragment"
+        android:name="com.xpayworld.payment.ui.transaction.SignatureFragment"
+        android:label="Signature"
+        tools:layout="@layout/fragment_signature">
+        <action
+            android:id="@+id/action_signatureFragment_to_receiptFragment"
+            app:destination="@id/receiptFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
+
+    </fragment>
+    <fragment
+        android:id="@+id/historyFragment"
+        android:name="com.xpayworld.payment.ui.history.TransactionHistory"
+        android:label="Transaction History"
+        tools:layout="@layout/fragment_transaction_history"/>
+    <fragment
+        android:id="@+id/reportsFragment"
+        android:name="com.xpayworld.payment.ui.reports.ReportsFragment"
+        android:label="Reports"
+        tools:layout="@layout/fragment_reports" />
+    <fragment
+        android:id="@+id/preferenceFragment"
+        android:name="com.xpayworld.payment.ui.preference.PreferenceFragment"
+        android:label="Preference"
+        tools:layout="@layout/fragment_preference" />
+    <fragment
+        android:id="@+id/receiptFragment"
+        android:name="com.xpayworld.payment.ui.transaction.ReceiptFragment"
+        android:label="Official Receipt"
+        tools:layout="@layout/fragment_receipt" >
+
+        <action
+            android:id="@+id/action_receiptFragment_to_transactionFragment"
+            app:destination="@id/transactionFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"/>
+    </fragment>
+
+
+</navigation>
