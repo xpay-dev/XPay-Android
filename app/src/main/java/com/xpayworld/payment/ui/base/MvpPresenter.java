@@ -12,6 +12,9 @@ public interface MvpPresenter<V extends MvpView> {
 
     void onDetach();
 
+
+    
+
     void handleApiError(ANError error);
 
     void setUserAsLoggedOut();
