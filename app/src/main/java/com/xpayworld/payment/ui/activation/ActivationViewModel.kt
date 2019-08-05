@@ -46,6 +46,9 @@ class ActivationViewModel : ViewModel() {
         pos.rToken = ""
         pos.systemMode = "Live"
 
+
+        
+
         val activate = Activation()
         activate.imei = ""
         activate.ip = ""
