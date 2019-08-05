@@ -22,6 +22,8 @@ class ReceiptFragment : BaseFragmentkt() {
         btnDone.setOnClickListener {
             it.findNavController().navigate(R.id.action_receiptFragment_to_transactionFragment)
             (activity as ToolbarDelegate).showToolbar(true)
+
+            
         }
     }
 }
