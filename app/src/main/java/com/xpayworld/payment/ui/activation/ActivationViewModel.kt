@@ -47,7 +47,7 @@ class ActivationViewModel : ViewModel() {
         pos.systemMode = "Live"
 
 
-        
+
 
         val activate = Activation()
         activate.imei = ""
