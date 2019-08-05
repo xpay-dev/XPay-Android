@@ -27,7 +27,7 @@ class ActivationFragment : BaseFragmentkt() {
     var strCode = ""
     lateinit var viewModel : ActivationViewModel
 
-    override fun initView(v: View) {
+    override fun initView(view: View) {
 
         edtextList = listOf(edtext1, edtext2, edtext3, edtext4)
         edtextList.forEach { it.addTextChangedListener(onChangedEditText()) }

@@ -35,7 +35,7 @@
             android:fontFamily="@font/corsa_grotesk_regular"
             android:text="Network Failed"
             android:textColor="@android:color/black"
-            android:textSize="@dimen/text_small"
+            android:textSize="@dimen/text_size_all"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -54,7 +54,7 @@
             android:fontFamily="@font/corsa_grotesk_regular"
             android:text="This application requires a network connection. Please check if you're connection is stable"
             android:textColor="@android:color/black"
-            android:textSize="@dimen/text_small"
+            android:textSize="@dimen/text_size_all"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView5" />

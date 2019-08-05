@@ -16,6 +16,11 @@ import com.xpayworld.payment.databinding.ActivityDashboardBinding
 import com.xpayworld.payment.ui.base.kt.BaseActivitykt
 import kotlinx.android.synthetic.main.activity_dashboard.*
 import kotlinx.android.synthetic.main.toolbar_main.*
+import android.R.attr.y
+import android.R.attr.x
+import android.view.Display
+
+import android.graphics.Point
 
 
 class DashboardActivity : BaseActivitykt(), DrawerLocker , ToolbarDelegate{
@@ -27,7 +32,14 @@ class DashboardActivity : BaseActivitykt(), DrawerLocker , ToolbarDelegate{
 
 
     override fun initView() {
+        val display = windowManager.defaultDisplay
+        val size = Point()
+        display.getSize(size)
+        val width = size.x
+        val height = size.y
 
+        println( width)
+        println( height)
         val binding: ActivityDashboardBinding = DataBindingUtil.setContentView(this,
                 R.layout.activity_dashboard)
 

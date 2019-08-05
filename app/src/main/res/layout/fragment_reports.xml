@@ -33,7 +33,7 @@
             android:text="Please Select Report Type"
             android:textAlignment="center"
             android:textColor="@android:color/black"
-            android:textSize="@dimen/text_small"
+            android:textSize="@dimen/text_size_all"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

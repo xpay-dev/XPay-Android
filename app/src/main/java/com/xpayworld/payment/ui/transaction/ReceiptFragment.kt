@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
 import androidx.navigation.findNavController
 import com.xpayworld.payment.R
 import com.xpayworld.payment.ui.base.kt.BaseFragmentkt
@@ -20,9 +21,9 @@ class ReceiptFragment : BaseFragmentkt() {
     override fun initView(view: View) {
 
         btnDone.setOnClickListener {
-            it.findNavController().navigate(R.id.action_receiptFragment_to_transactionFragment)
-            (activity as ToolbarDelegate).showToolbar(true)
-
+//            it.findNavController().navigate(R.id.action_receiptFragment_to_transactionFragment)
+//            (activity as ToolbarDelegate).showToolbar(true)
+       //     vwReceipt.startAnimation(AnimationUtils.loadAnimation(context!!, R.anim.receipt_out))
 
         }
     }

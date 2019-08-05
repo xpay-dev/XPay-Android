@@ -27,7 +27,7 @@ class EnterAmountFragment : BaseFragmentkt() {
         return R.layout.fragment_enter_amount
     }
 
-    override fun initView(v: View) {
+    override fun initView(view: View) {
         shouldCheckActivationKey()
 
         shouldAdjustPaddigTop()

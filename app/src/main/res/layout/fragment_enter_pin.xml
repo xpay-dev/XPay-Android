@@ -8,22 +8,23 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
         <ImageView
             android:id="@+id/imgBackground"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:adjustViewBounds="true"
             android:scaleType="centerCrop"
-            android:src="@drawable/bg"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            android:src="@drawable/bg" />
         <ImageButton
             android:id="@+id/btnClear"
             style="?android:attr/borderlessButtonStyle"
-            android:layout_width="75dp"
-            android:layout_height="75dp"
+            android:layout_width="@dimen/numpad_size"
+            android:layout_height="@dimen/numpad_size"
             android:layout_marginTop="16dp"
             android:background="@drawable/btn_numpad_pressed"
             android:src="@drawable/ic_clear"
@@ -34,8 +35,8 @@
         <Button
             android:id="@+id/btn0"
             style="?android:attr/borderlessButtonStyle"
-            android:layout_width="75dp"
-            android:layout_height="75dp"
+            android:layout_width="@dimen/numpad_size"
+            android:layout_height="@dimen/numpad_size"
             android:layout_marginTop="16dp"
             android:background="@drawable/btn_numpad_pressed"
             android:text="0"
@@ -47,8 +48,8 @@
 
         <ImageView
             android:id="@+id/img4"
-            android:layout_width="35dp"
-            android:layout_height="35dp"
+            android:layout_width="@dimen/img_pin_code"
+            android:layout_height="@dimen/img_pin_code"
             android:layout_marginEnd="80dp"
             android:layout_marginRight="80dp"
             android:background="@drawable/ic_pin_circle"
@@ -61,8 +62,8 @@
         <Button
             android:id="@+id/btn3"
             style="?android:attr/borderlessButtonStyle"
-            android:layout_width="75dp"
-            android:layout_height="75dp"
+            android:layout_width="@dimen/numpad_size"
+            android:layout_height="@dimen/numpad_size"
             android:layout_marginEnd="24dp"
             android:layout_marginRight="24dp"
             android:background="@drawable/btn_numpad_pressed"
@@ -79,8 +80,8 @@
         <Button
             android:id="@+id/btn2"
             style="?android:attr/borderlessButtonStyle"
-            android:layout_width="75dp"
-            android:layout_height="75dp"
+            android:layout_width="@dimen/numpad_size"
+            android:layout_height="@dimen/numpad_size"
             android:background="@drawable/btn_numpad_pressed"
             android:fontFamily="@font/corsa_grotesk_regular"
             android:text="2"
@@ -95,8 +96,8 @@
         <Button
             android:id="@+id/btn4"
             style="?android:attr/borderlessButtonStyle"
-            android:layout_width="75dp"
-            android:layout_height="75dp"
+            android:layout_width="@dimen/numpad_size"
+            android:layout_height="@dimen/numpad_size"
             android:layout_marginStart="24dp"
             android:layout_marginLeft="24dp"
             android:background="@drawable/btn_numpad_pressed"
@@ -113,8 +114,8 @@
         <Button
             android:id="@+id/btn7"
             style="?android:attr/borderlessButtonStyle"
-            android:layout_width="75dp"
-            android:layout_height="75dp"
+            android:layout_width="@dimen/numpad_size"
+            android:layout_height="@dimen/numpad_size"
             android:layout_marginStart="24dp"
             android:layout_marginLeft="24dp"
             android:background="@drawable/btn_numpad_pressed"
@@ -131,8 +132,8 @@
         <Button
             android:id="@+id/btn6"
             style="?android:attr/borderlessButtonStyle"
-            android:layout_width="75dp"
-            android:layout_height="75dp"
+            android:layout_width="@dimen/numpad_size"
+            android:layout_height="@dimen/numpad_size"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="24dp"
             android:layout_marginRight="24dp"
@@ -151,16 +152,16 @@
         <Button
             android:id="@+id/btn1"
             style="?android:attr/borderlessButtonStyle"
-            android:layout_width="75dp"
-            android:layout_height="75dp"
+            android:layout_width="@dimen/numpad_size"
+            android:layout_height="@dimen/numpad_size"
             android:layout_marginStart="24dp"
             android:layout_marginLeft="24dp"
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="16dp"
             android:background="@drawable/btn_numpad_pressed"
             android:fontFamily="@font/corsa_grotesk_regular"
             android:text="1"
             android:textColor="@color/btn_text_black_color"
-            android:textSize="@dimen/text_numpad"
+            android:textSize="@dimen/text_size_all"
             app:layout_constraintEnd_toStartOf="@+id/btn2"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/img1" />
@@ -168,8 +169,8 @@
         <Button
             android:id="@+id/btn5"
             style="?android:attr/borderlessButtonStyle"
-            android:layout_width="75dp"
-            android:layout_height="75dp"
+            android:layout_width="@dimen/numpad_size"
+            android:layout_height="@dimen/numpad_size"
             android:background="@drawable/btn_numpad_pressed"
             android:fontFamily="@font/corsa_grotesk_regular"
             android:text="5"
@@ -184,8 +185,8 @@
         <Button
             android:id="@+id/btn8"
             style="?android:attr/borderlessButtonStyle"
-            android:layout_width="75dp"
-            android:layout_height="75dp"
+            android:layout_width="@dimen/numpad_size"
+            android:layout_height="@dimen/numpad_size"
             android:background="@drawable/btn_numpad_pressed"
             android:fontFamily="@font/corsa_grotesk_regular"
             android:text="8"
@@ -200,8 +201,8 @@
         <Button
             android:id="@+id/btn9"
             style="?android:attr/borderlessButtonStyle"
-            android:layout_width="75dp"
-            android:layout_height="75dp"
+            android:layout_width="@dimen/numpad_size"
+            android:layout_height="@dimen/numpad_size"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="24dp"
             android:layout_marginRight="24dp"
@@ -218,8 +219,8 @@
         <ImageButton
             android:id="@+id/btnSubmit"
             style="?android:attr/borderlessButtonStyle"
-            android:layout_width="75dp"
-            android:layout_height="75dp"
+            android:layout_width="@dimen/numpad_size"
+            android:layout_height="@dimen/numpad_size"
             android:layout_marginTop="16dp"
             android:background="@drawable/btn_numpad_pressed"
             android:src="@drawable/ic_check"
@@ -263,7 +264,7 @@
             android:fontFamily="@font/corsa_grotesk_regular"
             android:text="Enter Your Pin Code"
             android:textColor="@android:color/black"
-            android:textSize="@dimen/text_label_all"
+            android:textSize="@dimen/text_size_all"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.497"
             app:layout_constraintStart_toStartOf="parent"
@@ -271,8 +272,8 @@
 
         <ImageView
             android:id="@+id/img2"
-            android:layout_width="35dp"
-            android:layout_height="35dp"
+            android:layout_width="@dimen/img_pin_code"
+            android:layout_height="@dimen/img_pin_code"
             android:layout_marginStart="3dp"
             android:layout_marginLeft="3dp"
             android:background="@drawable/ic_pin_circle"
@@ -284,8 +285,8 @@
 
         <ImageView
             android:id="@+id/img3"
-            android:layout_width="35dp"
-            android:layout_height="35dp"
+            android:layout_width="@dimen/img_pin_code"
+            android:layout_height="@dimen/img_pin_code"
             android:layout_marginEnd="3dp"
             android:layout_marginRight="3dp"
             android:background="@drawable/ic_pin_circle"
@@ -297,8 +298,8 @@
 
         <ImageView
             android:id="@+id/img1"
-            android:layout_width="35dp"
-            android:layout_height="35dp"
+            android:layout_width="@dimen/img_pin_code"
+            android:layout_height="@dimen/img_pin_code"
             android:layout_marginStart="80dp"
             android:layout_marginLeft="80dp"
             android:layout_marginTop="8dp"
