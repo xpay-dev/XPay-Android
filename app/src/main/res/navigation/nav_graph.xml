@@ -69,7 +69,11 @@
         tools:layout="@layout/fragment_signature">
         <action
             android:id="@+id/action_signatureFragment_to_receiptFragment"
-            app:destination="@id/receiptFragment" />
+            app:destination="@id/receiptFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
 
     </fragment>
     <fragment
@@ -91,7 +95,15 @@
         android:id="@+id/receiptFragment"
         android:name="com.xpayworld.payment.ui.transaction.ReceiptFragment"
         android:label="Official Receipt"
-        tools:layout="@layout/fragment_receipt" />
+        tools:layout="@layout/fragment_receipt" >
+
+        <action
+            android:id="@+id/action_receiptFragment_to_transactionFragment"
+            app:destination="@id/transactionFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"/>
+    </fragment>
 
 
 </navigation>

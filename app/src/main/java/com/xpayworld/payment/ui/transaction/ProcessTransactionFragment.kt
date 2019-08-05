@@ -2,7 +2,9 @@ package com.xpayworld.payment.ui.transaction
 
 
 import android.os.Bundle
+import android.os.Handler
 import android.view.View
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import com.xpayworld.payment.R
 import com.xpayworld.payment.ui.base.kt.BaseFragmentkt
@@ -31,7 +33,9 @@ class ProcessTransactionFragment : BaseFragmentkt() {
             findNavController().popBackStack()
             (activity as DrawerLocker).drawerEnabled(true)
         }
+
+        Handler().postDelayed({
+         v.findNavController().navigate(R.id.action_process_transaction_to_signatureFragment)
+        },3000)
     }
-
-
 }
