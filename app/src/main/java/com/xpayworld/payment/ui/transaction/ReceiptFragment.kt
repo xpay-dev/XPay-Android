@@ -23,7 +23,7 @@ class ReceiptFragment : BaseFragmentkt() {
             it.findNavController().navigate(R.id.action_receiptFragment_to_transactionFragment)
             (activity as ToolbarDelegate).showToolbar(true)
 
-            
+
         }
     }
 }
