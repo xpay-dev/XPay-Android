@@ -1,19 +1,16 @@
 package com.xpayworld.payment.ui.activation
 
-import android.app.Dialog
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
-import android.view.Window
 import android.widget.EditText
-import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.xpayworld.payment.R
 import com.xpayworld.payment.ui.base.kt.BaseFragmentkt
 import com.xpayworld.payment.ui.transaction.DrawerLocker
 import com.xpayworld.payment.util.CustomDialog
-import com.xpayworld.payment.util.DialogUI
+import com.xpayworld.payment.util.filter
 import kotlinx.android.synthetic.main.fragment_activation_code.*
 
 
@@ -33,10 +30,18 @@ class ActivationFragment : BaseFragmentkt() {
         edtextList.forEach { it.addTextChangedListener(onChangedEditText()) }
 
         viewModel = ViewModelProviders.of(activity!!).get(ActivationViewModel::class.java)
+
+
+
         viewModel.loadingVisibility.observe(this, Observer{
             isShow -> if (isShow == true) showProgress() else hideProgress()
         })
-        viewModel.hideToolbar.observe(this, Observer{(activity as DrawerLocker).drawerEnabled(it)})
+
+
+
+        viewModel.toolbarVisibility.observe(this, Observer{(activity as DrawerLocker).drawerEnabled(it)})
+
+
         viewModel.apiError.observe(this, Observer {
            if (it) {
                edtextList.forEach { editText -> editText.setBackgroundResource(R.drawable.tv_error)}

@@ -17,7 +17,7 @@ class EnterPinFragment : BaseFragmentkt() {
 
     var numpad = listOf<Button>()
     var codeImg = listOf<ImageView>()
-    lateinit var viewModel: EnterPinModelView
+    private lateinit var viewModel: EnterPinModelView
 
     override fun getLayout(): Int {
         return R.layout.fragment_enter_pin
@@ -36,10 +36,9 @@ class EnterPinFragment : BaseFragmentkt() {
         numpad.forEach { it.setOnClickListener(viewModel.numpadClickListener) }
         viewModel.pinCode
                 .observe(this, Observer {
-                    println(it)
                     shouldUpdateCodeImage(it)
                 })
-        viewModel.hideToolbar.observe(this, Observer { (activity as ToolbarDelegate).showToolbar(it)})
+        viewModel.toolbarVisibility.observe(this, Observer { (activity as ToolbarDelegate).showToolbar(it)})
 
         btnSubmit.setOnClickListener(viewModel.sumbitClickListener)
         btnClear.setOnClickListener(viewModel.clearClickListener)

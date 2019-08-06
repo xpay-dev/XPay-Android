@@ -12,13 +12,13 @@ class EnterPinModelView : ViewModel(){
     val clearClickListener = View.OnClickListener {onClickClear(it)}
     val numpadClickListener = View.OnClickListener {onClickNumpad(it)}
     val sumbitClickListener = View.OnClickListener {onClickSubmit(it)}
-    val hideToolbar : MutableLiveData<Boolean> = MutableLiveData()
+    val toolbarVisibility : MutableLiveData<Boolean> = MutableLiveData()
     val pinCode :  MutableLiveData<String> = MutableLiveData()
 
     private lateinit var subscription: Disposable
 
     init {
-        hideToolbar.value = false
+        toolbarVisibility.value = false
         pinCode.value = ""
     }
 
@@ -39,7 +39,7 @@ class EnterPinModelView : ViewModel(){
     private fun onClickSubmit(v:View?){
         val direction = EnterPinFragmentDirections.actionEnterPinFragmentToTransactionFragment()
         v?.findNavController()?.navigate(direction)
-        hideToolbar.value = true
+        toolbarVisibility.value = true
     }
 }
 

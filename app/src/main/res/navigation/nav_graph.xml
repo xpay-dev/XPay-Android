@@ -34,7 +34,7 @@
 
     <fragment
         android:id="@+id/transactionFragment"
-        android:name="com.xpayworld.payment.ui.transaction.EnterAmountFragment"
+        android:name="com.xpayworld.payment.ui.transaction.enterAmount.EnterAmountFragment"
         android:label="Transaction"
         tools:layout="@layout/fragment_enter_amount">
         <action
