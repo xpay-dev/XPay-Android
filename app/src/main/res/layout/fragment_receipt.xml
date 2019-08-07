@@ -20,28 +20,56 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <View
-            android:id="@+id/vwReceipt"
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/clReceipt"
             android:layout_width="0dp"
-            android:layout_height="522dp"
-            android:layout_marginStart="32dp"
-            android:layout_marginLeft="32dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="32dp"
-            android:layout_marginRight="32dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginLeft="24dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="24dp"
+            android:layout_marginRight="24dp"
+            android:layout_marginBottom="32dp"
             android:background="@android:color/white"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/btnDone"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.083">
+            app:layout_constraintTop_toTopOf="parent">
 
-            <androidx.constraintlayout.widget.ConstraintLayout>
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/clReceipt1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="8dp"
+                android:background="@android:color/background_dark"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"></androidx.constraintlayout.widget.ConstraintLayout>
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-        </View>
+
+        <!--<View-->
+            <!--android:id="@+id/vwReceipt"-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="522dp"-->
+            <!--android:layout_marginStart="32dp"-->
+            <!--android:layout_marginLeft="32dp"-->
+            <!--android:layout_marginTop="16dp"-->
+            <!--android:layout_marginEnd="32dp"-->
+            <!--android:layout_marginRight="32dp"-->
+            <!--android:background="@android:color/white"-->
+            <!--app:layout_constraintBottom_toBottomOf="parent"-->
+            <!--app:layout_constraintEnd_toEndOf="parent"-->
+            <!--app:layout_constraintHorizontal_bias="0.0"-->
+            <!--app:layout_constraintStart_toStartOf="parent"-->
+            <!--app:layout_constraintTop_toTopOf="parent"-->
+            <!--app:layout_constraintVertical_bias="0.083">-->
+
+
+        <!--</View>-->
 
 
 
@@ -457,20 +485,22 @@
         <Button
             android:id="@+id/btnDone"
             android:layout_width="0dp"
-            android:layout_height="@dimen/btn_height"
+            android:layout_height="wrap_content"
             android:layout_marginStart="80dp"
             android:layout_marginLeft="80dp"
             android:layout_marginEnd="80dp"
             android:layout_marginRight="80dp"
+            android:layout_marginBottom="16dp"
             android:background="@drawable/btn_primary_black_pressed"
             android:fontFamily="@font/corsa_grotesk_regular"
-            android:text="Done"
+            android:text="Print"
             android:textAllCaps="false"
             android:textColor="@color/btn_text_white_color"
             android:textSize="@dimen/btn_text"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/vwReceipt" />
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

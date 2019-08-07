@@ -57,6 +57,7 @@ class DashboardActivity : BaseActivitykt(), DrawerLocker , ToolbarDelegate{
 
         navController.addOnDestinationChangedListener { controller, destination, arguments ->
             toolbar_title.text = controller.currentDestination?.label
+
         }
         setUpDrawerToggle()
     }

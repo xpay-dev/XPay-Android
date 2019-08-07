@@ -2,6 +2,7 @@ package com.xpayworld.payment.ui.transaction
 
 
 import android.os.Bundle
+import android.os.Handler
 import android.view.View
 import androidx.navigation.findNavController
 import com.xpayworld.payment.R
@@ -25,16 +26,21 @@ class ProcessTransactionFragment : BaseFragmentkt() {
     }
 
     override fun initView(view: View) {
+        var isCanceled =  false
         (activity as DrawerLocker).drawerEnabled(false)
          tvAmount.text = strAmount?.let {formattedAmount(it)}
         btnCancel.setOnClickListener {
+            isCanceled = true
             view.findNavController().popBackStack()
             (activity as DrawerLocker).drawerEnabled(true)
 
         }
 
-//        Handler().postDelayed({
-//         v.findNavController().navigate(R.id.action_process_transaction_to_signatureFragment)
-//        },3000)
+
+        Handler().postDelayed({
+            if (!isCanceled) {
+                view.findNavController().navigate(R.id.action_process_transaction_to_signatureFragment)
+            }
+        },3000)
     }
 }
