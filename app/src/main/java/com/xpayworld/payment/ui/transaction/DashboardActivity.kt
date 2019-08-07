@@ -1,25 +1,16 @@
 package com.xpayworld.payment.ui.transaction
 
-import android.os.Bundle
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.widget.Toolbar
 import androidx.databinding.DataBindingUtil
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.NavController
-
 import androidx.navigation.findNavController
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.NavigationUI.setupWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.xpayworld.payment.R
 import com.xpayworld.payment.databinding.ActivityDashboardBinding
 import com.xpayworld.payment.ui.base.kt.BaseActivitykt
-import kotlinx.android.synthetic.main.activity_dashboard.*
 import kotlinx.android.synthetic.main.toolbar_main.*
-import android.R.attr.y
-import android.R.attr.x
-import android.view.Display
-
 import android.graphics.Point
 
 
@@ -32,14 +23,7 @@ class DashboardActivity : BaseActivitykt(), DrawerLocker , ToolbarDelegate{
 
 
     override fun initView() {
-        val display = windowManager.defaultDisplay
-        val size = Point()
-        display.getSize(size)
-        val width = size.x
-        val height = size.y
 
-        println( width)
-        println( height)
         val binding: ActivityDashboardBinding = DataBindingUtil.setContentView(this,
                 R.layout.activity_dashboard)
 
@@ -80,7 +64,7 @@ class DashboardActivity : BaseActivitykt(), DrawerLocker , ToolbarDelegate{
 //        drawerEnabled(true)
     }
 
-    // to disable / hide humberger menu
+    // to disable / hide hamburger menu
     override fun drawerEnabled(enabled: Boolean) {
         val lockMode = if (enabled) DrawerLayout.LOCK_MODE_UNLOCKED else DrawerLayout.LOCK_MODE_LOCKED_CLOSED
         drawerLayout.setDrawerLockMode(lockMode)
