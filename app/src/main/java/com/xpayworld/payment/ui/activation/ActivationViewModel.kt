@@ -18,11 +18,11 @@ import io.reactivex.schedulers.Schedulers
 class ActivationViewModel : ViewModel() {
 
     val loadingVisibility: MutableLiveData<Boolean> = MutableLiveData()
+    val  networkError : MutableLiveData<Throwable> = MutableLiveData()
+    val  apiError : MutableLiveData<Boolean> = MutableLiveData()
 
     val activateClickListener = View.OnClickListener { onClickActivate(it)}
     val toolbarVisibility : MutableLiveData<Boolean> = MutableLiveData()
-    val  networkError : MutableLiveData<Throwable> = MutableLiveData()
-    val  apiError : MutableLiveData<Boolean> = MutableLiveData()
 
     private lateinit var subscription: Disposable
 
@@ -63,6 +63,10 @@ class ActivationViewModel : ViewModel() {
                 .doAfterTerminate { loadingVisibility.value = false }
                 .subscribe(
                         { result ->
+                            if (!result.isSuccessful) {
+                                networkError.value
+                                return@subscribe
+                            }
 
                             val hasError = result?.body()?.errNumber == "00"
 

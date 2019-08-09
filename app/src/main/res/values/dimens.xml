@@ -15,4 +15,8 @@
     <!--Enter pin page -->
     <dimen name="img_pin_code">30dp</dimen>
 
+    <!--Receipt Page-->
+    <dimen name="text_merchant_name">15sp</dimen>
+    <dimen name="text_merchant_details">13sp</dimen>
+
 </resources>

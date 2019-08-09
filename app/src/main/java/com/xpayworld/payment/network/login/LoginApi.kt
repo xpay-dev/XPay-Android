@@ -3,6 +3,7 @@ package com.xpayworld.payment.network.login
 import com.xpayworld.payment.network.ApiConstants
 import com.xpayworld.payment.network.PosWsResponse
 import com.xpayworld.payment.network.activateApp.Activation
+import io.reactivex.Observable
 import io.reactivex.Single
 import retrofit2.Response
 import retrofit2.http.Body
@@ -14,5 +15,5 @@ interface  LoginApi {
             ApiConstants.Charset,
             ApiConstants.Content)
     @POST(ApiConstants.Login)
-    fun login(@Body login : Login) : Single<Response<PosWsResponse>>
+    fun login(@Body login : Login) : Observable<Response<PosWsResponse>>
 }

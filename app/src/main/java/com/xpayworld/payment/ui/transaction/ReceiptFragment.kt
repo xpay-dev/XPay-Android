@@ -16,11 +16,10 @@ class ReceiptFragment : BaseFragmentkt() {
         return R.layout.fragment_receipt
     }
 
-
     override fun initView(view: View) {
         setHasOptionsMenu(true)
         btnDone.setOnClickListener {
-            clReceipt1.startAnimation(AnimationUtils.loadAnimation(context!!, R.anim.receipt_out))
+            clReceipt.startAnimation(AnimationUtils.loadAnimation(context!!, R.anim.receipt_out))
 
         }
     }

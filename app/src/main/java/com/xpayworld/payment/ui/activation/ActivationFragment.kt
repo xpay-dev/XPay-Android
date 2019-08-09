@@ -31,16 +31,13 @@ class ActivationFragment : BaseFragmentkt() {
 
         viewModel = ViewModelProviders.of(activity!!).get(ActivationViewModel::class.java)
 
+        btnActivate.setOnClickListener(viewModel.activateClickListener)
 
 
         viewModel.loadingVisibility.observe(this, Observer{
             isShow -> if (isShow == true) showProgress() else hideProgress()
         })
-
-
-
         viewModel.toolbarVisibility.observe(this, Observer{(activity as DrawerLocker).drawerEnabled(it)})
-
 
         viewModel.apiError.observe(this, Observer {
            if (it) {
@@ -56,7 +53,7 @@ class ActivationFragment : BaseFragmentkt() {
             CustomDialog(context!!).onError().show()
         })
 
-        btnActivate.setOnClickListener(viewModel.activateClickListener)
+
     }
 
     internal inner class onChangedEditText : TextWatcher {
