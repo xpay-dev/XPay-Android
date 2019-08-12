@@ -1,4 +1,4 @@
-package com.xpayworld.payment.ui.transaction
+package com.xpayworld.payment.ui.transaction.processTransaction
 
 
 import android.os.Bundle
@@ -6,13 +6,14 @@ import android.os.Handler
 import android.view.View
 import androidx.navigation.findNavController
 import com.xpayworld.payment.R
-import com.xpayworld.payment.ui.base.kt.BaseFragmentkt
+import com.xpayworld.payment.ui.base.kt.BaseFragment
+import com.xpayworld.payment.ui.transaction.DrawerLocker
 import com.xpayworld.payment.util.formattedAmount
 import kotlinx.android.synthetic.main.fragment_process_transaction.*
 
 
 private const val ARG_AMOUNT = "amount"
-class ProcessTransactionFragment : BaseFragmentkt() {
+class ProcessTransactionFragment : BaseFragment() {
 
     private var strAmount : String? = null
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -28,14 +29,14 @@ class ProcessTransactionFragment : BaseFragmentkt() {
     override fun initView(view: View) {
         var isCanceled =  false
         (activity as DrawerLocker).drawerEnabled(false)
-         tvAmount.text = strAmount?.let {formattedAmount(it)}
+
+        tvAmount.text = strAmount?.let {formattedAmount(it)}
         btnCancel.setOnClickListener {
             isCanceled = true
             view.findNavController().popBackStack()
             (activity as DrawerLocker).drawerEnabled(true)
 
         }
-
 
         Handler().postDelayed({
             if (!isCanceled) {

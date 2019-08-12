@@ -7,15 +7,14 @@ import android.widget.ImageView
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import com.xpayworld.payment.R
-import com.xpayworld.payment.ui.base.kt.BaseFragmentkt
+import com.xpayworld.payment.ui.base.kt.BaseFragment
 import com.xpayworld.payment.ui.transaction.ToolbarDelegate
 import com.xpayworld.payment.util.SharedPrefStorage
 
 import kotlinx.android.synthetic.main.fragment_enter_pin.*
 import androidx.lifecycle.Observer
-import com.xpayworld.payment.util.CustomDialog
 
-class EnterPinFragment : BaseFragmentkt() {
+class EnterPinFragment : BaseFragment() {
 
     var numpad = listOf<Button>()
     var pinCodeImgArr = listOf<ImageView>()
@@ -52,15 +51,12 @@ class EnterPinFragment : BaseFragmentkt() {
                      pinCodeImgArr.forEach {
                     it.startAnimation(shake)
                     }
-          }
+                }
         })
 
         viewModel.networkError.observe(this, Observer {
-            CustomDialog(context!!).onError(it).show()
-
-
+                     showNetworkError()
         })
-
     }
 
     private fun shouldCheckActivationKey() {

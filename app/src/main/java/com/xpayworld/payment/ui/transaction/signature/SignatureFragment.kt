@@ -1,17 +1,13 @@
-package com.xpayworld.payment.ui.transaction
+package com.xpayworld.payment.ui.transaction.signature
 
-import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.navigation.findNavController
 import com.xpayworld.payment.R
-import com.xpayworld.payment.ui.base.kt.BaseFragmentkt
+import com.xpayworld.payment.ui.base.kt.BaseFragment
 import kotlinx.android.synthetic.main.fragment_signature.*
 
 
-class SignatureFragment : BaseFragmentkt() {
+class SignatureFragment : BaseFragment() {
     override fun getLayout(): Int {
         return R.layout.fragment_signature
     }

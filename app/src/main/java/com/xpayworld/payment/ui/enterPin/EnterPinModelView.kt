@@ -68,9 +68,8 @@ class EnterPinModelView : ViewModel() {
         subscription = api.login(login)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .doOnSubscribe { loadingVisibility.value = true }
-                .doAfterTerminate { loadingVisibility.value = false }
-
+                .doOnSubscribe {loadingVisibility.value = true}
+                .doAfterTerminate {loadingVisibility.value = false}
                 .subscribe(
                         { result ->
                             if (!result.isSuccessful) {
@@ -88,6 +87,7 @@ class EnterPinModelView : ViewModel() {
                             }
                         },
                          {
+                             pinCode.value = ""
                     networkError.value = "Network Error"
                 }
                 )

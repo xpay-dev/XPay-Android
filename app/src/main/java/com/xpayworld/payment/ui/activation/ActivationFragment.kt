@@ -7,14 +7,13 @@ import android.widget.EditText
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.xpayworld.payment.R
-import com.xpayworld.payment.ui.base.kt.BaseFragmentkt
+import com.xpayworld.payment.ui.base.kt.BaseFragment
 import com.xpayworld.payment.ui.transaction.DrawerLocker
 import com.xpayworld.payment.util.CustomDialog
-import com.xpayworld.payment.util.filter
 import kotlinx.android.synthetic.main.fragment_activation_code.*
 
 
-class ActivationFragment : BaseFragmentkt() {
+class ActivationFragment : BaseFragment() {
 
     override fun getLayout(): Int {
         return R.layout.fragment_activation_code

@@ -1,25 +1,27 @@
 package com.xpayworld.payment.ui.transaction.enterAmount
 
+import android.app.Dialog
 import android.content.Context
 import android.view.View
 import android.widget.Button
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import androidx.navigation.fragment.findNavController
 import com.xpayworld.payment.R
-import com.xpayworld.payment.ui.base.kt.BaseFragmentkt
+import com.xpayworld.payment.ui.base.kt.BaseFragment
 import com.xpayworld.payment.ui.transaction.DrawerLocker
-import com.xpayworld.payment.util.SharedPrefStorage
+import com.xpayworld.payment.util.CustomDialog
+import com.xpayworld.payment.util.InjectorUtil
 import kotlinx.android.synthetic.main.fragment_enter_amount.*
 import kotlinx.android.synthetic.main.view_enter_amount.*
 
 
 
-class EnterAmountFragment : BaseFragmentkt() {
+class EnterAmountFragment : BaseFragment() {
 
     var numpad = listOf<Button>()
 
     private lateinit var viewModel: EnterAmountViewModel
+
 
     override fun initView(view: View) {
         // Numpad Button

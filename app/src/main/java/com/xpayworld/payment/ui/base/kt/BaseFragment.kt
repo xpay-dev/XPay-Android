@@ -7,23 +7,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import androidx.fragment.app.Fragment
-import com.xpayworld.payment.ui.base.BaseActivity
 import com.xpayworld.payment.util.CustomDialog
 import dagger.android.support.AndroidSupportInjection
-import kotlin.concurrent.thread
 
-abstract class BaseFragmentkt : Fragment(), MvpViewkt {
+abstract class BaseFragment : Fragment(), MvpView {
 
-    private var parentActivity: BaseActivitykt? = null
+    private var parentActivity: BaseActivity? = null
     private lateinit var dialog: CustomDialog
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        if (context is BaseActivity) {
-            val activity = context as BaseActivitykt?
-            this.parentActivity = activity
-            activity?.onFragmentAttached()
-        }
-    }
+
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(getLayout(), container, false)
@@ -32,7 +23,6 @@ abstract class BaseFragmentkt : Fragment(), MvpViewkt {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        dialog = CustomDialog(context!!)
         setHasOptionsMenu(false)
     }
 
@@ -40,9 +30,18 @@ abstract class BaseFragmentkt : Fragment(), MvpViewkt {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initView(view)
-
+        dialog = CustomDialog(context!!)
     }
 
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        if (context is BaseActivity) {
+            val activity = context as BaseActivity?
+            this.parentActivity = activity
+
+            activity?.onFragmentAttached()
+        }
+    }
     override fun hideProgress() {
         activity?.runOnUiThread {
             dialog.onDismiss()
@@ -57,7 +56,7 @@ abstract class BaseFragmentkt : Fragment(), MvpViewkt {
 
     override fun showNetworkError() {
         activity?.runOnUiThread {
-            dialog.onError().show()
+            CustomDialog(this.context!!).onError().show()
         }
     }
 

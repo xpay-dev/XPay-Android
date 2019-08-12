@@ -9,12 +9,11 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.xpayworld.payment.R
 import com.xpayworld.payment.databinding.ActivityDashboardBinding
-import com.xpayworld.payment.ui.base.kt.BaseActivitykt
+import com.xpayworld.payment.ui.base.kt.BaseActivity
 import kotlinx.android.synthetic.main.toolbar_main.*
-import android.graphics.Point
 
 
-class DashboardActivity : BaseActivitykt(), DrawerLocker , ToolbarDelegate{
+class DashboardActivity : BaseActivity(), DrawerLocker , ToolbarDelegate{
 
     private lateinit var drawerLayout: DrawerLayout
     private lateinit var navController: NavController

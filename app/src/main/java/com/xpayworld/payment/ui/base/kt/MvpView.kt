@@ -1,6 +1,6 @@
 package com.xpayworld.payment.ui.base.kt
 
-interface MvpViewkt {
+interface MvpView {
 
     fun showProgress()
     fun showNetworkError()

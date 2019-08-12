@@ -33,21 +33,15 @@ class CustomDialog(context: Context) : DialogUI {
     override fun onError(): Dialog {
 
         mDialog!!.setContentView(R.layout.dialog_error)
-        val title  = mDialog!!.findViewById<TextView>(R.id.tvTitle)
+        val title = mDialog!!.findViewById<TextView>(R.id.tvTitle)
         val btnDone = mDialog!!.findViewById<Button>(R.id.btnDone)
-
-
         btnDone.setOnClickListener {
             mDialog!!.dismiss()
         }
-
-
-//    val txtTitle = mDialog.findViewById<TextView>(R.id.dialog_error_title)
-//    val txtMessage = mDialog.findViewById<TextView>(R.id.dialog_error_message)
-//    val btnClose = mDialog.findViewById<Button>(R.id.dialog_error_button)
         return mDialog!!
     }
-    fun onError(title : String): Dialog {
+
+    fun onError(title: String): Dialog {
 
         mDialog!!.setContentView(R.layout.dialog_error)
         val tvTitle = mDialog!!.findViewById<TextView>(R.id.tvTitle)
@@ -56,7 +50,7 @@ class CustomDialog(context: Context) : DialogUI {
         btnDone.setOnClickListener {
             mDialog!!.dismiss()
         }
-    return  mDialog!!
+        return mDialog!!
     }
 
     override fun onDismiss() {

@@ -1,4 +1,4 @@
-package com.xpayworld.payment.ui.transaction
+package com.xpayworld.payment.ui.transaction.receipt
 
 
 import android.view.Menu
@@ -7,11 +7,12 @@ import android.view.MenuItem
 import android.view.View
 import android.view.animation.AnimationUtils
 import com.xpayworld.payment.R
-import com.xpayworld.payment.ui.base.kt.BaseFragmentkt
+import com.xpayworld.payment.ui.base.kt.BaseFragment
 import kotlinx.android.synthetic.main.fragment_receipt.*
 import androidx.navigation.findNavController
+import com.xpayworld.payment.ui.transaction.DrawerLocker
 
-class ReceiptFragment : BaseFragmentkt() {
+class ReceiptFragment : BaseFragment() {
     override fun getLayout(): Int {
         return R.layout.fragment_receipt
     }

@@ -1,12 +1,11 @@
 package com.xpayworld.payment.ui.base.kt
 
 import android.os.Bundle
-import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
 import com.xpayworld.payment.util.CustomDialog
 import dagger.android.AndroidInjection
 
-abstract  class BaseActivitykt : AppCompatActivity(), MvpViewkt ,BaseFragmentkt.CallBack{
+abstract  class BaseActivity : AppCompatActivity(), MvpView ,BaseFragment.CallBack{
     private lateinit var dialog: CustomDialog
     override fun onCreate(savedInstanceState: Bundle?) {
 
