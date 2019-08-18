@@ -3,7 +3,10 @@ package com.xpayworld.payment.ui.transaction.enterAmount
 import android.app.Dialog
 import android.content.Context
 import android.view.View
+import android.view.ViewGroup
 import android.widget.Button
+import androidx.core.view.marginTop
+import androidx.core.view.updatePadding
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.xpayworld.payment.R
@@ -16,6 +19,8 @@ import kotlinx.android.synthetic.main.view_enter_amount.*
 
 
 
+
+
 class EnterAmountFragment : BaseFragment() {
 
     var numpad = listOf<Button>()
@@ -23,7 +28,7 @@ class EnterAmountFragment : BaseFragment() {
     private lateinit var viewModel: EnterAmountViewModel
 
 
-    override fun initView(view: View) {
+    override fun initView(view: View,container: ViewGroup?) {
         // Numpad Button
         // Numpad Button Image
 
@@ -38,12 +43,8 @@ class EnterAmountFragment : BaseFragment() {
         btnClear.setOnClickListener(viewModel.clearClickListener)
         btnOk.setOnClickListener(viewModel.okClickListener)
 
-        // output
-        viewModel.transTypeSetPadding.observe(this , Observer{
-            btnCredit.setPadding(0, it, 0, 0)
-            btnDebit.setPadding(0, it, 0, 0)
-        })
 
+        // output
         viewModel.transTypeSetResource.observe(this , Observer {
             btnCredit.setBackgroundResource(it[0])
             btnDebit.setBackgroundResource(it[1])

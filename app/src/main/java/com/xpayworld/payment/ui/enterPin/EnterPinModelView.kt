@@ -50,6 +50,8 @@ class EnterPinModelView : ViewModel() {
     }
 
     private fun onClickSubmit(v: View) {
+
+
         val api = RetrofitClient().getRetrofit().create(LoginApi::class.java)
 
         val pos = PosWsRequest()
@@ -68,28 +70,34 @@ class EnterPinModelView : ViewModel() {
         subscription = api.login(login)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .doOnSubscribe {loadingVisibility.value = true}
-                .doAfterTerminate {loadingVisibility.value = false}
+                .doOnSubscribe { loadingVisibility.value = true }
+                .doAfterTerminate { loadingVisibility.value = false }
                 .subscribe(
                         { result ->
-                            if (!result.isSuccessful) {
-                                networkError.value = "Server Error ${result.code()}"
-                                pinCode.value = ""
-                                return@subscribe
-                            }
+                            toolbarVisibility.value = true
+                            val direction = EnterPinFragmentDirections.actionEnterPinFragmentToTransactionFragment()
+                            v.findNavController().navigate(direction)
+
+//                            if (!result.isSuccessful) {
+//                                networkError.value = "Server Error ${result.code()}"
+//                                pinCode.value = ""
+//                                return@subscribe
+//                            }
 
                             val hasError = result?.body()?.errNumber == "00"
                             if (hasError) {
                                 apiError.value = hasError
                             } else {
-                                val direction = EnterPinFragmentDirections.actionEnterPinFragmentToTransactionFragment()
-                               v.findNavController().navigate(direction)
+//                                toolbarVisibility.value = true
+//                                val direction = EnterPinFragmentDirections.actionEnterPinFragmentToTransactionFragment()
+//                                v.findNavController().navigate(direction)
                             }
                         },
-                         {
-                             pinCode.value = ""
-                    networkError.value = "Network Error"
-                }
+
+                        {
+                            pinCode.value = ""
+                            networkError.value = "Network Error"
+                        }
                 )
 
     }

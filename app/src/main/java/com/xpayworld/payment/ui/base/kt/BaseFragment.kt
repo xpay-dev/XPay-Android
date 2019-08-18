@@ -14,10 +14,13 @@ abstract class BaseFragment : Fragment(), MvpView {
 
     private var parentActivity: BaseActivity? = null
     private lateinit var dialog: CustomDialog
-
+    var mContainer : ViewGroup ? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(getLayout(), container, false)
+
+        val view =  inflater.inflate(getLayout(), container, false)
+        mContainer = container
+        return  view
     }
 
 
@@ -29,7 +32,7 @@ abstract class BaseFragment : Fragment(), MvpView {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        initView(view)
+        initView(view , mContainer)
         dialog = CustomDialog(context!!)
     }
 
@@ -73,6 +76,6 @@ abstract class BaseFragment : Fragment(), MvpView {
     @LayoutRes
     abstract fun getLayout(): Int
 
-    abstract fun initView(view: View)
+    abstract fun initView(view: View , container: ViewGroup?)
 
 }

@@ -1,8 +1,10 @@
 package com.xpayworld.payment.ui.activation
 
+import android.graphics.drawable.DrawableContainer
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
+import android.view.ViewGroup
 import android.widget.EditText
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -23,7 +25,7 @@ class ActivationFragment : BaseFragment() {
     var strCode = ""
     lateinit var viewModel : ActivationViewModel
 
-    override fun initView(view: View) {
+    override fun initView(view: View, container: ViewGroup?) {
 
         edtextList = listOf(edtext1, edtext2, edtext3, edtext4)
         edtextList.forEach { it.addTextChangedListener(onChangedEditText()) }

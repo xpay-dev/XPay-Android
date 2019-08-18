@@ -40,7 +40,6 @@ class DashboardActivity : BaseActivity(), DrawerLocker , ToolbarDelegate{
 
         navController.addOnDestinationChangedListener { controller, destination, arguments ->
             toolbar_title.text = controller.currentDestination?.label
-
         }
         setUpDrawerToggle()
     }
@@ -72,5 +71,9 @@ class DashboardActivity : BaseActivity(), DrawerLocker , ToolbarDelegate{
     override fun showToolbar(visible: Boolean) {
         if (visible) supportActionBar?.show() else supportActionBar?.hide()
         drawerEnabled(visible)
+    }
+
+    override fun setTitle(title: String) {
+        toolbar_title.text = title
     }
 }

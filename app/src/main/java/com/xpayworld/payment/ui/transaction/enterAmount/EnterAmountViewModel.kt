@@ -19,7 +19,6 @@ class EnterAmountViewModel : ViewModel(){
     val numpadClickListener = View.OnClickListener {onClickNumpad(it)}
     val displayAmount : MutableLiveData<String> = MutableLiveData()
     val transTypeSetResource : MutableLiveData<List<Int>> = MutableLiveData()
-    val transTypeSetPadding : MutableLiveData<Int> = MutableLiveData()
     val transTypeClickListener = View.OnClickListener {onClickTransType(it)}
     val clearClickListener = View.OnClickListener {onClickClear(it)}
     val okClickListener = View.OnClickListener {onClickOk(it)}
@@ -29,13 +28,14 @@ class EnterAmountViewModel : ViewModel(){
 
     init {
         displayAmount.value = "0.00"
-        transTypeSetPadding.value = 10
         transTypeSetResource.value = listOf(R.drawable.tab_indenticator,R.drawable.tab_indenticator_clear)
+
+
     }
 
     override fun onCleared() {
         super.onCleared()
-        subscription.dispose()
+     //   subscription.dispose()
     }
 
     private fun onClickClear (v: View) {
@@ -45,9 +45,9 @@ class EnterAmountViewModel : ViewModel(){
 
     private fun onClickOk (v:  View){
         if (amountStr.isEmpty()) return
-        val direction = EnterAmountFragmentDirections.actionEnterAmountFragmentToProcessTranactionFragment(amountStr)
-        v.findNavController().navigate(direction)
-    }
+        val direcetion = EnterAmountFragmentDirections.actionEnterAmountFragmentToProcessTranactionActivity(amountStr)
+        v.findNavController().navigate(direcetion)
+ }
 
     private fun onClickNumpad(v : View){
         val len = amountStr.length

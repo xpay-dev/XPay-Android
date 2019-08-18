@@ -1,6 +1,7 @@
 package com.xpayworld.payment.ui.enterPin
 
 import android.view.View
+import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import android.widget.Button
 import android.widget.ImageView
@@ -13,6 +14,8 @@ import com.xpayworld.payment.util.SharedPrefStorage
 
 import kotlinx.android.synthetic.main.fragment_enter_pin.*
 import androidx.lifecycle.Observer
+import com.xpayworld.payment.network.transaction.PaymentType
+import com.xpayworld.payment.network.transaction.TransactionPurchase
 
 class EnterPinFragment : BaseFragment() {
 
@@ -24,7 +27,7 @@ class EnterPinFragment : BaseFragment() {
         return R.layout.fragment_enter_pin
     }
 
-    override fun initView(view: View) {
+    override fun initView(view: View,container: ViewGroup?) {
         viewModel = ViewModelProviders.of(activity!!).get(EnterPinModelView::class.java)
 
         // Input
@@ -33,6 +36,15 @@ class EnterPinFragment : BaseFragment() {
         numpad.forEach { it.setOnClickListener(viewModel.numpadClickListener) }
         btnSubmit.setOnClickListener(viewModel.sumbitClickListener)
         btnClear.setOnClickListener(viewModel.clearClickListener)
+
+        var paymentType : PaymentType = PaymentType.DEBIT(PaymentType.DebitTransaction.SALE ,TransactionPurchase.AccountType.SAVINGS)
+        when(paymentType){
+            is PaymentType.DEBIT -> {
+                paymentType.debit.stringValue
+                paymentType.accountType
+            }
+
+        }
 
         shouldCheckActivationKey()
 

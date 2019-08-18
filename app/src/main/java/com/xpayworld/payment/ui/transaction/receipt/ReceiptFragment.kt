@@ -1,10 +1,7 @@
 package com.xpayworld.payment.ui.transaction.receipt
 
 
-import android.view.Menu
-import android.view.MenuInflater
-import android.view.MenuItem
-import android.view.View
+import android.view.*
 import android.view.animation.AnimationUtils
 import com.xpayworld.payment.R
 import com.xpayworld.payment.ui.base.kt.BaseFragment
@@ -17,7 +14,7 @@ class ReceiptFragment : BaseFragment() {
         return R.layout.fragment_receipt
     }
 
-    override fun initView(view: View) {
+    override fun initView(view: View , container: ViewGroup?) {
         setHasOptionsMenu(true)
         btnDone.setOnClickListener {
             clReceipt.startAnimation(AnimationUtils.loadAnimation(context!!, R.anim.receipt_out))
@@ -34,8 +31,9 @@ class ReceiptFragment : BaseFragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.receipt_item_done -> {
-             view!!.findNavController().navigate(R.id.action_receiptFragment_to_transactionFragment)
-                (activity as DrawerLocker).drawerEnabled(true)
+                activity?.finish()
+//             view!!.findNavController().navigate(R.id.action_receiptFragment_to_transactionFragment)
+//                (activity as DrawerLocker).drawerEnabled(true)
             }
         }
 

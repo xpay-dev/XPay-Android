@@ -7,7 +7,7 @@
     <!--<data>-->
         <!--<variable-->
             <!--name="model"-->
-            <!--type="com.xpayworld.payment.ui.activation.ActivationViewModel" />-->
+            <!--accountType="com.xpayworld.payment.ui.activation.ActivationViewModel" />-->
     <!--</data>-->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
