@@ -45,7 +45,7 @@ class EnterAmountViewModel : ViewModel(){
 
     private fun onClickOk (v:  View){
         if (amountStr.isEmpty()) return
-        val direcetion = EnterAmountFragmentDirections.actionEnterAmountFragmentToProcessTranactionActivity(amountStr)
+        val direcetion = EnterAmountFragmentDirections.actionEnterAmountFragmentToProcessTranactionActivity()
         v.findNavController().navigate(direcetion)
  }
 

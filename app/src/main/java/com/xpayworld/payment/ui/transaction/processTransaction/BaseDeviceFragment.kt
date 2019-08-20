@@ -7,47 +7,53 @@ import android.content.Intent
 import android.graphics.Rect
 import android.media.AudioManager
 import android.media.MediaPlayer
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.MutableLiveData
+import androidx.navigation.findNavController
 import com.bbpos.bbdevice.BBDeviceController
 import com.bbpos.bbdevice.CAPK
 import com.bbpos.bbdevice.ota.BBDeviceOTAController
+import com.xpayworld.payment.R
 import java.text.SimpleDateFormat
 import java.util.*
-import com.bbpos.bbdevice.BBDeviceController.CheckCardMode
-import com.xpayworld.payment.R
 
-open class BaseDeviceActivity : AppCompatActivity() {
+
+open class BaseDeviceFragment : Fragment(){
 
     companion object {
-        lateinit var currentActivity: Activity
+
         lateinit var pinButtonLayout: Hashtable<String, Rect>
     }
 
     internal var bbDeviceController: BBDeviceController? = null
     internal lateinit var otaController: BBDeviceOTAController
-    var listener: MyBBdeviceControllerListener? = null
+     private var listener: MyBBdeviceControllerListener? = null
 
     val toolbarTitle: MutableLiveData<String> = MutableLiveData()
     val startAnimation: MutableLiveData<Boolean> = MutableLiveData()
     val strAmount : MutableLiveData<String> = MutableLiveData()
     val onResult : MutableLiveData<Boolean> = MutableLiveData()
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        currentActivity = this
+//
+//        val f = activity!!.fragmentManager.findFragmentById(R.id.processTransactionLayout)
+//
+//        if (f is ProcessTransaction) {
+//
+//            print("this is process transaction fragment")
+//        }
+
         startTransaction()
-
-        strAmount.value = intent.getStringExtra("amount")
-
     }
 
     fun startTransaction() {
         listener = MyBBdeviceControllerListener()
-        bbDeviceController = BBDeviceController.getInstance(currentActivity, listener)
+        bbDeviceController = BBDeviceController.getInstance(context, listener)
         BBDeviceController.setDebugLogEnabled(true)
         toolbarTitle.value = "Initializing..."
 
@@ -67,7 +73,7 @@ open class BaseDeviceActivity : AppCompatActivity() {
         data["terminalTime"] = terminalTime
 
         // Check for Swipe, Insert and Tap card
-        data.put("checkCardMode", CheckCardMode.SWIPE_OR_INSERT_OR_TAP)
+        data.put("checkCardMode", BBDeviceController.CheckCardMode.SWIPE_OR_INSERT_OR_TAP)
         startAnimation.value = true
         bbDeviceController!!.startEmv(data)
     }
@@ -88,16 +94,7 @@ open class BaseDeviceActivity : AppCompatActivity() {
         bbDeviceController!!.releaseBBDeviceController()
     }
 
-    internal fun switchBackFromWisePOSPlusPin() {
-        if (currentActivity is ActivityPinPad) {
-            val intent = Intent(currentActivity, ProcessTransactionActivity::class.java)
-            intent.putExtra("amount",currentActivity.intent.getStringExtra("amount"))
-            startActivity(intent)
-            return
-        }
-    }
-
-    inner class MyBBdeviceControllerListener : BBDeviceController.BBDeviceControllerListener {
+    inner private class MyBBdeviceControllerListener : BBDeviceController.BBDeviceControllerListener {
         override fun onReturnUpdateAIDResult(p0: Hashtable<String, BBDeviceController.TerminalSettingStatus>?) {
 
         }
@@ -376,14 +373,14 @@ open class BaseDeviceActivity : AppCompatActivity() {
 
         override fun onRequestDisplayAsterisk(numOfAsterisk: Int) {
             var content = ""
-            if (currentActivity is ActivityPinPad) {
-            } else {
-                content = "PIN" + ": "
-            }
-            for (i in 0 until numOfAsterisk) {
-                content += "*"
-            }
-            (currentActivity as ActivityPinPad).setStars(content)
+//            if (BaseDeviceActivity.currentActivity is ActivityPinPad) {
+//            } else {
+//                content = "PIN" + ": "
+//            }
+//            for (i in 0 until numOfAsterisk) {
+//                content += "*"
+//            }
+//            (BaseDeviceActivity.currentActivity as ActivityPinPad).setStars(content)
         }
 
         override fun onReturnDeviceInfo(p0: Hashtable<String, String>?) {
@@ -403,24 +400,24 @@ open class BaseDeviceActivity : AppCompatActivity() {
         }
 
         override fun onRequestProduceAudioTone(contactlessStatusTone: BBDeviceController.ContactlessStatusTone?) {
-           // setStatus("Contactless Status Tone : $contactlessStatusTone")
+            // setStatus("Contactless Status Tone : $contactlessStatusTone")
 
-            val audio = currentActivity.getSystemService(Context.AUDIO_SERVICE) as AudioManager
-            val mode = audio.mode
-            val currentVolume = audio.getStreamVolume(AudioManager.STREAM_MUSIC)
-            audio.setStreamVolume(AudioManager.STREAM_MUSIC, audio.getStreamMaxVolume(AudioManager.STREAM_MUSIC) * 3 / 4, 0)
-            audio.mode = AudioManager.MODE_NORMAL
-            if (contactlessStatusTone == BBDeviceController.ContactlessStatusTone.SUCCESS) {
-                MediaPlayer.create(baseContext, R.raw.beep_ace_success).start()
-            } else {
-                MediaPlayer.create(baseContext, R.raw.beep_ace_alert).start()
-            }
-
-            Handler().postDelayed({
-                // TODO Auto-generated method stub
-                audio.setStreamVolume(AudioManager.STREAM_MUSIC, currentVolume, 0)
-                audio.mode = mode
-            }, 500)
+//           val audio = currentActivity.getSystemService(Context.AUDIO_SERVICE) as AudioManager
+//            val mode = audio.mode
+//            val currentVolume = audio.getStreamVolume(AudioManager.STREAM_MUSIC)
+//            audio.setStreamVolume(AudioManager.STREAM_MUSIC, audio.getStreamMaxVolume(AudioManager.STREAM_MUSIC) * 3 / 4, 0)
+//            audio.mode = AudioManager.MODE_NORMAL
+////            if (contactlessStatusTone == BBDeviceController.ContactlessStatusTone.SUCCESS) {
+////                MediaPlayer.create(baseContext, R.raw.beep_ace_success).start()
+////            } else {
+////                MediaPlayer.create(baseContext, R.raw.beep_ace_alert).start()
+////            }
+//
+//            Handler().postDelayed({
+//                // TODO Auto-generated method stub
+//                audio.setStreamVolume(AudioManager.STREAM_MUSIC, currentVolume, 0)
+//                audio.mode = mode
+//            }, 500)
         }
 
         override fun onBTDisconnected() {
@@ -441,22 +438,22 @@ open class BaseDeviceActivity : AppCompatActivity() {
 
         override fun onWaitingForCard(cardMode: BBDeviceController.CheckCardMode?) {
             when (cardMode) {
-                CheckCardMode.INSERT -> {
+                BBDeviceController.CheckCardMode.INSERT -> {
                     toolbarTitle.value = "Please insert card"
                 }
-                CheckCardMode.SWIPE -> {
+                BBDeviceController.CheckCardMode.SWIPE -> {
                     toolbarTitle.value = "Please swipe card"
                 }
-                CheckCardMode.SWIPE_OR_INSERT -> {
+                BBDeviceController.CheckCardMode.SWIPE_OR_INSERT -> {
                     toolbarTitle.value = "Please swipe/insert card"
                 }
-                CheckCardMode.SWIPE_OR_TAP -> {
+                BBDeviceController.CheckCardMode.SWIPE_OR_TAP -> {
                     toolbarTitle.value = "Please swipe/tap card"
                 }
-                CheckCardMode.INSERT_OR_TAP -> {
+                BBDeviceController.CheckCardMode.INSERT_OR_TAP -> {
                     toolbarTitle.value = "Please inert/tap card"
                 }
-                CheckCardMode.SWIPE_OR_INSERT_OR_TAP -> {
+                BBDeviceController.CheckCardMode.SWIPE_OR_INSERT_OR_TAP -> {
                     toolbarTitle.value = "Please swipe/insert/tap card"
                 }
             }
@@ -470,7 +467,8 @@ open class BaseDeviceActivity : AppCompatActivity() {
         override fun onRequestPinEntry(pinEntrySource: BBDeviceController.PinEntrySource?) {
 
             if (pinEntrySource == BBDeviceController.PinEntrySource.SMARTPOS) {
-                pinButtonLayout = Hashtable()
+                  pinButtonLayout = Hashtable<String,Rect>()
+
 
                 pinButtonLayout["key1"] = Rect(50, 400, 255, 550)
                 pinButtonLayout["key2"] = Rect(265, 400, 470, 550)
@@ -495,17 +493,21 @@ open class BaseDeviceActivity : AppCompatActivity() {
         }
 
         override fun onReturnSetPinPadButtonsResult(p0: Boolean) {
-            finish()
-            val intent = Intent(currentActivity, ActivityPinPad::class.java)
-            intent.putExtra("amount",currentActivity.intent.getStringExtra("amount"))
-            intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
-            intent.flags = Intent.FLAG_ACTIVITY_NO_HISTORY
-            startActivity(intent)
+
+            onDestroy()
+
+            view!!.findNavController().navigate(R.id.pinPadFragment)
+//            finish()
+//            val intent = Intent(currentActivity, ActivityPinPad::class.java)
+//            intent.putExtra("amount", BaseDeviceActivity.currentActivity.intent.getStringExtra("amount"))
+//            intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
+//            intent.flags = Intent.FLAG_ACTIVITY_NO_HISTORY
+//            startActivity(intent)
 
         }
 
         override fun onReturnPinEntryResult(pinEntryResult: BBDeviceController.PinEntryResult?, data: Hashtable<String, String>) {
-            switchBackFromWisePOSPlusPin()
+//            switchBackFromWisePOSPlusPin()
 
             if (pinEntryResult == BBDeviceController.PinEntryResult.ENTERED) run {
                 if (data.containsKey("epb")) {
@@ -532,7 +534,7 @@ open class BaseDeviceActivity : AppCompatActivity() {
         override fun onReturnTransactionResult(result: BBDeviceController.TransactionResult?) {
 
             if (result == BBDeviceController.TransactionResult.APPROVED){
-                 onResult.value = true
+                onResult.value = true
             }
             stopConnection()
 
@@ -577,5 +579,4 @@ open class BaseDeviceActivity : AppCompatActivity() {
 
         }
     }
-
 }

@@ -1,15 +1,9 @@
 package com.xpayworld.payment.ui.transaction.processTransaction
 
-import android.app.ActionBar
 import android.app.Activity
-import android.graphics.Rect
 import android.os.Bundle
 import android.view.View
 import android.view.Window
-import androidx.appcompat.app.AppCompatActivity
-import com.xpayworld.payment.ui.base.kt.BaseActivity
-import java.util.*
-import kotlin.collections.HashMap
 
 
 interface PipadDelegate {
@@ -41,12 +35,9 @@ class ActivityPinPad : BaseDeviceActivity(), PipadDelegate {
                 or View.SYSTEM_UI_FLAG_FULLSCREEN // hide status bar
 
                 or View.SYSTEM_UI_FLAG_IMMERSIVE)
-        decorView.setSystemUiVisibility(uiOptions)
+        decorView.systemUiVisibility = uiOptions
 
-        val actionBar = getActionBar()
-        if (actionBar != null) {
-            actionBar!!.hide()
-        }
+        this.actionBar?.hide()
         wisePOSPlusPinPadView = WisePOSPlusPinPadView(applicationContext, pinButtonLayout)
 
         setContentView(wisePOSPlusPinPadView)

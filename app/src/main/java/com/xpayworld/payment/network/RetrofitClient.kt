@@ -19,11 +19,20 @@ class RetrofitClient {
                 .readTimeout(30, TimeUnit.SECONDS)
                 .addInterceptor(interceptor).build()
 
+        val unsafe = UnsafeOkHttpClient.unsafeOkHttpClient.newBuilder()
+                .connectTimeout(30,TimeUnit.SECONDS)
+                .writeTimeout(30, TimeUnit.SECONDS)
+                .readTimeout(30, TimeUnit.SECONDS)
+                .addInterceptor(interceptor).build()
         return Retrofit.Builder()
             .baseUrl(ApiConstants.API_HOST)
-
             .addConverterFactory(GsonConverterFactory.create())
-            .addCallAdapterFactory(RxJava2CallAdapterFactory.createWithScheduler(Schedulers.io())).client(okHttpClient)
+            .addCallAdapterFactory(RxJava2CallAdapterFactory.createWithScheduler(Schedulers.io())).client(unsafe)
             .build()
+
+
     }
+
+
+
 }
