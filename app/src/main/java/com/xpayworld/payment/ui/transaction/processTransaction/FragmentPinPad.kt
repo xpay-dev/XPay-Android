@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
-import com.xpayworld.payment.R
 
 class  FragmentPinPad : BaseDeviceFragment(){
 

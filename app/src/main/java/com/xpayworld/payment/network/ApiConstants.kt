@@ -18,6 +18,7 @@ class  ApiConstants {
         const val Login = Rest + "Login"
         const val Registration = Rest + "Registration"
         const val CreateTicket = Rest + "CreateTicket"
+        const val TransLookUp = Rest + "TransLookUp"
     }
 
 }
