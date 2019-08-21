@@ -2,37 +2,47 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+
     tools:context=".ui.transaction.DashboardActivity">
+
 
     <androidx.drawerlayout.widget.DrawerLayout
         android:id="@+id/drawer_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fitsSystemWindows="true"
         tools:openDrawer="start">
 
-        <LinearLayout
+        <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
+            >
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
             <com.google.android.material.appbar.AppBarLayout
                 android:id="@+id/appbar"
+                android:layout_marginTop="0dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:theme="@style/AppTheme.AppBarOverlay">
-
-                <include layout="@layout/toolbar_main" />
+                <include layout="@layout/toolbar_main"/>
             </com.google.android.material.appbar.AppBarLayout>
 
             <fragment
+
                 android:id="@+id/nav_host_fragment"
                 android:name="androidx.navigation.fragment.NavHostFragment"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:background="@drawable/bg"
                 app:defaultNavHost="true"
-                app:navGraph="@navigation/nav_graph" />
-        </LinearLayout>
+                app:navGraph="@navigation/nav_graph">
+
+            </fragment>
+            </LinearLayout>
+        </FrameLayout>
 
         <com.google.android.material.navigation.NavigationView
             android:id="@+id/navigation_view"
@@ -47,4 +57,5 @@
             app:itemTextColor="@color/white"
             app:menu="@menu/menu_main" />
     </androidx.drawerlayout.widget.DrawerLayout>
+
 </layout>

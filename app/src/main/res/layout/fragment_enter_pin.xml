@@ -8,18 +8,18 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
         <ImageView
             android:id="@+id/imgBackground"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:adjustViewBounds="true"
             android:scaleType="centerCrop"
+            android:src="@drawable/bg"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:src="@drawable/bg" />
+            app:layout_constraintTop_toTopOf="parent" />
+
         <ImageButton
             android:id="@+id/btnClear"
             style="?android:attr/borderlessButtonStyle"
@@ -250,7 +250,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/btn0"
-            app:layout_constraintVertical_bias="0.19999999" />
+            app:layout_constraintVertical_bias="0.32999998" />
 
         <TextView
             android:id="@+id/textView2"

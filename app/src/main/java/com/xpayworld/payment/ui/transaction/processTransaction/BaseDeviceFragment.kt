@@ -1,14 +1,14 @@
 package com.xpayworld.payment.ui.transaction.processTransaction
 
-import android.app.Activity
 import android.bluetooth.BluetoothDevice
 import android.content.Context
-import android.content.Intent
 import android.graphics.Rect
 import android.media.AudioManager
 import android.media.MediaPlayer
 import android.os.Bundle
 import android.os.Handler
+import android.view.View
+import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.MutableLiveData
 import androidx.navigation.findNavController
@@ -16,38 +16,39 @@ import com.bbpos.bbdevice.BBDeviceController
 import com.bbpos.bbdevice.CAPK
 import com.bbpos.bbdevice.ota.BBDeviceOTAController
 import com.xpayworld.payment.R
+import com.xpayworld.payment.ui.base.kt.BaseFragment
+import com.xpayworld.payment.ui.base.kt.MvpView
 import java.text.SimpleDateFormat
 import java.util.*
 
 
-open class BaseDeviceFragment : Fragment(){
+const val ARG_AMOUNT = "amount"
+abstract class BaseDeviceFragment : Fragment()  {
 
     companion object {
-
+        lateinit var navHostFragment : Fragment
+        lateinit var currentFragment : Fragment
+        lateinit var amountStr : String
         lateinit var pinButtonLayout: Hashtable<String, Rect>
     }
 
     internal var bbDeviceController: BBDeviceController? = null
     internal lateinit var otaController: BBDeviceOTAController
-     private var listener: MyBBdeviceControllerListener? = null
-
+    private var listener: MyBBdeviceControllerListener? = null
     val toolbarTitle: MutableLiveData<String> = MutableLiveData()
     val startAnimation: MutableLiveData<Boolean> = MutableLiveData()
-    val strAmount : MutableLiveData<String> = MutableLiveData()
     val onResult : MutableLiveData<Boolean> = MutableLiveData()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-//
-//        val f = activity!!.fragmentManager.findFragmentById(R.id.processTransactionLayout)
-//
-//        if (f is ProcessTransaction) {
-//
-//            print("this is process transaction fragment")
-//        }
+        arguments?.let {
+            amountStr = it.getString(ARG_AMOUNT).toString()
+        }
 
+        navHostFragment = activity!!.supportFragmentManager.findFragmentById(R.id.nav_host_fragment)!!
+        currentFragment = navHostFragment.childFragmentManager.fragments.get(0)
         startTransaction()
     }
 
@@ -55,10 +56,10 @@ open class BaseDeviceFragment : Fragment(){
         listener = MyBBdeviceControllerListener()
         bbDeviceController = BBDeviceController.getInstance(context, listener)
         BBDeviceController.setDebugLogEnabled(true)
-        toolbarTitle.value = "Initializing..."
 
         if (bbDeviceController!!.connectionMode == BBDeviceController.ConnectionMode.SERIAL) return
         bbDeviceController!!.startSerial()
+        toolbarTitle.value = "Initializing..."
     }
 
     private fun startEmv() {
@@ -84,7 +85,7 @@ open class BaseDeviceFragment : Fragment(){
         // Amount
         var currencyCharacters = listOf(BBDeviceController.CurrencyCharacter.P, BBDeviceController.CurrencyCharacter.H, BBDeviceController.CurrencyCharacter.P)
 
-        input.put("amount", "20000")
+        input.put("amount", amountStr)
         input.put("transactionType", BBDeviceController.TransactionType.GOODS)
         input.put("currencyCode", "604")
         bbDeviceController!!.setAmount(input)
@@ -372,15 +373,16 @@ open class BaseDeviceFragment : Fragment(){
         }
 
         override fun onRequestDisplayAsterisk(numOfAsterisk: Int) {
+
             var content = ""
-//            if (BaseDeviceActivity.currentActivity is ActivityPinPad) {
-//            } else {
-//                content = "PIN" + ": "
-//            }
-//            for (i in 0 until numOfAsterisk) {
-//                content += "*"
-//            }
-//            (BaseDeviceActivity.currentActivity as ActivityPinPad).setStars(content)
+            if (currentFragment is PinPadFragment) {
+            } else {
+                content = "PIN" + ": "
+            }
+            for (i in 0 until numOfAsterisk) {
+                content += "*"
+            }
+            (currentFragment as PinPadFragment).setStars(content)
         }
 
         override fun onReturnDeviceInfo(p0: Hashtable<String, String>?) {
@@ -400,24 +402,22 @@ open class BaseDeviceFragment : Fragment(){
         }
 
         override fun onRequestProduceAudioTone(contactlessStatusTone: BBDeviceController.ContactlessStatusTone?) {
-            // setStatus("Contactless Status Tone : $contactlessStatusTone")
+           val audio = activity!!.getSystemService(Context.AUDIO_SERVICE) as AudioManager
+            val mode = audio.mode
+            val currentVolume = audio.getStreamVolume(AudioManager.STREAM_MUSIC)
+            audio.setStreamVolume(AudioManager.STREAM_MUSIC, audio.getStreamMaxVolume(AudioManager.STREAM_MUSIC) * 3 / 4, 0)
+            audio.mode = AudioManager.MODE_NORMAL
+            if (contactlessStatusTone == BBDeviceController.ContactlessStatusTone.SUCCESS) {
+                MediaPlayer.create(activity, R.raw.beep_ace_success).start()
+            } else {
+                MediaPlayer.create(activity, R.raw.beep_ace_alert).start()
+            }
 
-//           val audio = currentActivity.getSystemService(Context.AUDIO_SERVICE) as AudioManager
-//            val mode = audio.mode
-//            val currentVolume = audio.getStreamVolume(AudioManager.STREAM_MUSIC)
-//            audio.setStreamVolume(AudioManager.STREAM_MUSIC, audio.getStreamMaxVolume(AudioManager.STREAM_MUSIC) * 3 / 4, 0)
-//            audio.mode = AudioManager.MODE_NORMAL
-////            if (contactlessStatusTone == BBDeviceController.ContactlessStatusTone.SUCCESS) {
-////                MediaPlayer.create(baseContext, R.raw.beep_ace_success).start()
-////            } else {
-////                MediaPlayer.create(baseContext, R.raw.beep_ace_alert).start()
-////            }
-//
-//            Handler().postDelayed({
-//                // TODO Auto-generated method stub
-//                audio.setStreamVolume(AudioManager.STREAM_MUSIC, currentVolume, 0)
-//                audio.mode = mode
-//            }, 500)
+            Handler().postDelayed({
+                // TODO Auto-generated method stub
+                audio.setStreamVolume(AudioManager.STREAM_MUSIC, currentVolume, 0)
+                audio.mode = mode
+            }, 500)
         }
 
         override fun onBTDisconnected() {
@@ -466,9 +466,9 @@ open class BaseDeviceFragment : Fragment(){
 
         override fun onRequestPinEntry(pinEntrySource: BBDeviceController.PinEntrySource?) {
 
-            if (pinEntrySource == BBDeviceController.PinEntrySource.SMARTPOS) {
-                  pinButtonLayout = Hashtable<String,Rect>()
 
+            if (pinEntrySource == BBDeviceController.PinEntrySource.SMARTPOS) {
+                pinButtonLayout = Hashtable()
 
                 pinButtonLayout["key1"] = Rect(50, 400, 255, 550)
                 pinButtonLayout["key2"] = Rect(265, 400, 470, 550)
@@ -493,21 +493,16 @@ open class BaseDeviceFragment : Fragment(){
         }
 
         override fun onReturnSetPinPadButtonsResult(p0: Boolean) {
-
-            onDestroy()
-
-            view!!.findNavController().navigate(R.id.pinPadFragment)
-//            finish()
-//            val intent = Intent(currentActivity, ActivityPinPad::class.java)
-//            intent.putExtra("amount", BaseDeviceActivity.currentActivity.intent.getStringExtra("amount"))
-//            intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
-//            intent.flags = Intent.FLAG_ACTIVITY_NO_HISTORY
-//            startActivity(intent)
-
+            val direction = ProcessTransactionFragmentDirections.actionProcessTransactionToPinPadFragment(amountStr)
+            view!!.findNavController().navigate(direction)
         }
 
         override fun onReturnPinEntryResult(pinEntryResult: BBDeviceController.PinEntryResult?, data: Hashtable<String, String>) {
-//            switchBackFromWisePOSPlusPin()
+
+            if (currentFragment is PinPadFragment){
+                val direction = PinPadFragmentDirections.actionPinPadFragmentToProcessTransaction(amountStr)
+                view!!.findNavController().navigate(direction)
+            }
 
             if (pinEntryResult == BBDeviceController.PinEntryResult.ENTERED) run {
                 if (data.containsKey("epb")) {
@@ -563,7 +558,8 @@ open class BaseDeviceFragment : Fragment(){
 
         }
 
-        override fun onError(p0: BBDeviceController.Error?, p1: String?) {
+        override fun onError(p0: BBDeviceController.Error?, errorStr: String?) {
+            toolbarTitle.value = errorStr
 
         }
 

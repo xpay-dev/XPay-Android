@@ -2,11 +2,10 @@ package com.xpayworld.payment.network.transLookUp
 
 
 import com.xpayworld.payment.network.ApiConstants
-import com.xpayworld.payment.network.PosWsResponse
 import com.xpayworld.payment.network.TransactionResponse
 import io.reactivex.Observable
 
-import retrofit2.Call
+
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.Headers

@@ -10,6 +10,10 @@ import androidx.navigation.findNavController
 import com.xpayworld.payment.ui.transaction.DrawerLocker
 
 class ReceiptFragment : BaseFragment() {
+    private fun bindView() {
+
+    }
+
     override fun getLayout(): Int {
         return R.layout.fragment_receipt
     }
@@ -31,12 +35,11 @@ class ReceiptFragment : BaseFragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.receipt_item_done -> {
-                activity?.finish()
-//             view!!.findNavController().navigate(R.id.action_receiptFragment_to_transactionFragment)
-//                (activity as DrawerLocker).drawerEnabled(true)
+                val direction = ReceiptFragmentDirections.actionReceiptFragmentToTransactionFragment("")
+                 view!!.findNavController().navigate(direction)
+                (activity as DrawerLocker).drawerEnabled(true)
             }
         }
-
         return false
     }
 }

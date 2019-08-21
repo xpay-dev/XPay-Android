@@ -29,8 +29,6 @@ class EnterAmountViewModel : ViewModel(){
     init {
         displayAmount.value = "0.00"
         transTypeSetResource.value = listOf(R.drawable.tab_indenticator,R.drawable.tab_indenticator_clear)
-
-
     }
 
     override fun onCleared() {
@@ -45,7 +43,7 @@ class EnterAmountViewModel : ViewModel(){
 
     private fun onClickOk (v:  View){
         if (amountStr.isEmpty()) return
-        val direcetion = EnterAmountFragmentDirections.actionEnterAmountFragmentToProcessTranactionActivity()
+        val direcetion = EnterAmountFragmentDirections.actionEnterAmountFragmentToProcessTranactionFragment(amountStr)
         v.findNavController().navigate(direcetion)
  }
 

@@ -4,6 +4,9 @@ import java.text.DecimalFormat
 
 fun formattedAmount(amount : String) : String {
     var formatedAmount = ""
+
+    if (amount == "") {return  "0.00"}
+
     val len = amount.length
     val df = DecimalFormat("###,###,##0.00")
     if (len in 1..8) {

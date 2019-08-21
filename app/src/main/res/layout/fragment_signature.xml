@@ -30,8 +30,8 @@
             android:text="PHP"
             android:textColor="@android:color/black"
             android:textSize="@dimen/text_txn_currency"
-            app:layout_constraintBaseline_toBaselineOf="@+id/textView30"
-            app:layout_constraintEnd_toStartOf="@+id/textView30" />
+            app:layout_constraintBaseline_toBaselineOf="@+id/tvAmount"
+            app:layout_constraintEnd_toStartOf="@+id/tvAmount" />
 
         <TextView
             android:id="@+id/textView29"
@@ -52,7 +52,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/textView30"
+            android:id="@+id/tvAmount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
@@ -75,7 +75,7 @@
             android:src="@drawable/ic_master_card"
             app:layout_constraintEnd_toEndOf="@+id/textView29"
             app:layout_constraintStart_toStartOf="@+id/textView29"
-            app:layout_constraintTop_toBottomOf="@+id/textView30" />
+            app:layout_constraintTop_toBottomOf="@+id/tvAmount" />
 
         <Button
             android:id="@+id/btnClear"

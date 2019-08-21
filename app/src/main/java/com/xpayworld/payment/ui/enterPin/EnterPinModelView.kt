@@ -75,7 +75,7 @@ class EnterPinModelView : ViewModel() {
                 .subscribe(
                         { result ->
                             toolbarVisibility.value = true
-                            val direction = EnterPinFragmentDirections.actionEnterPinFragmentToTransactionFragment()
+                            val direction = EnterPinFragmentDirections.actionEnterPinFragmentToTransactionFragment("")
                             v.findNavController().navigate(direction)
 
 //                            if (!result.isSuccessful) {

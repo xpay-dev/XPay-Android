@@ -36,6 +36,7 @@ abstract class BaseFragment : Fragment(), MvpView {
         dialog = CustomDialog(context!!)
     }
 
+
     override fun onAttach(context: Context) {
         super.onAttach(context)
         if (context is BaseActivity) {
@@ -75,7 +76,6 @@ abstract class BaseFragment : Fragment(), MvpView {
 
     @LayoutRes
     abstract fun getLayout(): Int
-
     abstract fun initView(view: View , container: ViewGroup?)
 
 }
