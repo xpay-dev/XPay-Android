@@ -14,7 +14,7 @@ import io.reactivex.disposables.Disposable
 
 
 
-class EnterAmountViewModel : ViewModel(){
+class EnterAmountViewModel(amount : String) : ViewModel(){
 
     val numpadClickListener = View.OnClickListener {onClickNumpad(it)}
     val displayAmount : MutableLiveData<String> = MutableLiveData()
@@ -28,12 +28,13 @@ class EnterAmountViewModel : ViewModel(){
 
     init {
         displayAmount.value = "0.00"
+        amountStr= amount
         transTypeSetResource.value = listOf(R.drawable.tab_indenticator,R.drawable.tab_indenticator_clear)
     }
 
     override fun onCleared() {
         super.onCleared()
-     //   subscription.dispose()
+       subscription.dispose()
     }
 
     private fun onClickClear (v: View) {

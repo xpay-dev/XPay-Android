@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import com.xpayworld.payment.R
 import com.xpayworld.payment.ui.base.kt.BaseFragment
@@ -32,9 +33,6 @@ class EnterAmountFragment : BaseFragment() {
         }
     }
 
-    private fun bindView(){
-        tvAmount.text = formattedAmount(amountStr)
-    }
 
     override fun initView(view: View,container: ViewGroup?) {
         // Initialized view
@@ -43,7 +41,7 @@ class EnterAmountFragment : BaseFragment() {
         // Numpad Button
         // Numpad Button Image
 
-        viewModel= ViewModelProviders.of(activity!!).get(EnterAmountViewModel::class.java)
+        viewModel= ViewModelProviders.of(this , EnterAmountViewModelFactory(amountStr)).get(EnterAmountViewModel::class.java)
         numpad = listOf(btn1, btn2, btn3, btn4, btn5, btn6, btn7, btn8, btn9, btn0)
 
         // Input
@@ -72,8 +70,8 @@ class EnterAmountFragment : BaseFragment() {
 
     override fun onResume() {
         super.onResume()
-        bindView()
     }
+
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
