@@ -25,8 +25,7 @@ class ProcessTransactionFragment : BaseDeviceFragment()  {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        tvAmount.text = amountStr?.let { formattedAmount(it) }
-        (activity as DrawerLocker).drawerEnabled(false)
+        tvAmount.text = amountStr?.let { formattedAmount(it)}
 
         startAnimation.observe(this , Observer {
             if (it) imageProcess().start() else imageProcess().stop()
@@ -36,20 +35,30 @@ class ProcessTransactionFragment : BaseDeviceFragment()  {
             (activity as ToolbarDelegate).setTitle(it)
         })
 
+        cancelVisibility.observe(this , Observer {
+            btnCancel.visibility = it
+        })
+
         onResult.observe(this , Observer {
-           val direction  = ProcessTransactionFragmentDirections.actionProcessTransactionToSignatureFragment(amountStr)
+           val direction = ProcessTransactionFragmentDirections.actionProcessTransactionToSignatureFragment(amountStr)
             if (it) view.findNavController().navigate(direction)
         })
+
+        btnCancel.setOnClickListener {
+            stopConnection()
+            view.findNavController().popBackStack()
+        }
     }
 
     private fun imageProcess(): AnimationDrawable{
         val img = view!!.findViewById<ImageView>(R.id.imgProcess)
-      return  img?.drawable as AnimationDrawable
-
+       return  img?.drawable as AnimationDrawable
     }
 
     override fun onResume() {
         super.onResume()
+
+        (activity as DrawerLocker).drawerEnabled(false)
         (activity as AppCompatActivity).supportActionBar?.show()
     }
 }

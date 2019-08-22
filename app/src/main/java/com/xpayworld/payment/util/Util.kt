@@ -5,7 +5,7 @@ import java.text.DecimalFormat
 fun formattedAmount(amount : String) : String {
     var formatedAmount = ""
 
-    if (amount == "") {return  "0.00"}
+    if (amount == "" || amount.run { isNullOrBlank() }) {return  "0.00"}
 
     val len = amount.length
     val df = DecimalFormat("###,###,##0.00")

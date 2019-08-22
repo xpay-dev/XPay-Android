@@ -46,9 +46,6 @@ class ActivationViewModel : ViewModel() {
         pos.rToken = ""
         pos.systemMode = "Live"
 
-
-
-
         val activate = Activation()
         activate.imei = ""
         activate.ip = ""
@@ -68,14 +65,14 @@ class ActivationViewModel : ViewModel() {
                                 return@subscribe
                             }
 
-                            val hasError = result?.body()?.errNumber == "00"
+                            val hasError = result?.body()?.errNumber != "00"
 
                             if (hasError) {
 
                                 apiError.value = hasError
                                 Handler().postDelayed({
                                     apiError.value = !hasError
-                                }, 3500)
+                                }, 3000)
 
                             } else {
 

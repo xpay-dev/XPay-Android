@@ -8,7 +8,6 @@ import android.media.MediaPlayer
 import android.os.Bundle
 import android.os.Handler
 import android.view.View
-import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.MutableLiveData
 import androidx.navigation.findNavController
@@ -16,8 +15,6 @@ import com.bbpos.bbdevice.BBDeviceController
 import com.bbpos.bbdevice.CAPK
 import com.bbpos.bbdevice.ota.BBDeviceOTAController
 import com.xpayworld.payment.R
-import com.xpayworld.payment.ui.base.kt.BaseFragment
-import com.xpayworld.payment.ui.base.kt.MvpView
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -38,6 +35,7 @@ abstract class BaseDeviceFragment : Fragment()  {
     val toolbarTitle: MutableLiveData<String> = MutableLiveData()
     val startAnimation: MutableLiveData<Boolean> = MutableLiveData()
     val onResult : MutableLiveData<Boolean> = MutableLiveData()
+    val cancelVisibility : MutableLiveData<Int> = MutableLiveData()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -48,7 +46,7 @@ abstract class BaseDeviceFragment : Fragment()  {
         }
 
         navHostFragment = activity!!.supportFragmentManager.findFragmentById(R.id.nav_host_fragment)!!
-        currentFragment = navHostFragment.childFragmentManager.fragments.get(0)
+        currentFragment = navHostFragment.childFragmentManager.fragments[0]
         startTransaction()
     }
 
@@ -57,8 +55,11 @@ abstract class BaseDeviceFragment : Fragment()  {
         bbDeviceController = BBDeviceController.getInstance(context, listener)
         BBDeviceController.setDebugLogEnabled(true)
 
+        cancelVisibility.value = View.INVISIBLE
+
         if (bbDeviceController!!.connectionMode == BBDeviceController.ConnectionMode.SERIAL) return
         bbDeviceController!!.startSerial()
+        cancelVisibility.value = View.VISIBLE
         toolbarTitle.value = "Initializing..."
     }
 
@@ -465,7 +466,7 @@ abstract class BaseDeviceFragment : Fragment()  {
         }
 
         override fun onRequestPinEntry(pinEntrySource: BBDeviceController.PinEntrySource?) {
-
+            cancelVisibility.value = View.INVISIBLE
 
             if (pinEntrySource == BBDeviceController.PinEntrySource.SMARTPOS) {
                 pinButtonLayout = Hashtable()
@@ -493,6 +494,7 @@ abstract class BaseDeviceFragment : Fragment()  {
         }
 
         override fun onReturnSetPinPadButtonsResult(p0: Boolean) {
+
             val direction = ProcessTransactionFragmentDirections.actionProcessTransactionToPinPadFragment(amountStr)
             view!!.findNavController().navigate(direction)
         }
@@ -500,8 +502,10 @@ abstract class BaseDeviceFragment : Fragment()  {
         override fun onReturnPinEntryResult(pinEntryResult: BBDeviceController.PinEntryResult?, data: Hashtable<String, String>) {
 
             if (currentFragment is PinPadFragment){
+
                 val direction = PinPadFragmentDirections.actionPinPadFragmentToProcessTransaction(amountStr)
                 view!!.findNavController().navigate(direction)
+
             }
 
             if (pinEntryResult == BBDeviceController.PinEntryResult.ENTERED) run {
@@ -524,6 +528,8 @@ abstract class BaseDeviceFragment : Fragment()  {
             } else if (pinEntryResult == BBDeviceController.PinEntryResult.TIMEOUT) {
 
             }
+            cancelVisibility.value = View.INVISIBLE
+
         }
 
         override fun onReturnTransactionResult(result: BBDeviceController.TransactionResult?) {
