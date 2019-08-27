@@ -16,7 +16,6 @@ class Login {
     @SerializedName("Username")
      var userName = ""
 
-
-    @SerializedName("PosWsRequest")
+    @SerializedName("POSWSRequest")
      var posWsRequest: PosWsRequest? = null
 }

@@ -2,7 +2,6 @@ package com.xpayworld.payment.network.activateApp
 
 
 import com.xpayworld.payment.network.ApiConstants
-import com.xpayworld.payment.network.PosWsResponse
 import io.reactivex.Single
 import retrofit2.Response
 import retrofit2.http.Body
@@ -14,5 +13,5 @@ interface  ActivationApi {
             ApiConstants.Charset,
             ApiConstants.Content)
     @POST(ApiConstants.ActivateApp)
-   fun activation(@Body activate : Activation) : Single<Response<PosWsResponse>>
+   fun activation(@Body activate : PosInfo) : Single<Response<ActivateAppResult>>
 }

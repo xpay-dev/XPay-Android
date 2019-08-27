@@ -4,21 +4,33 @@ package com.xpayworld.payment.network
 
 class  ApiConstants {
 
-
     companion object {
-        private const val Rest = "Rest/"
         const val Content = "Content-Type: text/json"
         const val Charset = "Accept-Charset: utf-8"
-        const val ActivateApp = Rest + "ActivateApp"
-        const val API_HOST_  = "https://mondepay.com/PosService/POSWebserviceJSON.svc/"
-        const val API_HOST= "https://ph.veritaspay.com/paymayav2/webservice/POSWebServiceJSON.svc/"
-      //  http://13.250.116.190:95/POSWebserviceJSON.svc
-        const val EmailReceipt = Rest + "EmailReceipt"
-        const val ForgotMobilePin = Rest + "ForgotMobilePin"
-        const val Login = Rest + "Login"
-        const val Registration = Rest + "Registration"
-        const val CreateTicket = Rest + "CreateTicket"
-        const val TransLookUp = Rest + "TransLookUp"
+        const val ActivateApp =  "activateapp"
+        const val API_HOST  = "http://mondepay.com/PosService/POSWebserviceJSON.svc/"
+        const val API_HOST_= "https://ph.veritaspay.com/paymayav2/webservice/POSWebServiceJSON.svc/"
+      // http://13.250.116.190:95/POSWebserviceJSON.svc
+        const val EmailReceipt = "EmailReceipt"
+        const val ForgotMobilePin = "ForgotMobilePin"
+        const val Login = "login"
+        const val Registration = "Registration"
+        const val CreateTicket = "CreateTicket"
+
+        //TRANSACTION API
+
+        const val TransCreditEMV =  "TransactionPurchaseCreditEMV"
+        const val TransCreditSWIPE =  "TransactionPurchaseCreditSwipe"
+        const val TransRefund =  "CreditTransactionRefund"
+        const val TransVoid = "CreditTransactionVoid"
+
+        const val TransDebit =  "TransactionPurchaseDebit"
+        const val BalncInquiry =  "DebitBalanceInquiry"
+        const val TransLookUp =  "TransLookUp"
+        const val TransSign =  "TransSignatureCapture"
+        const val TransVoidReason =  "TransactionVoidReason"
+        const val UpdateApp =  "UpdateApp"
+
     }
 
 }

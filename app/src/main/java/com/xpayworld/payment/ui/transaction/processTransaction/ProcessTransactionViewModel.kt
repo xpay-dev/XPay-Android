@@ -5,8 +5,8 @@ import androidx.lifecycle.ViewModel
 
 class ProcessTransactionViewModel : ViewModel(){
 
-    val imgProcess : MutableLiveData<Boolean> = MutableLiveData()
+    val startAnimation : MutableLiveData<Boolean> = MutableLiveData()
 
-
-
+    val onProcessTransaction : MutableLiveData<String> = MutableLiveData()
+    
 }

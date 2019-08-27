@@ -14,6 +14,21 @@ import com.xpayworld.payment.ui.transaction.DrawerLocker
 import com.xpayworld.payment.util.CustomDialog
 import kotlinx.android.synthetic.main.fragment_activation_code.*
 
+import androidx.core.content.ContextCompat.getSystemService
+import android.telephony.TelephonyManager
+import android.content.Context
+import androidx.core.content.ContextCompat.getSystemService
+import androidx.fragment.app.viewModels
+import com.xpayworld.payment.network.PosWsRequest
+import com.xpayworld.payment.network.activateApp.Activation
+import com.xpayworld.payment.network.activateApp.PosInfo
+import com.xpayworld.payment.util.InjectorUtil
+import androidx.core.content.ContextCompat.getSystemService
+import androidx.lifecycle.ViewModel
+import androidx.navigation.fragment.findNavController
+import com.xpayworld.payment.util.SharedPrefStorage
+import com.xpayworld.payment.util.getDeviceIMEI
+
 
 class ActivationFragment : BaseFragment() {
 
@@ -23,17 +38,20 @@ class ActivationFragment : BaseFragment() {
 
     var edtextList = listOf<EditText>()
     var strCode = ""
-    lateinit var viewModel : ActivationViewModel
 
+    var posInfo = PosInfo()
+    private val viewModel: ActivationViewModel by viewModels {
+         InjectorUtil.provideActivationViewModelFactor(requireActivity())
+     }
     override fun initView(view: View, container: ViewGroup?) {
 
         edtextList = listOf(edtext1, edtext2, edtext3, edtext4)
         edtextList.forEach { it.addTextChangedListener(onChangedEditText()) }
 
-        viewModel = ViewModelProviders.of(activity!!).get(ActivationViewModel::class.java)
 
-        btnActivate.setOnClickListener(viewModel.activateClickListener)
-
+        btnActivate.setOnClickListener{
+            viewModel.processActivation(strCode)
+        }
 
         viewModel.loadingVisibility.observe(this, Observer{
             isShow -> if (isShow == true) showProgress() else hideProgress()
@@ -52,6 +70,13 @@ class ActivationFragment : BaseFragment() {
         })
         viewModel.networkError.observe(this, Observer {
             CustomDialog(context!!).onError().show()
+        })
+
+        viewModel.navigateToEnterPin.observe(this , Observer {
+            val sharedPref = context.let { SharedPrefStorage(it!!) }
+            sharedPref.writeMessage("activationKey",it)
+            val direction = ActivationFragmentDirections.actionActiviationFragmentToEnterPinFragment()
+            findNavController().navigate(direction)
         })
 
 
@@ -80,6 +105,9 @@ class ActivationFragment : BaseFragment() {
             }
 
             btnActivate.isEnabled = strCode.length == 16
+
+
+
         }
     }
 

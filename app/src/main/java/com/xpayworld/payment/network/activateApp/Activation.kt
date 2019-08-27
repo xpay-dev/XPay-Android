@@ -1,7 +1,13 @@
 package com.xpayworld.payment.network.activateApp
 
+import android.content.Context
 import com.google.gson.annotations.SerializedName
 import com.xpayworld.payment.network.PosWsRequest
+import android.content.Context.TELEPHONY_SERVICE
+import androidx.core.content.ContextCompat.getSystemService
+import android.telephony.TelephonyManager
+
+
 
 class Activation{
 
@@ -20,14 +26,15 @@ class Activation{
     @SerializedName("OS")
      var os: String? = null
 
-    @SerializedName("PosWsRequest")
+    @SerializedName("POSWSRequest")
      var posWsRequest: PosWsRequest? = null
 
     @SerializedName("PhoneNumber")
      var phoneNumber: String? = null
 
     @SerializedName("Platform")
-     var platform: String? = null
+     var platform = "Android"
     @SerializedName("PosType")
-     var postType: String? = null
+     var postType = "BBPOS"
+
 }

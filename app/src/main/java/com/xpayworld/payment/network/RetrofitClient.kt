@@ -27,12 +27,7 @@ class RetrofitClient {
         return Retrofit.Builder()
             .baseUrl(ApiConstants.API_HOST)
             .addConverterFactory(GsonConverterFactory.create())
-            .addCallAdapterFactory(RxJava2CallAdapterFactory.createWithScheduler(Schedulers.io())).client(unsafe)
+            .addCallAdapterFactory(RxJava2CallAdapterFactory.createWithScheduler(Schedulers.io())).client(okHttpClient)
             .build()
-
-
     }
-
-
-
 }
