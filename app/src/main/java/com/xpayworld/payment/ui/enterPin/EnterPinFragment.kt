@@ -14,8 +14,10 @@ import com.xpayworld.payment.util.SharedPrefStorage
 
 import kotlinx.android.synthetic.main.fragment_enter_pin.*
 import androidx.lifecycle.Observer
+import androidx.navigation.findNavController
 import com.xpayworld.payment.network.transaction.PaymentType
 import com.xpayworld.payment.network.transaction.TransactionPurchase
+import kotlinx.android.synthetic.*
 
 class EnterPinFragment : BaseFragment() {
 
@@ -27,7 +29,7 @@ class EnterPinFragment : BaseFragment() {
         return R.layout.fragment_enter_pin
     }
 
-    override fun initView(view: View,container: ViewGroup?) {
+    override fun initView(view: View, container: ViewGroup?) {
         viewModel = ViewModelProviders.of(activity!!).get(EnterPinModelView::class.java)
 
         // Input
@@ -37,8 +39,8 @@ class EnterPinFragment : BaseFragment() {
         btnSubmit.setOnClickListener(viewModel.sumbitClickListener)
         btnClear.setOnClickListener(viewModel.clearClickListener)
 
-        var paymentType : PaymentType = PaymentType.DEBIT(PaymentType.DebitTransaction.SALE ,TransactionPurchase.AccountType.SAVINGS)
-        when(paymentType){
+        var paymentType: PaymentType = PaymentType.DEBIT(PaymentType.DebitTransaction.SALE, TransactionPurchase.AccountType.SAVINGS)
+        when (paymentType) {
             is PaymentType.DEBIT -> {
                 paymentType.debit.stringValue
                 paymentType.accountType
@@ -60,15 +62,15 @@ class EnterPinFragment : BaseFragment() {
         viewModel.apiError.observe(this, Observer { it ->
             if (it) {
                 val shake = AnimationUtils.loadAnimation(context!!, R.anim.pin_shake)
-                     pinCodeImgArr.forEach {
+                pinCodeImgArr.forEach {
                     it.startAnimation(shake)
-                    }
                 }
+            }
+        })
+        viewModel.networkError.observe(this, Observer {
+            showNetworkError()
         })
 
-        viewModel.networkError.observe(this, Observer {
-                     showNetworkError()
-        })
     }
 
     private fun shouldCheckActivationKey() {
@@ -79,7 +81,7 @@ class EnterPinFragment : BaseFragment() {
     }
 
     private fun shouldUpdateCodeImage(pinCode: String) {
-        for (x in 0 until pinCodeImgArr.size) {
+        for (x in 0 until  pinCodeImgArr.size) {
             val img = if (pinCode.length >= x + 1) R.drawable.ic_pin_cirlce_dot else R.drawable.ic_pin_circle
             pinCodeImgArr[x].setBackgroundResource(img)
         }

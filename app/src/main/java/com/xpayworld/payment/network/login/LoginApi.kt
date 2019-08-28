@@ -15,5 +15,5 @@ interface  LoginApi {
             ApiConstants.Charset,
             ApiConstants.Content)
     @POST(ApiConstants.Login)
-    fun login(@Body login : Login) : Observable<Response<PosWsResponse>>
+    fun login(@Body login : LoginRequest) : Observable<Response<LoginResult>>
 }

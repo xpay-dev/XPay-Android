@@ -6,10 +6,12 @@ import android.widget.Button
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import com.xpayworld.payment.network.PosWsRequest
 import com.xpayworld.payment.network.RetrofitClient
 import com.xpayworld.payment.network.login.Login
 import com.xpayworld.payment.network.login.LoginApi
+import com.xpayworld.payment.network.login.LoginRequest
 import com.xpayworld.payment.ui.activation.ActivationFragmentDirections
 import com.xpayworld.payment.util.SharedPrefStorage
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -51,7 +53,6 @@ class EnterPinModelView : ViewModel() {
 
     private fun onClickSubmit(v: View) {
 
-
         val api = RetrofitClient().getRetrofit().create(LoginApi::class.java)
 
         val pos = PosWsRequest()
@@ -63,45 +64,44 @@ class EnterPinModelView : ViewModel() {
         val login = Login()
         login.appVersion = ""
         login.password = ""
-        login.pin = ""
+        login.pin = pinCode.value!!
         login.userName = ""
         login.posWsRequest = pos
 
-        subscription = api.login(login)
+        val request = LoginRequest()
+        request.request = login
+
+        subscription = api.login(request)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe { loadingVisibility.value = true }
                 .doAfterTerminate { loadingVisibility.value = false }
                 .subscribe(
                         { result ->
-                            toolbarVisibility.value = true
-                            val direction = EnterPinFragmentDirections.actionEnterPinFragmentToTransactionFragment("")
-                            v.findNavController().navigate(direction)
 
-//                            if (!result.isSuccessful) {
-//                                networkError.value = "Server Error ${result.code()}"
-//                                pinCode.value = ""
-//                                return@subscribe
-//                            }
+                            if (!result.isSuccessful) {
+                                networkError.value = "Server Error ${result.code()}"
+                                pinCode.value = ""
+                                return@subscribe
+                            }
 
-                            val hasError = result?.body()?.errNumber == "00"
+                            val hasError = result?.body()?.result?.errNumber != "00"
                             if (hasError) {
                                 apiError.value = hasError
-                            } else {
-//                                toolbarVisibility.value = true
-//                                val direction = EnterPinFragmentDirections.actionEnterPinFragmentToTransactionFragment()
-//                                v.findNavController().navigate(direction)
+                            }
+
+                            else {
+                                toolbarVisibility.value = true
+                                val direction = EnterPinFragmentDirections.actionEnterPinFragmentToTransactionFragment("")
+                                v.findNavController().navigate(direction)
                             }
                         },
-
                         {
                             pinCode.value = ""
                             networkError.value = "Network Error"
                         }
                 )
-
     }
-
 }
 
 

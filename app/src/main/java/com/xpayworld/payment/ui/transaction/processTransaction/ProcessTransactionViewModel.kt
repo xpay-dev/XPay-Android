@@ -8,5 +8,5 @@ class ProcessTransactionViewModel : ViewModel(){
     val startAnimation : MutableLiveData<Boolean> = MutableLiveData()
 
     val onProcessTransaction : MutableLiveData<String> = MutableLiveData()
-    
+
 }

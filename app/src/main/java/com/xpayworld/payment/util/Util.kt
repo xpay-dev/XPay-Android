@@ -1,5 +1,13 @@
 package com.xpayworld.payment.util
 
+import android.Manifest
+import android.annotation.SuppressLint
+import android.app.Activity
+import android.content.Context
+import android.content.pm.PackageManager
+import android.os.Build
+import android.telephony.TelephonyManager
+import androidx.core.app.ActivityCompat
 import java.text.DecimalFormat
 
 fun formattedAmount(amount : String) : String {
@@ -16,4 +24,26 @@ fun formattedAmount(amount : String) : String {
         formatedAmount = "0.00"
     }
     return formatedAmount
+}
+
+@SuppressLint("HardwareIds")
+fun getDeviceIMEI(activity: Activity): String? {
+    var deviceUniqueIdentifier: String? = null
+    val tm = activity.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
+
+
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+        if (ActivityCompat.checkSelfPermission(activity, Manifest.permission.READ_PHONE_STATE) == PackageManager.PERMISSION_GRANTED) {
+         //   imei = ((TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE)).getDeviceId();
+        }
+    } else {
+      //  imei = ((TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE)).getDeviceId();
+    }
+    if (ActivityCompat.checkSelfPermission(activity, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED)
+        ActivityCompat.requestPermissions(activity, arrayOf(Manifest.permission.READ_PHONE_STATE), 1)
+    else
+//        deviceUniqueIdentifier = tm.deviceId
+    if (null == deviceUniqueIdentifier || 0 == deviceUniqueIdentifier.length)
+        deviceUniqueIdentifier = "0"
+    return deviceUniqueIdentifier
 }
