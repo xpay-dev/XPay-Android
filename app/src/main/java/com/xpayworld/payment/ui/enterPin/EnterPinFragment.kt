@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import android.widget.Button
 import android.widget.ImageView
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import com.xpayworld.payment.R
@@ -14,38 +15,33 @@ import com.xpayworld.payment.util.SharedPrefStorage
 
 import kotlinx.android.synthetic.main.fragment_enter_pin.*
 import androidx.lifecycle.Observer
-import androidx.navigation.findNavController
 import com.xpayworld.payment.network.transaction.PaymentType
 import com.xpayworld.payment.network.transaction.TransactionPurchase
-import kotlinx.android.synthetic.*
+import com.xpayworld.payment.ui.activation.ActivationViewModel
+import com.xpayworld.payment.util.InjectorUtil
 
 class EnterPinFragment : BaseFragment() {
 
     var numpad = listOf<Button>()
     var pinCodeImgArr = listOf<ImageView>()
-    private lateinit var viewModel: EnterPinModelView
+
+    private val viewModel: EnterPinViewModel by viewModels {
+        InjectorUtil.provideEnterPinViewModelFactory(requireContext())
+    }
 
     override fun getLayout(): Int {
         return R.layout.fragment_enter_pin
     }
 
     override fun initView(view: View, container: ViewGroup?) {
-        viewModel = ViewModelProviders.of(activity!!).get(EnterPinModelView::class.java)
-
         // Input
         pinCodeImgArr = listOf(img1, img2, img3, img4)
         numpad = listOf(btn1, btn2, btn3, btn4, btn5, btn6, btn7, btn8, btn9, btn0)
         numpad.forEach { it.setOnClickListener(viewModel.numpadClickListener) }
-        btnSubmit.setOnClickListener(viewModel.sumbitClickListener)
+
         btnClear.setOnClickListener(viewModel.clearClickListener)
-
-        var paymentType: PaymentType = PaymentType.DEBIT(PaymentType.DebitTransaction.SALE, TransactionPurchase.AccountType.SAVINGS)
-        when (paymentType) {
-            is PaymentType.DEBIT -> {
-                paymentType.debit.stringValue
-                paymentType.accountType
-            }
-
+        btnSubmit.setOnClickListener {
+            viewModel.processEnterPin()
         }
 
         shouldCheckActivationKey()
@@ -69,6 +65,11 @@ class EnterPinFragment : BaseFragment() {
         })
         viewModel.networkError.observe(this, Observer {
             showNetworkError()
+        })
+
+        viewModel.navigateToEnterAmount.observe(this , Observer {
+            val direction = EnterPinFragmentDirections.actionEnterPinFragmentToTransactionFragment(it)
+           findNavController().navigate(direction)
         })
 
     }

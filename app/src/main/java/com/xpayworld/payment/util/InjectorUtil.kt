@@ -12,7 +12,8 @@ import androidx.core.app.ActivityCompat
 import android.content.pm.PackageManager
 import android.telephony.TelephonyManager
 import android.annotation.SuppressLint
-
+import com.xpayworld.payment.ui.enterPin.EnterPinModelViewModelFactory
+import com.xpayworld.payment.ui.enterPin.EnterPinViewModel
 
 
 object InjectorUtil  {
@@ -21,11 +22,15 @@ object InjectorUtil  {
         return  CustomDialog(context!!)
     }
 
+    fun provideEnterPinViewModelFactory(context: Context) :  EnterPinModelViewModelFactory{
+        return  EnterPinModelViewModelFactory(context)
+    }
+
     fun provideEnterAmountViewModelFactory(amount : String): EnterAmountViewModelFactory{
         return EnterAmountViewModelFactory(amount)
     }
-    fun provideActivationViewModelFactor(activity: Activity): ActivationViewModelFactory{
-        return  ActivationViewModelFactory(activity)
+    fun provideActivationViewModelFactor(context: Context): ActivationViewModelFactory{
+        return  ActivationViewModelFactory(context)
     }
 
 

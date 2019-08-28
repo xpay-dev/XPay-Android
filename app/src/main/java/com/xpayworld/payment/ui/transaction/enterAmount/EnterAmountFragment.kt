@@ -10,6 +10,8 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import com.xpayworld.payment.R
+import com.xpayworld.payment.network.transaction.PaymentType
+import com.xpayworld.payment.network.transaction.TransactionPurchase
 import com.xpayworld.payment.ui.base.kt.BaseFragment
 import com.xpayworld.payment.ui.transaction.DrawerLocker
 import com.xpayworld.payment.ui.transaction.processTransaction.ARG_AMOUNT
@@ -51,6 +53,15 @@ class EnterAmountFragment : BaseFragment() {
         btnDebit.setOnClickListener  (viewModel.transTypeClickListener)
         btnClear.setOnClickListener(viewModel.clearClickListener)
         btnOk.setOnClickListener(viewModel.okClickListener)
+
+        var paymentType: PaymentType = PaymentType.DEBIT(PaymentType.DebitTransaction.SALE, TransactionPurchase.AccountType.SAVINGS)
+        when (paymentType) {
+            is PaymentType.DEBIT -> {
+                paymentType.debit.stringValue
+                paymentType.accountType
+            }
+
+        }
 
         // output
         viewModel.transTypeSetResource.observe(this , Observer {
