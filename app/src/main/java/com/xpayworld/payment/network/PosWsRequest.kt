@@ -8,15 +8,15 @@ class PosWsRequest {
      var activationKey: String? = null
 
     @SerializedName("GPSLat")
-     var gpsLat: String? = null
+     var gpsLat: String? = "0.0"
 
     @SerializedName("GPSLong")
-     var gpsLong: String? = null
+     var gpsLong: String? = "0.0"
 
     @SerializedName("RToken")
-     var rToken: String? = null
+     var rToken: String? = ""
 
     @SerializedName("SystemMode")
-     var systemMode: String? = null
+     var systemMode: String? = "Live"
 
 }

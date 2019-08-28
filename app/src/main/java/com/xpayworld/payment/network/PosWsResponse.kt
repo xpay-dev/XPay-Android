@@ -9,7 +9,7 @@ class PosWsResponse {
      val accountId: String? = null
 
     @SerializedName("ErrNumber")
-     val errNumber: String? = null
+     val errNumber: Double? = null
 
     @SerializedName("Message")
      val message: String? = null
