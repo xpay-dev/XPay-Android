@@ -1,33 +1,22 @@
 package com.xpayworld.payment.ui.activation
 
-import android.graphics.drawable.DrawableContainer
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import com.xpayworld.payment.R
 import com.xpayworld.payment.ui.base.kt.BaseFragment
 import com.xpayworld.payment.ui.transaction.DrawerLocker
 import com.xpayworld.payment.util.CustomDialog
 import kotlinx.android.synthetic.main.fragment_activation_code.*
 
-import androidx.core.content.ContextCompat.getSystemService
-import android.telephony.TelephonyManager
-import android.content.Context
-import androidx.core.content.ContextCompat.getSystemService
 import androidx.fragment.app.viewModels
-import com.xpayworld.payment.network.PosWsRequest
-import com.xpayworld.payment.network.activateApp.Activation
 import com.xpayworld.payment.network.activateApp.PosInfo
 import com.xpayworld.payment.util.InjectorUtil
-import androidx.core.content.ContextCompat.getSystemService
-import androidx.lifecycle.ViewModel
 import androidx.navigation.fragment.findNavController
 import com.xpayworld.payment.util.SharedPrefStorage
-import com.xpayworld.payment.util.getDeviceIMEI
 
 
 class ActivationFragment : BaseFragment() {
@@ -39,10 +28,9 @@ class ActivationFragment : BaseFragment() {
     var edtextList = listOf<EditText>()
     var strCode = ""
 
-    var posInfo = PosInfo()
     private val viewModel: ActivationViewModel by viewModels {
-         InjectorUtil.provideActivationViewModelFactor(requireActivity())
-     }
+        InjectorUtil.provideActivationViewModelFactor(requireContext())
+    }
     override fun initView(view: View, container: ViewGroup?) {
 
         edtextList = listOf(edtext1, edtext2, edtext3, edtext4)
@@ -58,7 +46,7 @@ class ActivationFragment : BaseFragment() {
         })
         viewModel.toolbarVisibility.observe(this, Observer{(activity as DrawerLocker).drawerEnabled(it)})
 
-        viewModel.apiError.observe(this, Observer {
+        viewModel.requestError.observe(this, Observer {
            if (it) {
                edtextList.forEach { editText -> editText.setBackgroundResource(R.drawable.tv_error)}
                errorGroup.visibility = View.VISIBLE

@@ -4,41 +4,26 @@ import android.app.Activity
 import android.content.Context
 import android.os.Handler
 import android.telephony.TelephonyManager
-import android.view.View
-import android.view.View.OnClickListener
-import androidx.core.content.ContextCompat
-import androidx.core.content.ContextCompat.getSystemService
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
-import androidx.navigation.findNavController
 import com.xpayworld.payment.network.PosWsRequest
 import com.xpayworld.payment.network.RetrofitClient
 import com.xpayworld.payment.network.activateApp.Activation
 import com.xpayworld.payment.network.activateApp.ActivationApi
 import com.xpayworld.payment.network.activateApp.PosInfo
-import com.xpayworld.payment.util.SharedPrefStorage
-import com.xpayworld.payment.util.getDeviceIMEI
+import com.xpayworld.payment.util.BaseViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
-import kotlinx.android.synthetic.main.fragment_enter_amount.*
-import kotlin.coroutines.coroutineContext
 
 
-class ActivationViewModel(activity: Activity) : ViewModel() {
+class ActivationViewModel(private val context: Context) : BaseViewModel() {
 
-    val loadingVisibility: MutableLiveData<Boolean> = MutableLiveData()
-    val networkError: MutableLiveData<Throwable> = MutableLiveData()
-    val apiError: MutableLiveData<Boolean> = MutableLiveData()
-
+    val requestError: MutableLiveData<Boolean> = MutableLiveData()
     //    val activateClickListener = View.OnClickListener { onClickActivate(it)}
-    val toolbarVisibility: MutableLiveData<Boolean> = MutableLiveData()
     val navigateToEnterPin: MutableLiveData<String> = MutableLiveData()
 
     private lateinit var subscription: Disposable
-
-    private val activity = activity
 
 
     init {
@@ -53,7 +38,7 @@ class ActivationViewModel(activity: Activity) : ViewModel() {
 
     fun processActivation(code: String) {
 
-        val tm = activity.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
+        val tm = context.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
         val pos = PosWsRequest()
         pos.activationKey = code
         pos.gpsLat = "0.0"
@@ -88,12 +73,12 @@ class ActivationViewModel(activity: Activity) : ViewModel() {
                                 return@subscribe
                             }
 
-                            val hasError = result?.body()?.result?.errNumber != "00"
+                            val hasError = result?.body()?.result?.errNumber != 0.0
 
                             if (hasError) {
-                                apiError.value = hasError
+                                requestError.value = hasError
                                 Handler().postDelayed({
-                                    apiError.value = !hasError
+                                    requestError.value = !hasError
                                 }, 3000)
 
                             } else {
@@ -101,7 +86,7 @@ class ActivationViewModel(activity: Activity) : ViewModel() {
                             }
                         },
                         {
-                            networkError.value = it
+                            networkError.value = "Request Error"
                         }
                 )}
 }

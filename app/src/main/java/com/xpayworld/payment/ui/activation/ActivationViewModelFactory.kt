@@ -8,8 +8,8 @@ import androidx.lifecycle.ViewModelStore
 import com.xpayworld.payment.network.activateApp.PosInfo
 import com.xpayworld.payment.ui.transaction.enterAmount.EnterAmountViewModel
 
-class ActivationViewModelFactory(private val activity: Activity  ): ViewModelProvider.NewInstanceFactory(){
+class ActivationViewModelFactory(private val context: Context  ): ViewModelProvider.NewInstanceFactory(){
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        return ActivationViewModel(activity) as T
+        return ActivationViewModel(context) as T
     }}
