@@ -13,7 +13,7 @@ class  ApiConstants {
       // http://13.250.116.190:95/POSWebserviceJSON.svc
         const val EmailReceipt = "EmailReceipt"
         const val ForgotMobilePin = "ForgotMobilePin"
-        const val Login = "login"
+        const val Login = "loginpin"
         const val Registration = "Registration"
         const val CreateTicket = "CreateTicket"
 

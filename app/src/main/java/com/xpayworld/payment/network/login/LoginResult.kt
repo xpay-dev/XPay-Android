@@ -4,6 +4,6 @@ import com.google.gson.annotations.SerializedName
 import com.xpayworld.payment.network.PosWsResponse
 
 class LoginResult {
-    @SerializedName("LoginResult")
+    @SerializedName("LoginByMobilePinResult")
     var result = PosWsResponse()
 }

@@ -13,10 +13,10 @@ class Login (context : Context) {
     var pin = ""
 
     @SerializedName("Password")
-    var password = ""
+    var password = "M_HPay12"
 
     @SerializedName("Username")
-     var userName = ""
+     var userName = "M_HPay"
 
     @SerializedName("POSWSRequest")
      var posWsRequest: PosWsRequest? = null
@@ -25,7 +25,7 @@ class Login (context : Context) {
         val sharedPref = context.let { SharedPrefStorage(it!!) }
         val posReq = PosWsRequest()
         posReq.activationKey =   sharedPref.readMessage("activationKey")
-
+        posReq.rToken =   sharedPref.readMessage("rtoken")
         posWsRequest  = posReq
     }
 }

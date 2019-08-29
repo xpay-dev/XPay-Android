@@ -13,6 +13,7 @@ import com.xpayworld.payment.network.login.Login
 import com.xpayworld.payment.network.login.LoginApi
 import com.xpayworld.payment.network.login.LoginRequest
 import com.xpayworld.payment.util.BaseViewModel
+import com.xpayworld.payment.util.SharedPrefStorage
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
@@ -54,9 +55,9 @@ class EnterPinViewModel( private val context: Context) : BaseViewModel() {
         val api = RetrofitClient().getRetrofit().create(LoginApi::class.java)
         val login = Login(context)
         login.appVersion = "1"
-        login.password = "1"
+        login.password = "M_HPay12"
         login.pin = pinCode.value!!
-        login.userName = "1"
+        login.userName = "M_HPay"
 
         val request = LoginRequest()
         request.request = login
@@ -82,9 +83,10 @@ class EnterPinViewModel( private val context: Context) : BaseViewModel() {
                             }
 
                             else {
+                                val sharedPref = context.let { SharedPrefStorage(it!!) }
+                                result?.body()?.result?.rToken?.let { sharedPref.writeMessage("rtoken", it) }
                                 toolbarVisibility.value = true
                                 navigateToEnterAmount.value = ""
-
                             }
                         },
                         {
