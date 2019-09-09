@@ -1,7 +1,10 @@
 package com.xpayworld.payment.ui.transaction.processTransaction
 
+import android.Manifest
+import android.bluetooth.BluetoothAdapter
 import android.bluetooth.BluetoothDevice
 import android.content.Context
+import android.content.pm.PackageManager
 import android.graphics.Rect
 import android.media.AudioManager
 import android.media.MediaPlayer
@@ -14,7 +17,11 @@ import androidx.navigation.findNavController
 import com.bbpos.bbdevice.BBDeviceController
 import com.bbpos.bbdevice.CAPK
 import com.bbpos.bbdevice.ota.BBDeviceOTAController
+import com.bbpos.bbdevice.BBDeviceController.CheckCardResult
 import com.xpayworld.payment.R
+import com.xpayworld.payment.ui.preference.Device
+import com.xpayworld.payment.ui.preference.DeviceAdapter
+import com.xpayworld.payment.ui.preference.PreferenceFragment
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -29,6 +36,8 @@ abstract class BaseDeviceFragment : Fragment()  {
         lateinit var pinButtonLayout: Hashtable<String, Rect>
     }
 
+    internal val DEVICE_NAMES = arrayOf("WP")
+
     internal var bbDeviceController: BBDeviceController? = null
     internal lateinit var otaController: BBDeviceOTAController
     private var listener: MyBBdeviceControllerListener? = null
@@ -36,7 +45,8 @@ abstract class BaseDeviceFragment : Fragment()  {
     val startAnimation: MutableLiveData<Boolean> = MutableLiveData()
     val onResult : MutableLiveData<Boolean> = MutableLiveData()
     val cancelVisibility : MutableLiveData<Int> = MutableLiveData()
-
+    val deviceListAdapter  = DeviceAdapter()
+    var deviceArr : List<Device>? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,20 +57,32 @@ abstract class BaseDeviceFragment : Fragment()  {
 
         navHostFragment = activity!!.supportFragmentManager.findFragmentById(R.id.nav_host_fragment)!!
         currentFragment = navHostFragment.childFragmentManager.fragments[0]
-        startTransaction()
-    }
 
-    fun startTransaction() {
         listener = MyBBdeviceControllerListener()
         bbDeviceController = BBDeviceController.getInstance(context, listener)
         BBDeviceController.setDebugLogEnabled(true)
 
-        cancelVisibility.value = View.INVISIBLE
 
+        if (currentFragment is ProcessTransactionFragment){
+            startTransaction()
+        }
+        if (currentFragment is PreferenceFragment){
+            startBluetoothConnection()
+        }
+    }
+
+    fun startTransaction() {
+
+        cancelVisibility.value = View.INVISIBLE
         if (bbDeviceController!!.connectionMode == BBDeviceController.ConnectionMode.SERIAL) return
         bbDeviceController!!.startSerial()
         cancelVisibility.value = View.VISIBLE
         toolbarTitle.value = "Initializing..."
+    }
+
+    fun startBluetoothConnection(){
+
+        bbDeviceController?.startBTScan(DEVICE_NAMES, 120)
     }
 
     private fun startEmv() {
@@ -134,7 +156,8 @@ abstract class BaseDeviceFragment : Fragment()  {
 
         }
 
-        override fun onBTConnected(p0: BluetoothDevice?) {
+        override fun onBTConnected(pairedObjects: BluetoothDevice?) {
+
 
         }
 
@@ -154,7 +177,12 @@ abstract class BaseDeviceFragment : Fragment()  {
 
         }
 
-        override fun onRequestOnlineProcess(p0: String?) {
+        override fun onRequestOnlineProcess(tlv: String?) {
+            val decodeData = BBDeviceController.decodeTlv(tlv)
+
+            println(decodeData["C0"])
+            println(tlv)
+
 
             bbDeviceController?.sendOnlineProcessResult("8A023030")
 
@@ -185,6 +213,7 @@ abstract class BaseDeviceFragment : Fragment()  {
         }
 
         override fun onReturnEncryptPinResult(p0: Boolean, p1: Hashtable<String, String>?) {
+
 
         }
 
@@ -239,7 +268,17 @@ abstract class BaseDeviceFragment : Fragment()  {
 
         }
 
-        override fun onBTReturnScanResults(p0: MutableList<BluetoothDevice>?) {
+        override fun onBTReturnScanResults(foundDevices: MutableList<BluetoothDevice>?) {
+
+
+            if (deviceListAdapter != null) {
+
+                for (i in foundDevices!!.indices) {
+                    deviceArr = listOf(Device(foundDevices[i]!!.name,i))
+
+                }
+                deviceListAdapter.updatePostList(deviceArr!!)
+            }
 
         }
 
@@ -461,7 +500,33 @@ abstract class BaseDeviceFragment : Fragment()  {
 
         }
 
-        override fun onReturnCheckCardResult(p0: BBDeviceController.CheckCardResult?, p1: Hashtable<String, String>?) {
+        override fun onReturnCheckCardResult(checkCardResult: CheckCardResult?, decodeData: Hashtable<String, String>) {
+
+            if(checkCardResult == CheckCardResult.MSR) {
+
+
+                val formatID = decodeData["formatID"]
+                val maskedPAN = decodeData["maskedPAN"]
+                val PAN = decodeData["pan"]
+                val expiryDate = decodeData["expiryDate"]
+                val cardHolderName = decodeData["cardholderName"]
+                val ksn = decodeData["ksn"]
+                val serviceCode = decodeData["serviceCode"]
+                val encTracks = decodeData["encTracks"]
+                val encTrack1 = decodeData["encTrack1"]
+                val encTrack2 = decodeData["encTrack2"]
+                val encTrack3 = decodeData["encTrack3"]
+                val encWorkingKey = decodeData["encWorkingKey"]
+                val posEntryMode = decodeData["posEntryMode"]
+                println(encTrack1)
+                println(encTrack2)
+                println(ksn)
+                println(expiryDate)
+
+                println(maskedPAN)
+            }
+
+
 
         }
 
@@ -581,4 +646,7 @@ abstract class BaseDeviceFragment : Fragment()  {
 
         }
     }
+
+
+
 }

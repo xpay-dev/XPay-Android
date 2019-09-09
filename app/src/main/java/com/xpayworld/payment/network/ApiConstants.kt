@@ -17,6 +17,7 @@ class  ApiConstants {
         const val Registration = "Registration"
         const val CreateTicket = "CreateTicket"
 
+
         //TRANSACTION API
 
         const val TransCreditEMV =  "TransactionPurchaseCreditEMV"

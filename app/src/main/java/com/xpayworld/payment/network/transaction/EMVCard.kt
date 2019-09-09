@@ -29,8 +29,8 @@ class EMVCard (data : Hashtable<String, String>)  {
     init {
         cardholderName = data["cardholderName"].toString()
         expiryDate =  data["cardholderName"].toString()
-        emvICCData = data["cardholderName"].toString()
-        ksn = data["cardholderName"].toString()
+        emvICCData = data["C5"].toString()
+        ksn = data["C3"].toString()
         epbksn = data["cardholderName"].toString()
         maskedPan = data["cardholderName"].toString()
         appId = data["cardholderName"].toString()

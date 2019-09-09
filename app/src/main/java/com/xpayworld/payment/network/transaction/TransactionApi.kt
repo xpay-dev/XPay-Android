@@ -24,5 +24,4 @@ interface TransactionApi {
     @POST(ApiConstants.TransCreditSWIPE)
     fun creaditSwipe(@Body  data : Transaction) : Single<Response<TransactionResponse>>
 
-
 }
