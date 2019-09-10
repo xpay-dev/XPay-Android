@@ -3,7 +3,7 @@ package com.xpayworld.payment.util
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
-open class  BaseViewModel : ViewModel(){
+open class BaseViewModel : ViewModel(){
 
     val loadingVisibility : MutableLiveData<Boolean> = MutableLiveData()
     val networkError : MutableLiveData<String> = MutableLiveData()

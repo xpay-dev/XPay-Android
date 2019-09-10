@@ -9,7 +9,7 @@ import android.view.ViewGroup
 import com.xpayworld.payment.R
 
 
-class ReportsFragment : Fragment() {
+class  ReportsFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
