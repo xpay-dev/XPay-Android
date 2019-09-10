@@ -19,6 +19,7 @@ import com.bbpos.bbdevice.CAPK
 import com.bbpos.bbdevice.ota.BBDeviceOTAController
 import com.bbpos.bbdevice.BBDeviceController.CheckCardResult
 import com.xpayworld.payment.R
+import com.xpayworld.payment.network.transaction.EMVCard
 import com.xpayworld.payment.ui.preference.Device
 import com.xpayworld.payment.ui.preference.DeviceAdapter
 import com.xpayworld.payment.ui.preference.PreferenceFragment
@@ -180,8 +181,18 @@ abstract class BaseDeviceFragment : Fragment()  {
         override fun onRequestOnlineProcess(tlv: String?) {
             val decodeData = BBDeviceController.decodeTlv(tlv)
 
+
+
             println(decodeData["C0"])
             println(tlv)
+
+
+            println("ksn : ${decodeData["C0"]}")
+            println("emvICCData : ${decodeData["C2"]}")
+            println("maskedPan® : ${decodeData["C4"]}")
+
+
+          val emv =   EMVCard(decodeData)
 
 
             bbDeviceController?.sendOnlineProcessResult("8A023030")
