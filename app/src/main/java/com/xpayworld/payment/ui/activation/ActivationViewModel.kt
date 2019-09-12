@@ -36,7 +36,7 @@ class ActivationViewModel(private val context: Context) : BaseViewModel() {
 
     }
 
-    fun processActivation(code: String) {
+    fun callActivationAPI(code: String) {
 
         val tm = context.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
         val pos = PosWsRequest()

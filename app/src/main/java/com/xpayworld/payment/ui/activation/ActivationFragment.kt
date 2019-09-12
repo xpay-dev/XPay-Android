@@ -13,7 +13,6 @@ import com.xpayworld.payment.util.CustomDialog
 import kotlinx.android.synthetic.main.fragment_activation_code.*
 
 import androidx.fragment.app.viewModels
-import com.xpayworld.payment.network.activateApp.PosInfo
 import com.xpayworld.payment.util.InjectorUtil
 import androidx.navigation.fragment.findNavController
 import com.xpayworld.payment.util.SharedPrefStorage
@@ -21,24 +20,24 @@ import com.xpayworld.payment.util.SharedPrefStorage
 
 class ActivationFragment : BaseFragment() {
 
-    override fun getLayout(): Int {
-        return R.layout.fragment_activation_code
-    }
-
     var edtextList = listOf<EditText>()
     var strCode = ""
 
     private val viewModel: ActivationViewModel by viewModels {
         InjectorUtil.provideActivationViewModelFactor(requireContext())
     }
+
+    override fun getLayout(): Int {
+        return R.layout.fragment_activation_code
+    }
     override fun initView(view: View, container: ViewGroup?) {
 
         edtextList = listOf(edtext1, edtext2, edtext3, edtext4)
-        edtextList.forEach { it.addTextChangedListener(onChangedEditText()) }
+        edtextList.forEach { it.addTextChangedListener(OnChangedEditText()) }
 
 
         btnActivate.setOnClickListener{
-            viewModel.processActivation(strCode)
+            viewModel.callActivationAPI(strCode)
         }
 
         viewModel.loadingVisibility.observe(this, Observer{
@@ -70,7 +69,7 @@ class ActivationFragment : BaseFragment() {
 
     }
 
-    internal inner class onChangedEditText : TextWatcher {
+    internal inner class OnChangedEditText : TextWatcher {
         override fun onTextChanged(char: CharSequence?, p1: Int, p2: Int, count: Int) {
         }
 
@@ -93,9 +92,6 @@ class ActivationFragment : BaseFragment() {
             }
 
             btnActivate.isEnabled = strCode.length == 16
-
-
-
         }
     }
 
