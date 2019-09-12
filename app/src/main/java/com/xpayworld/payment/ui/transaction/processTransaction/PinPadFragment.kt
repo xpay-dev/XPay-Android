@@ -11,9 +11,14 @@ class PinPadFragment : BaseDeviceFragment() {
 
     private var wisePOSPlusPinPadView: WisePOSPlusPinPadView? = null
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun getLayout(): View {
         wisePOSPlusPinPadView = WisePOSPlusPinPadView(context!!, pinButtonLayout)
-        return wisePOSPlusPinPadView
+        return wisePOSPlusPinPadView as WisePOSPlusPinPadView
+    }
+
+    override fun initView(view: View, container: ViewGroup?) {
+        (activity as AppCompatActivity).supportActionBar?.hide()
+        (activity as DrawerLocker).drawerEnabled(true)
     }
 
     internal fun setStars(inputStars: String) {
@@ -21,10 +26,4 @@ class PinPadFragment : BaseDeviceFragment() {
         wisePOSPlusPinPadView!!.invalidate()
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        (activity as AppCompatActivity).supportActionBar?.hide()
-        (activity as DrawerLocker).drawerEnabled(true)
-    }
 }

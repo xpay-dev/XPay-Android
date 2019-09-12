@@ -1,10 +1,7 @@
 package com.xpayworld.payment.ui.transaction.processTransaction
 
-import android.Manifest
-import android.bluetooth.BluetoothAdapter
 import android.bluetooth.BluetoothDevice
 import android.content.Context
-import android.content.pm.PackageManager
 import android.graphics.Rect
 import android.media.AudioManager
 import android.media.MediaPlayer
@@ -20,6 +17,7 @@ import com.bbpos.bbdevice.ota.BBDeviceOTAController
 import com.bbpos.bbdevice.BBDeviceController.CheckCardResult
 import com.xpayworld.payment.R
 import com.xpayworld.payment.network.transaction.EMVCard
+import com.xpayworld.payment.ui.base.kt.BaseFragment
 import com.xpayworld.payment.ui.preference.Device
 import com.xpayworld.payment.ui.preference.DeviceAdapter
 import com.xpayworld.payment.ui.preference.PreferenceFragment
@@ -28,7 +26,7 @@ import java.util.*
 
 
 const val ARG_AMOUNT = "amount"
-abstract class BaseDeviceFragment : Fragment()  {
+abstract class BaseDeviceFragment : BaseFragment()  {
 
     companion object {
         lateinit var navHostFragment : Fragment
@@ -37,17 +35,25 @@ abstract class BaseDeviceFragment : Fragment()  {
         lateinit var pinButtonLayout: Hashtable<String, Rect>
     }
 
-    internal val DEVICE_NAMES = arrayOf("WP")
+    // Preference Fragment
+    private val DEVICE_NAMES = arrayOf("WP")
 
     internal var bbDeviceController: BBDeviceController? = null
     internal lateinit var otaController: BBDeviceOTAController
     private var listener: MyBBdeviceControllerListener? = null
+
     val toolbarTitle: MutableLiveData<String> = MutableLiveData()
     val startAnimation: MutableLiveData<Boolean> = MutableLiveData()
-    val onResult : MutableLiveData<Boolean> = MutableLiveData()
+
     val cancelVisibility : MutableLiveData<Int> = MutableLiveData()
     val deviceListAdapter  = DeviceAdapter()
     var deviceArr : List<Device>? = null
+
+
+    // Process Transaction Fragment
+    val onProcessTransaction : MutableLiveData<EMVCard> = MutableLiveData()
+    val onTransactionResult : MutableLiveData<Boolean> = MutableLiveData()
+    val onlineProcessResult : MutableLiveData<String> = MutableLiveData()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -82,7 +88,6 @@ abstract class BaseDeviceFragment : Fragment()  {
     }
 
     fun startBluetoothConnection(){
-
         bbDeviceController?.startBTScan(DEVICE_NAMES, 120)
     }
 
@@ -186,17 +191,16 @@ abstract class BaseDeviceFragment : Fragment()  {
             println(decodeData["C0"])
             println(tlv)
 
-
             println("ksn : ${decodeData["C0"]}")
             println("emvICCData : ${decodeData["C2"]}")
             println("maskedPan® : ${decodeData["C4"]}")
 
+            onProcessTransaction.value =  EMVCard(decodeData)
 
-          val emv =   EMVCard(decodeData)
-
-
-            bbDeviceController?.sendOnlineProcessResult("8A023030")
-
+            onlineProcessResult.observe(currentFragment ,androidx.lifecycle.Observer {
+                bbDeviceController?.sendOnlineProcessResult(it)
+                //8A023030
+            })
         }
 
         override fun onReturnNfcDataExchangeResult(p0: Boolean, p1: Hashtable<String, String>?) {
@@ -611,7 +615,7 @@ abstract class BaseDeviceFragment : Fragment()  {
         override fun onReturnTransactionResult(result: BBDeviceController.TransactionResult?) {
 
             if (result == BBDeviceController.TransactionResult.APPROVED){
-                onResult.value = true
+                onTransactionResult.value = true
             }
             stopConnection()
 
