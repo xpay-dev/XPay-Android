@@ -17,8 +17,13 @@ abstract class BaseFragment : Fragment(), MvpView {
     var mContainer : ViewGroup ? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        val view: View? = if (getLayout() is Int){
+            inflater.inflate((getLayout() as Int), container, false)
+        }
+        else {
+            getLayout() as View
+        }
 
-        val view =  inflater.inflate(getLayout(), container, false)
         mContainer = container
         return  view
     }
@@ -74,8 +79,7 @@ abstract class BaseFragment : Fragment(), MvpView {
         fun onFragmentDetached(tag: String)
     }
 
-    @LayoutRes
-    abstract fun getLayout(): Int
+    abstract fun getLayout(): Any
     abstract fun initView(view: View , container: ViewGroup?)
 
 }
