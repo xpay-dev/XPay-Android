@@ -6,7 +6,6 @@ import android.view.animation.AnimationUtils
 import android.widget.Button
 import android.widget.ImageView
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import com.xpayworld.payment.R
 import com.xpayworld.payment.ui.base.kt.BaseFragment
@@ -15,9 +14,6 @@ import com.xpayworld.payment.util.SharedPrefStorage
 
 import kotlinx.android.synthetic.main.fragment_enter_pin.*
 import androidx.lifecycle.Observer
-import com.xpayworld.payment.network.transaction.PaymentType
-import com.xpayworld.payment.network.transaction.TransactionPurchase
-import com.xpayworld.payment.ui.activation.ActivationViewModel
 import com.xpayworld.payment.util.InjectorUtil
 
 class EnterPinFragment : BaseFragment() {
@@ -41,7 +37,7 @@ class EnterPinFragment : BaseFragment() {
 
         btnClear.setOnClickListener(viewModel.clearClickListener)
         btnSubmit.setOnClickListener {
-            viewModel.processEnterPin()
+            viewModel.callEnterPinAPI()
         }
 
         shouldCheckActivationKey()

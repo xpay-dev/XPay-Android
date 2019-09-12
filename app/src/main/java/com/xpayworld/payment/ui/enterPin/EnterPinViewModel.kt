@@ -51,7 +51,7 @@ class EnterPinViewModel( private val context: Context) : BaseViewModel() {
         pinCode.value = pinCode.value?.dropLast(1)
     }
 
-     fun processEnterPin() {
+     fun callEnterPinAPI() {
         val api = RetrofitClient().getRetrofit().create(LoginApi::class.java)
         val login = Login(context)
         login.appVersion = "1"
