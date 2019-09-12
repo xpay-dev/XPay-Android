@@ -26,6 +26,7 @@ import kotlinx.android.synthetic.main.view_enter_amount.*
 
 class EnterAmountFragment : BaseFragment() {
 
+
     var numpad = listOf<Button>()
     var amountStr = ""
 
@@ -40,6 +41,9 @@ class EnterAmountFragment : BaseFragment() {
         }
     }
 
+    override fun getLayout(): Int {
+        return R.layout.fragment_enter_amount
+    }
     override fun initView(view: View,container: ViewGroup?) {
         // Numpad Button
         // Numpad Button Image
@@ -72,9 +76,7 @@ class EnterAmountFragment : BaseFragment() {
         viewModel.displayAmount.observe(this , Observer { tvAmount.text = it })
     }
 
-    override fun getLayout(): Int {
-        return R.layout.fragment_enter_amount
-    }
+
 
     override fun onResume() {
         super.onResume()

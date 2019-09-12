@@ -15,14 +15,11 @@ import kotlinx.android.synthetic.main.fragment_preference.*
 
 class PreferenceFragment : BaseDeviceFragment() {
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_preference, container, false)
-    }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    override fun getLayout(): Int {
+      return R.layout.fragment_preference
+    }
+    override fun initView(view: View, container: ViewGroup?) {
         recyclerView.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
         recyclerView.adapter = deviceListAdapter
     }
