@@ -15,6 +15,13 @@ import kotlinx.android.synthetic.main.toolbar_main.*
 import android.os.Build
 import android.graphics.Color
 import kotlinx.android.synthetic.main.fragment_enter_amount.*
+import android.content.Context.INPUT_METHOD_SERVICE
+import android.view.MotionEvent
+import androidx.core.app.ComponentActivity.ExtraData
+import androidx.core.content.ContextCompat.getSystemService
+import android.icu.lang.UCharacter.GraphemeClusterBreak.T
+import android.content.Context
+import android.view.inputmethod.InputMethodManager
 
 
 class DashboardActivity : BaseActivity(), DrawerLocker , ToolbarDelegate {
@@ -77,6 +84,14 @@ class DashboardActivity : BaseActivity(), DrawerLocker , ToolbarDelegate {
 //        navController.popBackStack()
 //        findNavController().popBackStack()
 //        drawerEnabled(true)
+    }
+
+    override fun dispatchTouchEvent(ev: MotionEvent): Boolean {
+        if (currentFocus != null) {
+            val imm = this.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            imm.hideSoftInputFromWindow(currentFocus!!.windowToken, 0)
+        }
+        return super.dispatchTouchEvent(ev)
     }
 
     // to disable / hide hamburger menu
