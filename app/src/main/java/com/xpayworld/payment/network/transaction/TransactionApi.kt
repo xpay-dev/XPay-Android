@@ -16,12 +16,12 @@ interface TransactionApi {
             ApiConstants.Charset,
             ApiConstants.Content)
     @POST(ApiConstants.TransCreditEMV)
-    fun creditEMV(@Body  data : Transaction) : Single<Response<TransactionResponse>>
+    fun creditEMV(@Body  data : TransactionPurchase) : Single<Response<TransactionResponse>>
 
     @Headers(
             ApiConstants.Charset,
             ApiConstants.Content)
     @POST(ApiConstants.TransCreditSWIPE)
-    fun creaditSwipe(@Body  data : Transaction) : Single<Response<TransactionResponse>>
+    fun creditSwipe(@Body  data : TransactionPurchase) : Single<Response<TransactionResponse>>
 
 }

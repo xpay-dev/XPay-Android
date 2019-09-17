@@ -95,6 +95,8 @@ class EnterPinViewModel( private val context: Context) : BaseViewModel() {
                             networkError.value = "Network Error"
                         }
                 )
+
+
     }
 }
 

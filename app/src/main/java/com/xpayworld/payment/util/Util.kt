@@ -8,7 +8,16 @@ import android.content.pm.PackageManager
 import android.os.Build
 import android.telephony.TelephonyManager
 import androidx.core.app.ActivityCompat
+import com.xpayworld.payment.network.PosWsRequest
+import com.xpayworld.payment.network.transaction.PaymentType
+import com.xpayworld.payment.network.transaction.Transaction
 import java.text.DecimalFormat
+
+// Global Declaration
+
+var paymentType : PaymentType? = null
+var posRequest  : PosWsRequest? = null
+var  transaction =  Transaction()
 
 fun formattedAmount(amount : String) : String {
     var formatedAmount = ""
@@ -47,3 +56,4 @@ fun getDeviceIMEI(activity: Activity): String? {
         deviceUniqueIdentifier = "0"
     return deviceUniqueIdentifier
 }
+

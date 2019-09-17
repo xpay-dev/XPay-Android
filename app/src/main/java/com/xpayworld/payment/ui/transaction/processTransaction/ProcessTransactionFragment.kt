@@ -18,25 +18,17 @@ import kotlinx.android.synthetic.main.fragment_process_transaction.*
 
 
 class ProcessTransactionFragment : BaseDeviceFragment()  {
+
+
+    var viewModel : ProcessTransactionViewModel? = null
     override fun getLayout(): Any {
          return R.layout.fragment_process_transaction
     }
 
     override fun initView(view: View, container: ViewGroup?) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-
-    var viewModel : ProcessTransactionViewModel? = null
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
         tvAmount.text = formattedAmount(amountStr)
 
-
         viewModel = ViewModelProviders.of(this).get(ProcessTransactionViewModel::class.java)
-
 
         startAnimation.observe(this , Observer {
             if (it) imageProcess().start() else imageProcess().stop()
@@ -53,7 +45,7 @@ class ProcessTransactionFragment : BaseDeviceFragment()  {
 
         // Calling Transaction API
         onProcessTransaction.observe(this, Observer {
-            viewModel?.callTransactionAPI(it)
+            viewModel?.callTransactionAPI()
         })
 
         // Transaction API Result
@@ -63,7 +55,7 @@ class ProcessTransactionFragment : BaseDeviceFragment()  {
 
         // Device Transaction Result
         onTransactionResult.observe(this , Observer {
-           val direction = ProcessTransactionFragmentDirections.actionProcessTransactionToSignatureFragment(amountStr)
+            val direction = ProcessTransactionFragmentDirections.actionProcessTransactionToSignatureFragment(amountStr)
             if (it) view.findNavController().navigate(direction)
         })
 
@@ -72,6 +64,9 @@ class ProcessTransactionFragment : BaseDeviceFragment()  {
             view.findNavController().popBackStack()
         }
     }
+
+
+
 
     private fun imageProcess(): AnimationDrawable{
         val img = view!!.findViewById<ImageView>(R.id.imgProcess)

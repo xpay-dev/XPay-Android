@@ -6,7 +6,11 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.navigation.findNavController
 import com.xpayworld.payment.R
+import com.xpayworld.payment.network.transaction.PaymentType
+import com.xpayworld.payment.network.transaction.TransactionPurchase
 import com.xpayworld.payment.util.formattedAmount
+import com.xpayworld.payment.util.paymentType
+import com.xpayworld.payment.util.transaction
 import io.reactivex.disposables.Disposable
 
 
@@ -33,6 +37,7 @@ class EnterAmountViewModel(amount: String) : ViewModel() {
 
     private fun onClickOk(v: View) {
         if (amountStr.isEmpty()) return
+        transaction.amount = amountStr.toDouble()
         val direction = EnterAmountFragmentDirections.actionEnterAmountFragmentToProcessTranactionFragment(amountStr)
         v.findNavController().navigate(direction)
     }
@@ -49,8 +54,10 @@ class EnterAmountViewModel(amount: String) : ViewModel() {
     private fun onClickTransType(v: View) {
         val btn = v as Button
         if (btn.text == "Credit") {
+            paymentType  = PaymentType.CREDIT(TransactionPurchase.Action.EMV)
             transTypeSetResource.value = listOf(R.drawable.tab_indenticator, R.drawable.tab_indenticator_clear)
         } else {
+            paymentType  = PaymentType.DEBIT(PaymentType.DebitTransaction.SALE, TransactionPurchase.AccountType.SAVINGS)
             transTypeSetResource.value = listOf(R.drawable.tab_indenticator_clear, R.drawable.tab_indenticator)
         }
     }

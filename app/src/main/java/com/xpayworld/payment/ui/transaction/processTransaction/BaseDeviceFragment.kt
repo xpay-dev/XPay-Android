@@ -17,10 +17,14 @@ import com.bbpos.bbdevice.ota.BBDeviceOTAController
 import com.bbpos.bbdevice.BBDeviceController.CheckCardResult
 import com.xpayworld.payment.R
 import com.xpayworld.payment.network.transaction.EMVCard
+import com.xpayworld.payment.network.transaction.PaymentType
+import com.xpayworld.payment.network.transaction.TransactionPurchase
 import com.xpayworld.payment.ui.base.kt.BaseFragment
 import com.xpayworld.payment.ui.preference.Device
 import com.xpayworld.payment.ui.preference.DeviceAdapter
 import com.xpayworld.payment.ui.preference.PreferenceFragment
+import com.xpayworld.payment.util.paymentType
+import com.xpayworld.payment.util.transaction
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -195,7 +199,9 @@ abstract class BaseDeviceFragment : BaseFragment()  {
             println("emvICCData : ${decodeData["C2"]}")
             println("maskedPan® : ${decodeData["C4"]}")
 
+
             onProcessTransaction.value =  EMVCard(decodeData)
+            transaction.emvCard = EMVCard(decodeData)
 
             onlineProcessResult.observe(currentFragment ,androidx.lifecycle.Observer {
                 bbDeviceController?.sendOnlineProcessResult(it)
@@ -286,14 +292,11 @@ abstract class BaseDeviceFragment : BaseFragment()  {
         override fun onBTReturnScanResults(foundDevices: MutableList<BluetoothDevice>?) {
 
 
-            if (deviceListAdapter != null) {
+            for (i in foundDevices!!.indices) {
+                deviceArr = listOf(Device(foundDevices[i].name,i))
 
-                for (i in foundDevices!!.indices) {
-                    deviceArr = listOf(Device(foundDevices[i]!!.name,i))
-
-                }
-                deviceListAdapter.updatePostList(deviceArr!!)
             }
+            deviceListAdapter.updatePostList(deviceArr!!)
 
         }
 
@@ -518,7 +521,7 @@ abstract class BaseDeviceFragment : BaseFragment()  {
         override fun onReturnCheckCardResult(checkCardResult: CheckCardResult?, decodeData: Hashtable<String, String>) {
 
             if(checkCardResult == CheckCardResult.MSR) {
-
+                paymentType  = PaymentType.CREDIT(TransactionPurchase.Action.SWIPE)
 
                 val formatID = decodeData["formatID"]
                 val maskedPAN = decodeData["maskedPAN"]
