@@ -7,6 +7,7 @@ import com.xpayworld.payment.network.TransactionResponse
 import com.xpayworld.payment.network.login.LoginApi
 import com.xpayworld.payment.network.transaction.*
 import com.xpayworld.payment.util.BaseViewModel
+import com.xpayworld.payment.util.SharedPrefStorage
 import com.xpayworld.payment.util.paymentType
 import com.xpayworld.payment.util.transaction
 import io.reactivex.Observable
@@ -23,30 +24,29 @@ class ProcessTransactionViewModel : BaseViewModel() {
 
 
     val transactionApiResponse: MutableLiveData<String> = MutableLiveData()
-    private var txnResponse: Single<Response<TransactionResponse>>? = null
     private lateinit var subscription: Disposable
-
 
     override fun onCleared() {
         super.onCleared()
-        subscription.dispose()
+
     }
 
     fun callTransactionAPI() {
-
+         var txnResponse: Single<Response<TransactionResponse>>? = null
         val api = RetrofitClient().getRetrofit().create(TransactionApi::class.java)
 
-        val txnPurchase = TransactionPurchase(transaction = transaction)
+        val txnPurchase = TransactionPurchase(transaction)
 
         when (val mPaymentType = paymentType) {
             is PaymentType.DEBIT -> {
 
             }
             is PaymentType.CREDIT -> {
-                txnResponse = if (mPaymentType.action == TransactionPurchase.Action.SWIPE) {
-                    api.creditSwipe(txnPurchase)
+                if (mPaymentType.action == TransactionPurchase.Action.SWIPE) {
+                txnResponse =   api.creditSwipe(TransactionRequest(txnPurchase))
+
                 } else {
-                    api.creditEMV(txnPurchase)
+                txnResponse =   api.creditEMV(TransactionRequest(txnPurchase))
                 }
             }
         }
@@ -58,8 +58,30 @@ class ProcessTransactionViewModel : BaseViewModel() {
                 .doAfterTerminate { loadingVisibility.value = false }
                 .subscribe { result ->
 
+                    if (!result.isSuccessful) {
+//                        networkError.value = "Network Error ${result.code()}"
+//                        pinCode.value = ""
+                        return@subscribe
+                    }
 
-                    transactionApiResponse.value = "8A023030"
+                    val hasError = result?.body()?.result?.errNumber != 0.0
+                    if (hasError) {
+//                        pinCode.value = ""
+//                        apiError.value = hasError
+                        transactionApiResponse.value = "8A023035"
+                    }
+
+                    else {
+                        transactionApiResponse.value = "8A023030"
+//                        val response =   result?.body()?.result !=
+//                        val sharedPref = context.let { SharedPrefStorage(it!!) }
+//                        response?.rToken?.let { sharedPref.writeMessage("rtoken", it) }
+//                        toolbarVisibility.value = true
+//                        navigateToEnterAmount.value = ""
+                    }
+
+
                 }
+
     }
 }

@@ -27,6 +27,7 @@ class EnterAmountViewModel(amount: String) : ViewModel() {
 
     init {
         displayAmount.value = "0.00"
+        paymentType  = PaymentType.CREDIT(TransactionPurchase.Action.EMV)
         transTypeSetResource.value = listOf(R.drawable.tab_indenticator, R.drawable.tab_indenticator_clear)
     }
 

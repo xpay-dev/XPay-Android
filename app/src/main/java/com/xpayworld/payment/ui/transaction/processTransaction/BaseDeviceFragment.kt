@@ -50,6 +50,7 @@ abstract class BaseDeviceFragment : BaseFragment()  {
     val startAnimation: MutableLiveData<Boolean> = MutableLiveData()
 
     val cancelVisibility : MutableLiveData<Int> = MutableLiveData()
+    val cancelTitle : MutableLiveData<String> = MutableLiveData()
     val deviceListAdapter  = DeviceAdapter()
     var deviceArr : List<Device>? = null
 
@@ -199,9 +200,8 @@ abstract class BaseDeviceFragment : BaseFragment()  {
             println("emvICCData : ${decodeData["C2"]}")
             println("maskedPan® : ${decodeData["C4"]}")
 
-
-            onProcessTransaction.value =  EMVCard(decodeData)
             transaction.emvCard = EMVCard(decodeData)
+            onProcessTransaction.value =  EMVCard(decodeData)
 
             onlineProcessResult.observe(currentFragment ,androidx.lifecycle.Observer {
                 bbDeviceController?.sendOnlineProcessResult(it)
@@ -495,6 +495,7 @@ abstract class BaseDeviceFragment : BaseFragment()  {
         }
 
         override fun onWaitingForCard(cardMode: BBDeviceController.CheckCardMode?) {
+            cancelTitle.value = "Cancel"
             when (cardMode) {
                 BBDeviceController.CheckCardMode.INSERT -> {
                     toolbarTitle.value = "Please insert card"
@@ -542,6 +543,10 @@ abstract class BaseDeviceFragment : BaseFragment()  {
                 println(expiryDate)
 
                 println(maskedPAN)
+            }
+            if(checkCardResult == CheckCardResult.INSERTED_CARD){
+                paymentType  = PaymentType.CREDIT(TransactionPurchase.Action.EMV)
+
             }
 
 
@@ -620,8 +625,12 @@ abstract class BaseDeviceFragment : BaseFragment()  {
             if (result == BBDeviceController.TransactionResult.APPROVED){
                 onTransactionResult.value = true
             }
-            stopConnection()
-
+            else {
+                toolbarTitle.value = result.toString()
+                cancelTitle.value = "Done"
+                startAnimation.value = false
+                stopConnection()
+            }
         }
         override fun onDeviceReset() {
 
@@ -649,6 +658,8 @@ abstract class BaseDeviceFragment : BaseFragment()  {
 
         override fun onError(p0: BBDeviceController.Error?, errorStr: String?) {
             toolbarTitle.value = errorStr
+            cancelTitle.value = "Done"
+            startAnimation.value = false
 
         }
 

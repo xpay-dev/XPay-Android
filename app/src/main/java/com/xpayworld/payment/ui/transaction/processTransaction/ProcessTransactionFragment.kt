@@ -42,7 +42,6 @@ class ProcessTransactionFragment : BaseDeviceFragment()  {
             isShow -> if (isShow == true) showProgress() else hideProgress()
         })
 
-
         // Calling Transaction API
         onProcessTransaction.observe(this, Observer {
             viewModel?.callTransactionAPI()
@@ -59,9 +58,12 @@ class ProcessTransactionFragment : BaseDeviceFragment()  {
             if (it) view.findNavController().navigate(direction)
         })
 
+        cancelTitle.observe(this  , Observer {
+            btnCancel.text = it })
+
         btnCancel.setOnClickListener {
             stopConnection()
-            view.findNavController().popBackStack()
+            view.findNavController().popBackStack(R.id.transactionFragment,true)
         }
     }
 

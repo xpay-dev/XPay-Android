@@ -14,9 +14,11 @@ import com.xpayworld.payment.network.login.LoginApi
 import com.xpayworld.payment.network.login.LoginRequest
 import com.xpayworld.payment.util.BaseViewModel
 import com.xpayworld.payment.util.SharedPrefStorage
+import com.xpayworld.payment.util.posRequest
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
+import kotlin.math.log
 
 class EnterPinViewModel( private val context: Context) : BaseViewModel() {
 
@@ -83,8 +85,9 @@ class EnterPinViewModel( private val context: Context) : BaseViewModel() {
                             }
 
                             else {
+                                val response =   result?.body()?.result
                                 val sharedPref = context.let { SharedPrefStorage(it!!) }
-                                result?.body()?.result?.rToken?.let { sharedPref.writeMessage("rtoken", it) }
+                                response?.rToken?.let { sharedPref.writeMessage("rtoken", it) }
                                 toolbarVisibility.value = true
                                 navigateToEnterAmount.value = ""
                             }
@@ -95,8 +98,6 @@ class EnterPinViewModel( private val context: Context) : BaseViewModel() {
                             networkError.value = "Network Error"
                         }
                 )
-
-
     }
 }
 

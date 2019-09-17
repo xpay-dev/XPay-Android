@@ -4,6 +4,7 @@ import android.content.Context
 import com.google.gson.annotations.SerializedName
 import com.xpayworld.payment.network.PosWsRequest
 import com.xpayworld.payment.util.SharedPrefStorage
+import com.xpayworld.payment.util.posRequest
 
 class Login (context : Context) {
     @SerializedName("AppVersion")
@@ -27,5 +28,6 @@ class Login (context : Context) {
         posReq.activationKey =   sharedPref.readMessage("activationKey")
         posReq.rToken =   sharedPref.readMessage("rtoken")
         posWsRequest  = posReq
+        posRequest = posReq
     }
 }
