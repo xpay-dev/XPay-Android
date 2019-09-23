@@ -4,5 +4,6 @@ interface MvpView {
 
     fun showProgress()
     fun showNetworkError()
+
     fun hideProgress()
 }

@@ -9,12 +9,12 @@ import androidx.lifecycle.Observer
 import com.xpayworld.payment.R
 import com.xpayworld.payment.ui.base.kt.BaseFragment
 import com.xpayworld.payment.ui.transaction.DrawerLocker
-import com.xpayworld.payment.util.CustomDialog
 import kotlinx.android.synthetic.main.fragment_activation_code.*
 
 import androidx.fragment.app.viewModels
 import com.xpayworld.payment.util.InjectorUtil
 import androidx.navigation.fragment.findNavController
+import com.xpayworld.payment.ui.dialog.ActionButton
 import com.xpayworld.payment.util.SharedPrefStorage
 
 
@@ -37,7 +37,7 @@ class ActivationFragment : BaseFragment() {
 
 
         btnActivate.setOnClickListener{
-            viewModel.callActivationAPI(strCode)
+             viewModel.callActivationAPI(strCode)
         }
 
         viewModel.loadingVisibility.observe(this, Observer{
@@ -45,8 +45,8 @@ class ActivationFragment : BaseFragment() {
         })
         viewModel.toolbarVisibility.observe(this, Observer{(activity as DrawerLocker).drawerEnabled(it)})
 
-        viewModel.requestError.observe(this, Observer {
-           if (it) {
+        viewModel.apiError.observe(this, Observer {
+           if (it is Boolean) {
                edtextList.forEach { editText -> editText.setBackgroundResource(R.drawable.tv_error)}
                errorGroup.visibility = View.VISIBLE
            }
@@ -56,7 +56,7 @@ class ActivationFragment : BaseFragment() {
            }
         })
         viewModel.networkError.observe(this, Observer {
-            CustomDialog(context!!).onError().show()
+            showNetworkError()
         })
 
         viewModel.navigateToEnterPin.observe(this , Observer {

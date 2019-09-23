@@ -19,7 +19,6 @@ import io.reactivex.schedulers.Schedulers
 
 class ActivationViewModel(private val context: Context) : BaseViewModel() {
 
-    val requestError: MutableLiveData<Boolean> = MutableLiveData()
     //    val activateClickListener = View.OnClickListener { onClickActivate(it)}
     val navigateToEnterPin: MutableLiveData<String> = MutableLiveData()
 
@@ -76,9 +75,9 @@ class ActivationViewModel(private val context: Context) : BaseViewModel() {
                             val hasError = result?.body()?.result?.errNumber != 0.0
 
                             if (hasError) {
-                                requestError.value = hasError
+                                apiError.value = hasError
                                 Handler().postDelayed({
-                                    requestError.value = !hasError
+                                    apiError.value = !hasError
                                 }, 3000)
 
                             } else {

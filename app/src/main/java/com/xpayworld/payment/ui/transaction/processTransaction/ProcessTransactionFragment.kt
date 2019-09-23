@@ -1,8 +1,6 @@
 package com.xpayworld.payment.ui.transaction.processTransaction
 
 import android.graphics.drawable.AnimationDrawable
-import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
@@ -11,6 +9,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.findNavController
 import com.xpayworld.payment.R
+import com.xpayworld.payment.ui.dialog.ActionButton
 import com.xpayworld.payment.ui.transaction.DrawerLocker
 import com.xpayworld.payment.ui.transaction.ToolbarDelegate
 import com.xpayworld.payment.util.formattedAmount
@@ -38,8 +37,23 @@ class ProcessTransactionFragment : BaseDeviceFragment()  {
 
         cancelVisibility.observe(this , Observer { btnCancel.visibility })
 
+        //Progress dialog
         viewModel?.loadingVisibility?.observe(this, Observer{
             isShow -> if (isShow == true) showProgress() else hideProgress()
+        })
+
+        // Network Error
+        viewModel?.networkError?.observe(this , Observer {
+            btnCancel.visibility = View.INVISIBLE
+            showNetworkError(title = it)
+        })
+
+        viewModel?.apiError?.observe(this , Observer {
+            if (it is String)
+            showNetworkError (title = it , callBack =  {
+                            view.findNavController().popBackStack(R.id.transactionFragment,true)
+            })
+
         })
 
         // Calling Transaction API
@@ -48,7 +62,7 @@ class ProcessTransactionFragment : BaseDeviceFragment()  {
         })
 
         // Transaction API Result
-        viewModel?.transactionApiResponse?.observe(this , Observer {
+        viewModel?.onlineAuthResult?.observe(this , Observer {
             onlineProcessResult.value = it
         })
 
@@ -63,12 +77,9 @@ class ProcessTransactionFragment : BaseDeviceFragment()  {
 
         btnCancel.setOnClickListener {
             stopConnection()
-            view.findNavController().popBackStack(R.id.transactionFragment,true)
+
         }
     }
-
-
-
 
     private fun imageProcess(): AnimationDrawable{
         val img = view!!.findViewById<ImageView>(R.id.imgProcess)

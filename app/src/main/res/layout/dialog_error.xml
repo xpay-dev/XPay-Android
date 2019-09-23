@@ -7,9 +7,7 @@
     android:focusable="true"
     android:layout_gravity="center_horizontal"
     app:layout_constraintCircleRadius="10dp"
-    android:focusableInTouchMode="true"
-
-    >
+    android:focusableInTouchMode="true">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"

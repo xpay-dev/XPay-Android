@@ -8,21 +8,29 @@ import android.view.LayoutInflater
 import com.xpayworld.payment.R
 import android.view.WindowManager
 import android.app.Dialog
+import android.app.UiAutomation
+import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.util.DisplayMetrics
+import android.view.Window
 import android.widget.Button
 import android.widget.TextView
+import com.xpayworld.payment.ui.base.kt.BaseDialogFragment
 
-
-class ErrorDialog : DialogFragment() {
+interface ActionButton{
+    fun  callback()
+}
+class ErrorDialog : BaseDialogFragment() {
 
     private val ARG_TITLE = "AlertDialog.Title"
     private val ARG_MESSAGE = "AlertDialog.Message"
+    private var callback : (()-> Unit)? = null
 
-     fun showAlert(title: String, message: String, targetFragment: Fragment) {
+    fun showAlert(title: String, message: String, callback : (()-> Unit)? = null,  targetFragment: Fragment) {
         val dialog = ErrorDialog()
         val args = Bundle()
+        dialog.callback = callback
         args.putString(ARG_TITLE, title)
         args.putString(ARG_MESSAGE, message)
         dialog.arguments = args
@@ -37,19 +45,9 @@ class ErrorDialog : DialogFragment() {
                 .setCancelable(false)
                 .create()
 
-        val displayMetrics = DisplayMetrics()
-        activity?.windowManager?.defaultDisplay?.getMetrics(displayMetrics)
-
-        var width = displayMetrics.widthPixels
-        var height = displayMetrics.heightPixels
-
         // Temporarily set the dialogs window to not focusable to prevent the short
         // popup of the navigation bar.
-        alertDialog.window!!.addFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE)
-        alertDialog.window!!.decorView.systemUiVisibility = activity!!.window.decorView.systemUiVisibility
-        alertDialog.window!!.attributes.windowAnimations = R.style.DialogAnimation
-        alertDialog.window!!.setBackgroundDrawable( ColorDrawable(Color.TRANSPARENT))
-        alertDialog.window!!.attributes.width =  (width - (width * 0.25)).toInt()
+
 
         val btnDone = mDialogView.findViewById<Button>(R.id.btnDone)
         val title = mDialogView.findViewById<TextView>(R.id.tvTitle)
@@ -59,10 +57,11 @@ class ErrorDialog : DialogFragment() {
         message.text = arguments?.get(ARG_MESSAGE).toString()
 
         btnDone.setOnClickListener {
+            callback?.invoke()
             alertDialog.dismiss()
+
         }
 
         return alertDialog
     }
-
 }

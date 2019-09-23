@@ -66,21 +66,6 @@ class DashboardActivity : BaseActivity(), DrawerLocker , ToolbarDelegate {
         return navController.navigateUp()
     }
 
-    override fun onWindowFocusChanged(hasFocus: Boolean) {
-        super.onWindowFocusChanged(hasFocus)
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            window.decorView.systemUiVisibility = (View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
-                    // Set the content to appear under the system bars so that the
-                    // content doesn't resize when the system bars hide and show.
-                    or View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                    or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                    or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                    // Hide the nav bar and status bar
-                    or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-                    or View.SYSTEM_UI_FLAG_FULLSCREEN)
-        }
-    }
-
     override fun onBackPressed() {
         super.onBackPressed()
 //        navController.popBackStack()
@@ -93,8 +78,10 @@ class DashboardActivity : BaseActivity(), DrawerLocker , ToolbarDelegate {
             val imm = this.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
             imm.hideSoftInputFromWindow(currentFocus!!.windowToken, 0)
         }
+        shouldSetToFullScreen()
         return super.dispatchTouchEvent(ev)
     }
+
 
     // to disable / hide hamburger menu
     override fun drawerEnabled(enabled: Boolean) {

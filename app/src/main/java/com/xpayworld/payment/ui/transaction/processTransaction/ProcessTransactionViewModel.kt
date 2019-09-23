@@ -16,7 +16,8 @@ import retrofit2.Response
 class ProcessTransactionViewModel : BaseViewModel() {
 
 
-    val transactionApiResponse: MutableLiveData<String> = MutableLiveData()
+    val onlineAuthResult: MutableLiveData<String> = MutableLiveData()
+    val transactionError : MutableLiveData<String> = MutableLiveData()
     private lateinit var subscription: Disposable
 
     override fun onCleared() {
@@ -25,7 +26,7 @@ class ProcessTransactionViewModel : BaseViewModel() {
     }
 
     fun callTransactionAPI() {
-         var txnResponse: Single<Response<TransactionResponse>>? = null
+        var txnResponse: Single<Response<TransactionResponse>>? = null
         val api = RetrofitClient().getRetrofit().create(TransactionApi::class.java)
 
         val txnPurchase = TransactionPurchase(transaction)
@@ -36,9 +37,9 @@ class ProcessTransactionViewModel : BaseViewModel() {
             }
             is PaymentType.CREDIT -> {
                 if (mPaymentType.action != TransactionPurchase.Action.SWIPE) {
-                    txnResponse =   api.creditEMV(TransactionRequest(txnPurchase))
+                    txnResponse = api.creditEMV(TransactionRequest(txnPurchase))
                 } else {
-                    txnResponse =   api.creditSwipe(TransactionRequest(txnPurchase))
+                    txnResponse = api.creditSwipe(TransactionRequest(txnPurchase))
                 }
             }
         }
@@ -48,29 +49,31 @@ class ProcessTransactionViewModel : BaseViewModel() {
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe { loadingVisibility.value = true }
                 .doAfterTerminate { loadingVisibility.value = false }
-                .subscribe { result ->
+                .subscribe({ result ->
 
                     if (!result.isSuccessful) {
-//                        networkError.value = "Network Error ${result.code()}"
-//                        pinCode.value = ""
+                        networkError.value = "Network Error ${result.code()}"
                         return@subscribe
                     }
 
-                    val hasError = result?.body()?.result?.errNumber != 0.0
-                    if (hasError) {
-//                        pinCode.value = ""
-//                        apiError.value = hasError
-                        transactionApiResponse.value = "8A023035"
-                    }
+                    val body =  result?.body()
 
-                    else {
-                        transactionApiResponse.value = "8A023030"
+                    val hasError = body?.result?.errNumber != 0.0
+                    if (hasError) {
+                        apiError.value = body?.result?.errNumber
+                        onlineAuthResult.value = "8A023035"
+                    } else {
+                        onlineAuthResult.value = "8A023030${body?.authNumber ?:""}"
 //                        val response =   result?.body()?.result !=
 //                        val sharedPref = context.let { SharedPrefStorage(it!!) }
 //                        response?.rToken?.let { sharedPref.writeMessage("rtoken", it) }
 //                        toolbarVisibility.value = true
 //                        navigateToEnterAmount.value = ""
                     }
+                }, {
+                    println(it)
+                    networkError.value = "Network Error"
                 }
+                )
     }
 }

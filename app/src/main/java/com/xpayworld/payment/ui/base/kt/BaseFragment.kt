@@ -5,12 +5,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.annotation.LayoutRes
 import androidx.fragment.app.Fragment
+import com.xpayworld.payment.ui.dialog.ActionButton
+import com.xpayworld.payment.ui.dialog.ErrorDialog
 import com.xpayworld.payment.util.CustomDialog
 import dagger.android.support.AndroidSupportInjection
 
-abstract class BaseFragment : Fragment(), MvpView {
+abstract class BaseFragment : Fragment() {
 
     private var parentActivity: BaseActivity? = null
     private lateinit var dialog: CustomDialog
@@ -51,22 +52,25 @@ abstract class BaseFragment : Fragment(), MvpView {
             activity?.onFragmentAttached()
         }
     }
-    override fun hideProgress() {
+    fun hideProgress() {
         activity?.runOnUiThread {
             dialog.onDismiss()
         }
     }
 
-    override fun showProgress() {
-        activity?.runOnUiThread {
-            dialog.onLoading().show()
-        }
+    fun showProgress() {
+            activity?.runOnUiThread {
+                dialog.onLoading().show()
+            }
     }
 
-    override fun showNetworkError() {
-        activity?.runOnUiThread {
-            CustomDialog(this.context!!).onError().show()
-        }
+    fun showNetworkError(title: String ? = null, message: String ?= null, callBack: (()-> Unit)? = null) {
+      val error = ErrorDialog()
+        error.showAlert(
+                title ?: "Network",
+                message ?: "Looks lie we weren't able to connect to our server. Please check your connection and try again",
+                    callBack,
+                this)
     }
 
 
@@ -81,5 +85,7 @@ abstract class BaseFragment : Fragment(), MvpView {
 
     abstract fun getLayout(): Any
     abstract fun initView(view: View , container: ViewGroup?)
+
+
 
 }

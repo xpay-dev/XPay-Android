@@ -52,7 +52,7 @@ class EnterPinFragment : BaseFragment() {
         })
 
         viewModel.apiError.observe(this, Observer { it ->
-            if (it) {
+            if (it is Boolean) {
                 val shake = AnimationUtils.loadAnimation(context!!, R.anim.pin_shake)
                 pinCodeImgArr.forEach {
                     it.startAnimation(shake)
@@ -65,7 +65,7 @@ class EnterPinFragment : BaseFragment() {
 
         viewModel.navigateToEnterAmount.observe(this , Observer {
             val direction = EnterPinFragmentDirections.actionEnterPinFragmentToTransactionFragment(it)
-           findNavController().navigate(direction)
+            findNavController().navigate(direction)
         })
 
     }

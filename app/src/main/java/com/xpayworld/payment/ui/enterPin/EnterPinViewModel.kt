@@ -22,9 +22,6 @@ import kotlin.math.log
 
 class EnterPinViewModel( private val context: Context) : BaseViewModel() {
 
-
-    val apiError: MutableLiveData<Boolean> = MutableLiveData()
-
     val clearClickListener = View.OnClickListener { onClickClear(it) }
     val numpadClickListener = View.OnClickListener { onClickNumpad(it) }
 
