@@ -15,6 +15,9 @@ import com.xpayworld.payment.util.SharedPrefStorage
 import kotlinx.android.synthetic.main.fragment_enter_pin.*
 import androidx.lifecycle.Observer
 import com.xpayworld.payment.util.InjectorUtil
+import android.content.DialogInterface
+import androidx.appcompat.app.AlertDialog
+
 
 class EnterPinFragment : BaseFragment() {
 

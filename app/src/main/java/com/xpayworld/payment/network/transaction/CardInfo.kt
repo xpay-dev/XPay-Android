@@ -39,9 +39,9 @@ class CardInfo {
 
     @SerializedName("NameOnCard")
     var nameOnCard = ""
+
     @SerializedName("RefNumberApp")
     var refNumberApp = ""
-
 
     @SerializedName("Track1")
     var track1 = ""

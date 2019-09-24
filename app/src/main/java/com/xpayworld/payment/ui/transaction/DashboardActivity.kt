@@ -25,7 +25,6 @@ import android.view.inputmethod.InputMethodManager
 
 
 class DashboardActivity : BaseActivity(), DrawerLocker , ToolbarDelegate {
-
     private lateinit var drawerLayout: DrawerLayout
     private lateinit var navController: NavController
     private lateinit var toolbar: Toolbar

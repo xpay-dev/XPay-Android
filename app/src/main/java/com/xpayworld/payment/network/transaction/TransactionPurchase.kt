@@ -56,7 +56,6 @@ class TransactionPurchase(txn: Transaction) {
 
         val card = CardInfo()
         card.amount = txn.amount
-   //     card.cardNumber = txn.emvCard?.cardXNumber
         card.currency = txn.currency
         card.epb = txn.emvCard!!.epb
         card.emvICCData = txn.emvCard!!.emvICCData

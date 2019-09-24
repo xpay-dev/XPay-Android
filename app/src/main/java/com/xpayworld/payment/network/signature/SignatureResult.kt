@@ -5,4 +5,5 @@ import com.xpayworld.payment.util.posRequest
 
 class SignatureResult(){
 
+
 }

@@ -26,7 +26,7 @@ class ProcessTransactionViewModel : BaseViewModel() {
     }
 
     fun callTransactionAPI() {
-        var txnResponse: Single<Response<TransactionResponse>>? = null
+        var txnResponse: Single<Response<TransactionResult>>? = null
         val api = RetrofitClient().getRetrofit().create(TransactionApi::class.java)
 
         val txnPurchase = TransactionPurchase(transaction)
@@ -55,20 +55,15 @@ class ProcessTransactionViewModel : BaseViewModel() {
                         networkError.value = "Network Error ${result.code()}"
                         return@subscribe
                     }
-
-                    val body =  result?.body()
-
+                    val body = if ( result.body()?.resultEmv != null) result.body()?.resultEmv else  result.body()?.resultSwipe
                     val hasError = body?.result?.errNumber != 0.0
+                    println()
                     if (hasError) {
                         apiError.value = body?.result?.errNumber
                         onlineAuthResult.value = "8A023035"
                     } else {
-                        onlineAuthResult.value = "8A023030${body?.authNumber ?:""}"
-//                        val response =   result?.body()?.result !=
-//                        val sharedPref = context.let { SharedPrefStorage(it!!) }
-//                        response?.rToken?.let { sharedPref.writeMessage("rtoken", it) }
-//                        toolbarVisibility.value = true
-//                        navigateToEnterAmount.value = ""
+//                        onlineAuthResult.value = "8A023030${body?.authNumber ?:""}"
+                        onlineAuthResult.value = "8A023030"
                     }
                 }, {
                     println(it)

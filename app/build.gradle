@@ -89,7 +89,7 @@ dependencies {
     // network
     implementation 'com.amitshekhar.android:rx2-android-networking:1.0.2'
 
-    // SignatureRequest
+    // Signature
     implementation 'com.kyanogen.signatureview:signature-view:1.2'
 
     implementation files('libs/ksoap2-android-assembly-2.4-jar-with-dependencies.jar')

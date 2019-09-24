@@ -9,7 +9,6 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.findNavController
 import com.xpayworld.payment.R
-import com.xpayworld.payment.ui.dialog.ActionButton
 import com.xpayworld.payment.ui.transaction.DrawerLocker
 import com.xpayworld.payment.ui.transaction.ToolbarDelegate
 import com.xpayworld.payment.util.formattedAmount
@@ -77,7 +76,6 @@ class ProcessTransactionFragment : BaseDeviceFragment()  {
 
         btnCancel.setOnClickListener {
             stopConnection()
-
         }
     }
 

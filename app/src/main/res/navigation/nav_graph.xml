@@ -146,4 +146,10 @@
             app:argType="string" />
     </fragment>
 
+    <fragment
+        android:id="@+id/logoutFragment"
+        android:name="com.xpayworld.payment.ui.logout.LogoutFragment"
+        android:label="Log out"
+        tools:layout="@layout/fragment_logout"/>
+
 </navigation>

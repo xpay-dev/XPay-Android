@@ -4,11 +4,12 @@ import android.app.Dialog
 import android.graphics.drawable.AnimationDrawable
 import android.os.Bundle
 import android.widget.ImageView
+import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import com.xpayworld.payment.R
 import com.xpayworld.payment.ui.base.kt.BaseDialogFragment
 
-class LoadingDialog : BaseDialogFragment() {
+class LoadingDialog : DialogFragment() {
 
     fun show(targetFragment: Fragment) {
         val dialog = LoadingDialog()

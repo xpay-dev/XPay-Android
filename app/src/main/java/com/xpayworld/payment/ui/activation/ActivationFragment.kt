@@ -10,11 +10,9 @@ import com.xpayworld.payment.R
 import com.xpayworld.payment.ui.base.kt.BaseFragment
 import com.xpayworld.payment.ui.transaction.DrawerLocker
 import kotlinx.android.synthetic.main.fragment_activation_code.*
-
 import androidx.fragment.app.viewModels
 import com.xpayworld.payment.util.InjectorUtil
 import androidx.navigation.fragment.findNavController
-import com.xpayworld.payment.ui.dialog.ActionButton
 import com.xpayworld.payment.util.SharedPrefStorage
 
 

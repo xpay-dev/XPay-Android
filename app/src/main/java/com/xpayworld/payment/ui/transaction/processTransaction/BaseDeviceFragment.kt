@@ -129,7 +129,7 @@ abstract class BaseDeviceFragment : BaseFragment()  {
         bbDeviceController!!.releaseBBDeviceController()
     }
 
-    inner private class MyBBdeviceControllerListener : BBDeviceController.BBDeviceControllerListener {
+    private inner class MyBBdeviceControllerListener : BBDeviceController.BBDeviceControllerListener {
         override fun onReturnUpdateAIDResult(p0: Hashtable<String, BBDeviceController.TerminalSettingStatus>?) {
 
         }

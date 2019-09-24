@@ -11,6 +11,7 @@ import androidx.core.app.ActivityCompat
 import com.xpayworld.payment.network.PosWsRequest
 import com.xpayworld.payment.network.transaction.PaymentType
 import com.xpayworld.payment.network.transaction.Transaction
+import com.xpayworld.payment.network.updateApp.UpdateAppResponse
 import java.text.DecimalFormat
 
 // Global Declaration
@@ -18,6 +19,8 @@ import java.text.DecimalFormat
 var paymentType : PaymentType? = null
 var posRequest  : PosWsRequest? = null
 var  transaction =  Transaction()
+var merchantDetails = UpdateAppResponse().merchantDetails
+
 
 fun formattedAmount(amount : String) : String {
     var formatedAmount = ""

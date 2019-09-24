@@ -10,6 +10,7 @@ import android.view.View
 import android.view.WindowManager
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentTransaction
 import com.xpayworld.payment.R
 
 
@@ -23,20 +24,15 @@ abstract class BaseDialogFragment : DialogFragment() {
     override fun setupDialog(dialog: Dialog, style: Int) {
         super.setupDialog(dialog, style)
 
-        // Make the dialog non-focusable before showing it
-        dialog.window!!.setFlags(
-                WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,
-                WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE)
         dialog.setCancelable(false)
-        dialog.setCanceledOnTouchOutside(true)
 
         val displayMetrics = DisplayMetrics()
         activity!!.windowManager!!.defaultDisplay?.getMetrics(displayMetrics)
         val width = displayMetrics.widthPixels
 
+
         dialog.window!!.attributes.windowAnimations = R.style.DialogAnimation
         dialog.window!!.setBackgroundDrawable( ColorDrawable(Color.TRANSPARENT))
         dialog.window!!.attributes.width =  (width - (width * 0.3)).toInt()
-
     }
 }

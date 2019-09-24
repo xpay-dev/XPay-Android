@@ -1,15 +1,31 @@
 package com.xpayworld.payment.network.signature
 
-import com.xpayworld.payment.network.ApiConstants
-import retrofit2.http.Headers
-import retrofit2.http.POST
+import com.google.gson.annotations.SerializedName
+import com.xpayworld.payment.network.PosWsRequest
+import com.xpayworld.payment.util.posRequest
 
-interface  Signature{
+class Signature(
+    img: String = "" ,
+    imgLen: String = "" ,
+    mobileType: Int = 0,
+    transNumber: Int = 0){
 
+        @SerializedName("Image")
+        var imageStr : String? = null
+        @SerializedName("ImageLen")
+        var imageLenStr : String? = null
+        @SerializedName("MobileAppTransType")
+        var mobileAppTransTypeInt : Int? = 0
+        @SerializedName("TransNumber")
+        var transNumberInt : Int? = 0
+        @SerializedName("POSWSRequest")
+        var posWsRequest : PosWsRequest? = null
 
-    @Headers(
-            ApiConstants.Charset,
-            ApiConstants.Content)
-    @POST(ApiConstants.TransSign)
-    fun sign()
+        init {
+            imageStr = img
+            imageLenStr = imgLen
+            mobileAppTransTypeInt = mobileType
+            transNumberInt = transNumber
+            posWsRequest = posRequest
+        }
 }

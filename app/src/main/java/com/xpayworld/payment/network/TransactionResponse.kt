@@ -86,7 +86,7 @@ class TransactionResponse {
     var tax2Rate: String? = null
 
     @SerializedName("POSWSResponse")
-    var result = PosWsResponse()
+    var result : PosWsResponse? = null
 
     @SerializedName("TerminalId")
     var terminalId: String? = null
