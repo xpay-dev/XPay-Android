@@ -15,12 +15,12 @@ import com.xpayworld.payment.util.formattedAmount
 import kotlinx.android.synthetic.main.fragment_process_transaction.*
 
 
-class ProcessTransactionFragment : BaseDeviceFragment()  {
+class ProcessTransactionFragment : BaseDeviceFragment() {
 
 
-    var viewModel : ProcessTransactionViewModel? = null
+    var viewModel: ProcessTransactionViewModel? = null
     override fun getLayout(): Any {
-         return R.layout.fragment_process_transaction
+        return R.layout.fragment_process_transaction
     }
 
     override fun initView(view: View, container: ViewGroup?) {
@@ -28,29 +28,31 @@ class ProcessTransactionFragment : BaseDeviceFragment()  {
 
         viewModel = ViewModelProviders.of(this).get(ProcessTransactionViewModel::class.java)
 
-        startAnimation.observe(this , Observer {
+        startAnimation.observe(this, Observer {
             if (it) imageProcess().start() else imageProcess().stop()
         })
 
-        toolbarTitle.observe(this , Observer((activity as ToolbarDelegate)::setTitle))
+        toolbarTitle.observe(this, Observer((activity as ToolbarDelegate)::setTitle))
 
-        cancelVisibility.observe(this , Observer { btnCancel.visibility })
+        cancelVisibility.observe(this, Observer { btnCancel.visibility })
 
         //Progress dialog
-        viewModel?.loadingVisibility?.observe(this, Observer{
-            isShow -> if (isShow == true) showProgress() else hideProgress()
+        viewModel?.loadingVisibility?.observe(this, Observer { isShow ->
+            if (isShow == true) showProgress() else hideProgress()
         })
 
         // Network Error
-        viewModel?.networkError?.observe(this , Observer {
+        viewModel?.networkError?.observe(this, Observer {
             btnCancel.visibility = View.INVISIBLE
             showNetworkError(title = it)
         })
 
-        viewModel?.apiError?.observe(this , Observer {
-            if (it is String)
-            showNetworkError (title = it , callBack =  {
-                            view.findNavController().popBackStack(R.id.transactionFragment,true)
+        viewModel?.requestError?.observe(this, Observer {
+            if (it is Double)
+
+                btnCancel.visibility = View.INVISIBLE
+            showNetworkError(title = "REQUEST ERROR $it", callBack = {
+                view.findNavController().popBackStack(R.id.transactionFragment, true)
             })
 
         })
@@ -61,27 +63,28 @@ class ProcessTransactionFragment : BaseDeviceFragment()  {
         })
 
         // Transaction API Result
-        viewModel?.onlineAuthResult?.observe(this , Observer {
+        viewModel?.onlineAuthResult?.observe(this, Observer {
             onlineProcessResult.value = it
         })
 
         // Device Transaction Result
-        onTransactionResult.observe(this , Observer {
+        onTransactionResult.observe(this, Observer {
             val direction = ProcessTransactionFragmentDirections.actionProcessTransactionToSignatureFragment(amountStr)
             if (it) view.findNavController().navigate(direction)
         })
 
-        cancelTitle.observe(this  , Observer {
-            btnCancel.text = it })
+        cancelTitle.observe(this, Observer {
+            btnCancel.text = it
+        })
 
         btnCancel.setOnClickListener {
             stopConnection()
         }
     }
 
-    private fun imageProcess(): AnimationDrawable{
+    private fun imageProcess(): AnimationDrawable {
         val img = view!!.findViewById<ImageView>(R.id.imgProcess)
-       return  img?.drawable as AnimationDrawable
+        return img?.drawable as AnimationDrawable
     }
 
 

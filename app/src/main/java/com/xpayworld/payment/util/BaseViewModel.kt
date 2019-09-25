@@ -7,6 +7,6 @@ open class BaseViewModel : ViewModel(){
 
     val loadingVisibility : MutableLiveData<Boolean> = MutableLiveData()
     val networkError : MutableLiveData<String> = MutableLiveData()
-    val apiError :  MutableLiveData<Any> = MutableLiveData()
+    val requestError :  MutableLiveData<Any> = MutableLiveData()
     val toolbarVisibility: MutableLiveData<Boolean> = MutableLiveData()
 }

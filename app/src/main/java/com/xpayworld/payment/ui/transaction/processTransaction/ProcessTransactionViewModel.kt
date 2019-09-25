@@ -2,7 +2,6 @@ package com.xpayworld.payment.ui.transaction.processTransaction
 
 import androidx.lifecycle.MutableLiveData
 import com.xpayworld.payment.network.RetrofitClient
-import com.xpayworld.payment.network.TransactionResponse
 import com.xpayworld.payment.network.transaction.*
 import com.xpayworld.payment.util.BaseViewModel
 import com.xpayworld.payment.util.paymentType
@@ -57,9 +56,8 @@ class ProcessTransactionViewModel : BaseViewModel() {
                     }
                     val body = if ( result.body()?.resultEmv != null) result.body()?.resultEmv else  result.body()?.resultSwipe
                     val hasError = body?.result?.errNumber != 0.0
-                    println()
                     if (hasError) {
-                        apiError.value = body?.result?.errNumber
+                        requestError.value = body?.result?.errNumber
                         onlineAuthResult.value = "8A023035"
                     } else {
 //                        onlineAuthResult.value = "8A023030${body?.authNumber ?:""}"

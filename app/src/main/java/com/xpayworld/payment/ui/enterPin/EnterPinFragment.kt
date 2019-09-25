@@ -15,8 +15,6 @@ import com.xpayworld.payment.util.SharedPrefStorage
 import kotlinx.android.synthetic.main.fragment_enter_pin.*
 import androidx.lifecycle.Observer
 import com.xpayworld.payment.util.InjectorUtil
-import android.content.DialogInterface
-import androidx.appcompat.app.AlertDialog
 
 
 class EnterPinFragment : BaseFragment() {
@@ -54,7 +52,7 @@ class EnterPinFragment : BaseFragment() {
             if (it) showProgress() else hideProgress()
         })
 
-        viewModel.apiError.observe(this, Observer { it ->
+        viewModel.requestError.observe(this, Observer { it ->
             if (it is Boolean) {
                 val shake = AnimationUtils.loadAnimation(context!!, R.anim.pin_shake)
                 pinCodeImgArr.forEach {

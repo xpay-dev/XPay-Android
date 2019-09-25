@@ -43,7 +43,7 @@ class ActivationFragment : BaseFragment() {
         })
         viewModel.toolbarVisibility.observe(this, Observer{(activity as DrawerLocker).drawerEnabled(it)})
 
-        viewModel.apiError.observe(this, Observer {
+        viewModel.requestError.observe(this, Observer {
            if (it is Boolean) {
                edtextList.forEach { editText -> editText.setBackgroundResource(R.drawable.tv_error)}
                errorGroup.visibility = View.VISIBLE

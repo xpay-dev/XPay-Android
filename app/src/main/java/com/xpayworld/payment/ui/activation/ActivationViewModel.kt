@@ -1,11 +1,9 @@
 package com.xpayworld.payment.ui.activation
 
-import android.app.Activity
 import android.content.Context
 import android.os.Handler
 import android.telephony.TelephonyManager
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import com.xpayworld.payment.network.PosWsRequest
 import com.xpayworld.payment.network.RetrofitClient
 import com.xpayworld.payment.network.activateApp.Activation
@@ -75,9 +73,9 @@ class ActivationViewModel(private val context: Context) : BaseViewModel() {
                             val hasError = result?.body()?.result?.errNumber != 0.0
 
                             if (hasError) {
-                                apiError.value = hasError
+                                requestError.value = hasError
                                 Handler().postDelayed({
-                                    apiError.value = !hasError
+                                    requestError.value = !hasError
                                 }, 3000)
 
                             } else {

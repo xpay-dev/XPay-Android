@@ -1,13 +1,9 @@
 package com.xpayworld.payment.ui.enterPin
 
 import android.content.Context
-import android.view.ContextMenu
 import android.view.View
 import android.widget.Button
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.navigation.findNavController
-import com.xpayworld.payment.network.PosWsRequest
 import com.xpayworld.payment.network.RetrofitClient
 import com.xpayworld.payment.network.login.Login
 import com.xpayworld.payment.network.login.LoginApi
@@ -17,11 +13,9 @@ import com.xpayworld.payment.network.updateApp.UpdateAppRequest
 import com.xpayworld.payment.util.BaseViewModel
 import com.xpayworld.payment.util.SharedPrefStorage
 import com.xpayworld.payment.util.merchantDetails
-import com.xpayworld.payment.util.posRequest
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
-import kotlin.math.log
 
 class EnterPinViewModel(private val context: Context) : BaseViewModel() {
 
@@ -95,7 +89,7 @@ class EnterPinViewModel(private val context: Context) : BaseViewModel() {
                             if (hasError) {
                                 loadingVisibility.value = false
                                 pinCode.value = ""
-                                apiError.value = hasError
+                                requestError.value = hasError
 
                             } else {
 
