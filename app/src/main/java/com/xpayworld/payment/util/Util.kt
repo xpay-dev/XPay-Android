@@ -14,7 +14,7 @@ import com.xpayworld.payment.network.transaction.Transaction
 import com.xpayworld.payment.network.updateApp.UpdateAppResponse
 import java.text.DecimalFormat
 
-// Global Declaration
+// Global Variables
 
 var paymentType : PaymentType? = null
 var posRequest  : PosWsRequest? = null

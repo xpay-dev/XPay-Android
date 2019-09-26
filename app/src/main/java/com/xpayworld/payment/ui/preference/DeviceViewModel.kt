@@ -1,5 +1,6 @@
 package com.xpayworld.payment.ui.preference
 
+import android.bluetooth.BluetoothDevice
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
@@ -10,9 +11,8 @@ class  DeviceViewModel : ViewModel(){
     private val isActive = MutableLiveData<Boolean>()
 
 
-    fun bind (device : Device){
+    fun bind (device : BluetoothDevice){
         deviceName.value = device.name
-        deviceId.value = device.id
     }
 
     fun  getDeviceName(): MutableLiveData<String>{

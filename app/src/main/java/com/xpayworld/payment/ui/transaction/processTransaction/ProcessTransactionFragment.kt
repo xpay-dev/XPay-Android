@@ -79,6 +79,7 @@ class ProcessTransactionFragment : BaseDeviceFragment() {
 
         btnCancel.setOnClickListener {
             stopConnection()
+            view.findNavController().popBackStack(R.id.transactionFragment, true)
         }
     }
 

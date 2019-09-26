@@ -10,6 +10,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.xpayworld.payment.R
 import com.xpayworld.payment.ui.base.kt.BaseFragment
 import com.xpayworld.payment.ui.transaction.processTransaction.BaseDeviceFragment
+import com.xpayworld.payment.util.SharedPrefStorage
+import com.xpayworld.payment.util.WISE_PAD
 import kotlinx.android.synthetic.main.fragment_preference.*
 
 
@@ -22,6 +24,22 @@ class PreferenceFragment : BaseDeviceFragment() {
     override fun initView(view: View, container: ViewGroup?) {
         recyclerView.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
         recyclerView.adapter = deviceListAdapter
+
+        deviceListAdapter.onItemClick = {device ->
+
+            SharedPrefStorage(context!!).writeMessage(WISE_PAD,device.name)
+            bbDeviceController!!.connectBT(device)
+        }
+
+
+        swWisePad.setOnCheckedChangeListener { _, isChecked ->
+            if (isChecked){
+                startBluetoothConnection()
+            }
+            else {
+                stopConnection()
+            }
+        }
     }
 
     override fun onDestroy() {

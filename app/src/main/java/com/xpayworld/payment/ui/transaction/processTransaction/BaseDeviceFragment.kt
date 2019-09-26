@@ -23,8 +23,8 @@ import com.xpayworld.payment.ui.base.kt.BaseFragment
 import com.xpayworld.payment.ui.preference.Device
 import com.xpayworld.payment.ui.preference.DeviceAdapter
 import com.xpayworld.payment.ui.preference.PreferenceFragment
-import com.xpayworld.payment.util.paymentType
-import com.xpayworld.payment.util.transaction
+import com.xpayworld.payment.util.*
+import okhttp3.internal.notify
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -52,8 +52,7 @@ abstract class BaseDeviceFragment : BaseFragment()  {
     val cancelVisibility : MutableLiveData<Int> = MutableLiveData()
     val cancelTitle : MutableLiveData<String> = MutableLiveData()
     val deviceListAdapter  = DeviceAdapter()
-    var deviceArr : List<Device>? = null
-
+    var deviceArr : MutableList<BluetoothDevice> = arrayListOf()
 
     // Process Transaction Fragment
     val onProcessTransaction : MutableLiveData<EMVCard> = MutableLiveData()
@@ -75,11 +74,14 @@ abstract class BaseDeviceFragment : BaseFragment()  {
         BBDeviceController.setDebugLogEnabled(true)
 
 
+
         if (currentFragment is ProcessTransactionFragment){
-            startTransaction()
-        }
-        if (currentFragment is PreferenceFragment){
-            startBluetoothConnection()
+            if (!SharedPrefStorage(context!!).isEmpty(WISE_PAD)){
+                startBluetoothConnection()
+            }
+            else {
+                startTransaction()
+            }
         }
     }
 
@@ -93,6 +95,7 @@ abstract class BaseDeviceFragment : BaseFragment()  {
     }
 
     fun startBluetoothConnection(){
+        toolbarTitle.value = "Initializing..."
         bbDeviceController?.startBTScan(DEVICE_NAMES, 120)
     }
 
@@ -110,6 +113,7 @@ abstract class BaseDeviceFragment : BaseFragment()  {
         // Check for Swipe, Insert and Tap card
         data.put("checkCardMode", BBDeviceController.CheckCardMode.SWIPE_OR_INSERT_OR_TAP)
         startAnimation.value = true
+        toolbarTitle.value = "Please confirm amount"
         bbDeviceController!!.startEmv(data)
     }
 
@@ -118,8 +122,7 @@ abstract class BaseDeviceFragment : BaseFragment()  {
 
         // Amount
         var currencyCharacters = listOf(BBDeviceController.CurrencyCharacter.P, BBDeviceController.CurrencyCharacter.H, BBDeviceController.CurrencyCharacter.P)
-
-        input.put("amount", amountStr)
+        input.put("amount", String.format("%.2f", amountStr.toInt() / 100.0))
         input.put("transactionType", BBDeviceController.TransactionType.GOODS)
         input.put("currencyCode", "604")
         bbDeviceController!!.setAmount(input)
@@ -127,6 +130,8 @@ abstract class BaseDeviceFragment : BaseFragment()  {
 
     fun stopConnection() {
         bbDeviceController!!.releaseBBDeviceController()
+        deviceArr.clear()
+        deviceListAdapter.notifyDataSetChanged()
     }
 
     private inner class MyBBdeviceControllerListener : BBDeviceController.BBDeviceControllerListener {
@@ -147,7 +152,7 @@ abstract class BaseDeviceFragment : BaseFragment()  {
         }
 
         override fun onRequestSelectApplication(p0: ArrayList<String>?) {
-
+            bbDeviceController?.selectApplication(0)
         }
 
         override fun onRequestDisplayText(displayText: BBDeviceController.DisplayText?) {
@@ -168,6 +173,7 @@ abstract class BaseDeviceFragment : BaseFragment()  {
         }
 
         override fun onBTConnected(pairedObjects: BluetoothDevice?) {
+            startEmv()
 
 
         }
@@ -214,6 +220,7 @@ abstract class BaseDeviceFragment : BaseFragment()  {
         }
 
         override fun onBTScanStopped() {
+            toolbarTitle.value = "Bluetooth scan stopped"
 
         }
 
@@ -290,13 +297,20 @@ abstract class BaseDeviceFragment : BaseFragment()  {
         }
 
         override fun onBTReturnScanResults(foundDevices: MutableList<BluetoothDevice>?) {
+            deviceArr = foundDevices!!
 
+            if (currentFragment is ProcessTransactionFragment){
 
-            for (i in foundDevices!!.indices) {
-                deviceArr = listOf(Device(foundDevices[i].name,i))
-
+                foundDevices.forEach { device ->
+                    if (device.name == SharedPrefStorage(context!!).readMessage(WISE_PAD)) {
+                        bbDeviceController!!.connectBT(device)
+                    }
+                }
             }
-            deviceListAdapter.updatePostList(deviceArr!!)
+            else {
+                deviceListAdapter.updatePostList(deviceArr)
+            }
+
 
         }
 
@@ -318,7 +332,7 @@ abstract class BaseDeviceFragment : BaseFragment()  {
 
 
         override fun onBTRequestPairing() {
-
+            toolbarTitle.value = "Request Pairing"
         }
 
         override fun onDeviceHere(p0: Boolean) {
@@ -456,7 +470,7 @@ abstract class BaseDeviceFragment : BaseFragment()  {
         }
 
         override fun onBTScanTimeout() {
-
+            toolbarTitle.value = "Bluetooth scan timeout"
         }
 
         override fun onRequestProduceAudioTone(contactlessStatusTone: BBDeviceController.ContactlessStatusTone?) {
@@ -548,9 +562,6 @@ abstract class BaseDeviceFragment : BaseFragment()  {
                 paymentType  = PaymentType.CREDIT(TransactionPurchase.Action.EMV)
 
             }
-
-
-
         }
 
         override fun onRequestPinEntry(pinEntrySource: BBDeviceController.PinEntrySource?) {
@@ -579,6 +590,7 @@ abstract class BaseDeviceFragment : BaseFragment()  {
 
                 bbDeviceController!!.setPinPadButtons(pinButtonLayout)
             }
+
         }
 
         override fun onReturnSetPinPadButtonsResult(p0: Boolean) {
@@ -663,7 +675,12 @@ abstract class BaseDeviceFragment : BaseFragment()  {
 
         }
 
-        override fun onReturnAmountConfirmResult(p0: Boolean) {
+        override fun onReturnAmountConfirmResult(isSuccess: Boolean) {
+            if (isSuccess) {
+                toolbarTitle.value = "Amount Confirm"
+            } else {
+                toolbarTitle.value = "Amount Cancel"
+            }
 
         }
 
