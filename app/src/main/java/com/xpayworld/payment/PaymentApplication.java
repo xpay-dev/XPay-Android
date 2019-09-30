@@ -18,6 +18,7 @@ public class PaymentApplication extends Application {
         mAppComponent.inject(this);
 
     }
+    
     public ApplicationComponent getAppComponent() {
         return mAppComponent;
     }
