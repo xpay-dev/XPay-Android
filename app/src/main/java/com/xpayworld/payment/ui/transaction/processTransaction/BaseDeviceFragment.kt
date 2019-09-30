@@ -79,7 +79,7 @@ abstract class BaseDeviceFragment : BaseFragment()  {
             if (!SharedPrefStorage(context!!).isEmpty(WISE_PAD)){
                 startBluetoothConnection()
             }
-            else {
+            if (!SharedPrefStorage(context!!).isEmpty(WISE_POS)){
                 startTransaction()
             }
         }
