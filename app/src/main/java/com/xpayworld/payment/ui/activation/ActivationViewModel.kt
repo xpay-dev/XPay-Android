@@ -44,6 +44,9 @@ class ActivationViewModel(private val context: Context) : BaseViewModel() {
         pos.systemMode = "Live"
 
 
+
+
+        
         val activate = Activation()
         activate.imei = "asdasda"
         activate.ip = "192.168.1.1"
