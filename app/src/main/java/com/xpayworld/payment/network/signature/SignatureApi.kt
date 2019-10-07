@@ -14,5 +14,5 @@ interface  SignatureApi{
             ApiConstants.Charset,
             ApiConstants.Content)
     @POST(ApiConstants.TransSign)
-    fun signature(@Body data:  Signature) : Single<Response<SignatureResult>>
+    fun signature(@Body data:  SignatureRequest) : Single<Response<SignatureResult>>
 }

@@ -28,4 +28,6 @@ class Signature(
             transNumberInt = transNumber
             posWsRequest = posRequest
         }
+
+
 }

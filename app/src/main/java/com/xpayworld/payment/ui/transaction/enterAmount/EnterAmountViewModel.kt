@@ -8,13 +8,14 @@ import androidx.navigation.findNavController
 import com.xpayworld.payment.R
 import com.xpayworld.payment.network.transaction.PaymentType
 import com.xpayworld.payment.network.transaction.TransactionPurchase
+import com.xpayworld.payment.util.BaseViewModel
 import com.xpayworld.payment.util.formattedAmount
 import com.xpayworld.payment.util.paymentType
 import com.xpayworld.payment.util.transaction
 import io.reactivex.disposables.Disposable
 
 
-class EnterAmountViewModel(amount: String) : ViewModel() {
+class EnterAmountViewModel(amount: String) : BaseViewModel() {
 
     val numpadClickListener = View.OnClickListener { onClickNumpad(it) }
     val displayAmount: MutableLiveData<String> = MutableLiveData()
