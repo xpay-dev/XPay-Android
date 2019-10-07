@@ -26,8 +26,8 @@ object InjectorUtil  {
         return  EnterPinModelViewModelFactory(context)
     }
 
-    fun provideEnterAmountViewModelFactory(amount : String): EnterAmountViewModelFactory{
-        return EnterAmountViewModelFactory(amount)
+    fun provideEnterAmountViewModelFactory(context: Context): EnterAmountViewModelFactory{
+        return EnterAmountViewModelFactory(context)
     }
     fun provideActivationViewModelFactor(context: Context): ActivationViewModelFactory{
         return  ActivationViewModelFactory(context)

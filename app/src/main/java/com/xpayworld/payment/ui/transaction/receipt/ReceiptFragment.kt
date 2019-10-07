@@ -10,9 +10,7 @@ import androidx.navigation.findNavController
 import com.xpayworld.payment.ui.transaction.DrawerLocker
 
 class ReceiptFragment : BaseFragment() {
-    private fun bindView() {
 
-    }
 
     override fun getLayout(): Int {
         return R.layout.fragment_receipt

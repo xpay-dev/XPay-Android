@@ -31,7 +31,7 @@ class EnterAmountFragment : BaseFragment() {
     var amountStr = ""
 
     private  val viewModel : EnterAmountViewModel by viewModels {
-        InjectorUtil.provideEnterAmountViewModelFactory(amountStr)
+        InjectorUtil.provideEnterAmountViewModelFactory(context!!)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -74,6 +74,10 @@ class EnterAmountFragment : BaseFragment() {
         })
 
         viewModel.displayAmount.observe(this , Observer { tvAmount.text = it })
+
+        viewModel.deviceError.observe(this , Observer { msg ->
+            showNetworkError(msg.first,msg.second)
+        })
     }
 
 

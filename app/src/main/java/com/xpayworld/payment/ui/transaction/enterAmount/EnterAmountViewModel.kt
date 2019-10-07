@@ -1,5 +1,6 @@
 package com.xpayworld.payment.ui.transaction.enterAmount
 
+import android.content.Context
 import android.view.View
 import android.widget.Button
 import androidx.lifecycle.MutableLiveData
@@ -8,14 +9,11 @@ import androidx.navigation.findNavController
 import com.xpayworld.payment.R
 import com.xpayworld.payment.network.transaction.PaymentType
 import com.xpayworld.payment.network.transaction.TransactionPurchase
-import com.xpayworld.payment.util.BaseViewModel
-import com.xpayworld.payment.util.formattedAmount
-import com.xpayworld.payment.util.paymentType
-import com.xpayworld.payment.util.transaction
+import com.xpayworld.payment.util.*
 import io.reactivex.disposables.Disposable
 
 
-class EnterAmountViewModel(amount: String) : BaseViewModel() {
+class EnterAmountViewModel( context: Context) : BaseViewModel() {
 
     val numpadClickListener = View.OnClickListener { onClickNumpad(it) }
     val displayAmount: MutableLiveData<String> = MutableLiveData()
@@ -23,6 +21,7 @@ class EnterAmountViewModel(amount: String) : BaseViewModel() {
     val transTypeClickListener = View.OnClickListener { onClickTransType(it) }
     val clearClickListener = View.OnClickListener { onClickClear(it) }
     val okClickListener = View.OnClickListener { onClickOk(it) }
+    val deviceError : MutableLiveData<Pair<String,String>> = MutableLiveData()
 
     var amountStr = ""
 
@@ -38,6 +37,10 @@ class EnterAmountViewModel(amount: String) : BaseViewModel() {
     }
 
     private fun onClickOk(v: View) {
+        if (!isDeviceAvailable(v.context)) {
+            deviceError.value = Pair("No Device found","Please go to preference to pair device")
+            return
+        }
         if (amountStr.isEmpty()) return
         transaction.amount = amountStr.toDouble()
         val direction = EnterAmountFragmentDirections.actionEnterAmountFragmentToProcessTranactionFragment(amountStr)
@@ -62,6 +65,10 @@ class EnterAmountViewModel(amount: String) : BaseViewModel() {
             paymentType  = PaymentType.DEBIT(PaymentType.DebitTransaction.SALE, TransactionPurchase.AccountType.SAVINGS)
             transTypeSetResource.value = listOf(R.drawable.tab_indenticator_clear, R.drawable.tab_indenticator)
         }
+    }
+
+    private fun isDeviceAvailable(context: Context) : Boolean{
+        return !SharedPrefStorage(context!!).isEmpty(WISE_PAD) || !SharedPrefStorage(context!!).isEmpty(WISE_POS)
     }
 }
 
