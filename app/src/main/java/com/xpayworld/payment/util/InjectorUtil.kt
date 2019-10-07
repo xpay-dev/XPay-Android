@@ -14,6 +14,7 @@ import android.telephony.TelephonyManager
 import android.annotation.SuppressLint
 import com.xpayworld.payment.ui.enterPin.EnterPinModelViewModelFactory
 import com.xpayworld.payment.ui.enterPin.EnterPinViewModel
+import com.xpayworld.payment.ui.transaction.receipt.ReceiptViewModelFactory
 
 
 object InjectorUtil  {
@@ -33,5 +34,8 @@ object InjectorUtil  {
         return  ActivationViewModelFactory(context)
     }
 
+    fun  provideReceiptViewModelFactory(context: Context): ReceiptViewModelFactory{
+        return  ReceiptViewModelFactory(context)
+    }
 
 }

@@ -31,7 +31,7 @@ class EnterAmountFragment : BaseFragment() {
     var amountStr = ""
 
     private  val viewModel : EnterAmountViewModel by viewModels {
-        InjectorUtil.provideEnterAmountViewModelFactory(context!!)
+        InjectorUtil.provideEnterAmountViewModelFactory(requireContext())
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
