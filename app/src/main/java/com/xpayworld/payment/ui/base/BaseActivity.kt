@@ -7,14 +7,38 @@ import androidx.appcompat.app.AppCompatActivity
 import com.xpayworld.payment.ui.dialog.ErrorDialog
 import com.xpayworld.payment.util.CustomDialog
 import dagger.android.AndroidInjection
+import androidx.core.app.ComponentActivity.ExtraData
+import androidx.core.content.ContextCompat.getSystemService
+import android.icu.lang.UCharacter.GraphemeClusterBreak.T
+import android.os.Handler
+import androidx.navigation.findNavController
+import com.xpayworld.payment.R
 
 abstract  class BaseActivity : AppCompatActivity() ,BaseFragment.CallBack{
     private lateinit var dialog: CustomDialog
+    var handler: Handler? = null
+    var r: Runnable? = null
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
         dialog = CustomDialog(applicationContext)
         initView()
+
+        handler = Handler()
+        r = Runnable {
+            println("Running")
+            supportFragmentManager.primaryNavigationFragment?.let {
+                ErrorDialog().showAlert(
+                        "Session Time out",
+                        "Sorry , your session timed out after a long time of inactivity, Please click DONE and Log in again",
+                        {
+                            findNavController(R.id.nav_host_fragment).navigate(R.id.logoutFragment)
+                        },
+                        it)
+            }
+
+        }
+        startHandler()
     }
 
     fun showProgress() {
@@ -43,6 +67,19 @@ abstract  class BaseActivity : AppCompatActivity() ,BaseFragment.CallBack{
     override fun onWindowFocusChanged(hasFocus: Boolean) {
         super.onWindowFocusChanged(hasFocus)
         shouldSetToFullScreen()
+    }
+
+    override fun onUserInteraction() {
+        super.onUserInteraction()
+        stopHandler()
+        startHandler()
+    }
+    fun stopHandler() {
+        handler?.removeCallbacks(r)
+    }
+
+    fun startHandler() {
+        handler?.postDelayed(r, (5 * 60 * 1000).toLong()) //for 5 minutes
     }
 
     fun shouldSetToFullScreen(){
