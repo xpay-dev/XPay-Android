@@ -10,9 +10,7 @@ import com.xpayworld.payment.network.login.LoginApi
 import com.xpayworld.payment.network.login.LoginRequest
 import com.xpayworld.payment.network.updateApp.UpdateAppApi
 import com.xpayworld.payment.network.updateApp.UpdateAppRequest
-import com.xpayworld.payment.util.BaseViewModel
-import com.xpayworld.payment.util.SharedPrefStorage
-import com.xpayworld.payment.util.merchantDetails
+import com.xpayworld.payment.util.*
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
@@ -95,8 +93,7 @@ class EnterPinViewModel(private val context: Context) : BaseViewModel() {
 
                                 val response = result?.body()?.result
                                 val sharedPref = context.let { SharedPrefStorage(it) }
-                                response?.rToken?.let { sharedPref.writeMessage("rtoken", it) }
-
+                                posRequest!!.rToken  =  response!!.rToken!!
                                 callUpdateAp(callback = {
                                     toolbarVisibility.value = true
                                     navigateToEnterAmount.value = ""

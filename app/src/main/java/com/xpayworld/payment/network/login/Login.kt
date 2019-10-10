@@ -23,10 +23,9 @@ class Login (context : Context) {
      var posWsRequest: PosWsRequest? = null
 
     init {
-        val sharedPref = context.let { SharedPrefStorage(it!!) }
+        val sharedPref = context.let { SharedPrefStorage(it) }
         val posReq = PosWsRequest()
-        posReq.activationKey =   sharedPref.readMessage("activationKey")
-        posReq.rToken =   sharedPref.readMessage("rtoken")
+        posReq.activationKey = sharedPref.readMessage("activationKey")
         posWsRequest  = posReq
         posRequest = posReq
     }

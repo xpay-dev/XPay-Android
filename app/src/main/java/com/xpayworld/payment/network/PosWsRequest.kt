@@ -1,6 +1,7 @@
 package com.xpayworld.payment.network
 
 import com.google.gson.annotations.SerializedName
+import com.xpayworld.payment.util.RTOKEN
 
 class PosWsRequest {
 
@@ -18,5 +19,6 @@ class PosWsRequest {
 
     @SerializedName("SystemMode")
      var systemMode: String? = "Live"
+
 
 }
