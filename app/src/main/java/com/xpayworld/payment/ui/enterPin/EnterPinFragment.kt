@@ -14,6 +14,7 @@ import com.xpayworld.payment.util.SharedPrefStorage
 
 import kotlinx.android.synthetic.main.fragment_enter_pin.*
 import androidx.lifecycle.Observer
+import com.xpayworld.payment.util.ACTIVATION_KEY
 import com.xpayworld.payment.util.InjectorUtil
 
 
@@ -73,7 +74,7 @@ class EnterPinFragment : BaseFragment() {
 
     private fun shouldCheckActivationKey() {
         val sharedPref = context?.let { it -> SharedPrefStorage(it) }
-        if (sharedPref!!.isEmpty("activationKey")) {
+        if (sharedPref!!.isEmpty(ACTIVATION_KEY)) {
             findNavController().navigate(R.id.activationFragment)
         }
     }

@@ -5,7 +5,6 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.xpayworld.payment.R
-import com.xpayworld.payment.databinding.ListItemDeviceBinding
 import com.xpayworld.payment.databinding.ListItemHistoryBinding
 import com.xpayworld.payment.network.transLookUp.TransResponse
 
@@ -34,7 +33,7 @@ class TransactionHistoryAdapter : RecyclerView.Adapter<TransactionHistoryAdapter
 
     class ViewHolder(private val binding: ListItemHistoryBinding) : RecyclerView.ViewHolder(binding.root) {
 
-        private val viewModel = TransactionHistoryViewModel()
+        private val viewModel = HistoryViewModel()
 
         fun bind(txn: TransResponse) {
               viewModel.bind(txn)

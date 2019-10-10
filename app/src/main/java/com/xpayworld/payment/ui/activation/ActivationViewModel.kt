@@ -9,7 +9,7 @@ import com.xpayworld.payment.network.RetrofitClient
 import com.xpayworld.payment.network.activateApp.Activation
 import com.xpayworld.payment.network.activateApp.ActivationApi
 import com.xpayworld.payment.network.activateApp.PosInfo
-import com.xpayworld.payment.util.BaseViewModel
+import com.xpayworld.payment.util.*
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
@@ -36,11 +36,10 @@ class ActivationViewModel(private val context: Context) : BaseViewModel() {
     fun callActivationAPI(code: String) {
 
         val tm = context.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
-        val pos = PosWsRequest()
+        val pos = PosWsRequest(context)
         pos.activationKey = code
         pos.gpsLat = "0.0"
         pos.gpsLong = "0.0"
-        pos.rToken = "asdasda"
         pos.systemMode = "Live"
 
         val activate = Activation()
@@ -78,7 +77,12 @@ class ActivationViewModel(private val context: Context) : BaseViewModel() {
                                 }, 3000)
 
                             } else {
-                                navigateToEnterPin.value = posInfo.request.posWsRequest?.activationKey.toString()
+                                val sharedPref = context.let { SharedPrefStorage(it) }
+                                sharedPref.writeMessage(ACCOUNT_ID, result.body()!!.result.accountId!!)
+                                sharedPref.writeMessage(MOBILE_APP_ID, result.body()!!.result.mobileAppId!!)
+                                sharedPref.writeMessage(ACTIVATION_KEY, code)
+
+                                navigateToEnterPin.value = ""
                             }
                         },
                         {

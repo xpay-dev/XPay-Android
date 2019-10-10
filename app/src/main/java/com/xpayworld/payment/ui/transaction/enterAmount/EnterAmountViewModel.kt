@@ -7,6 +7,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.navigation.findNavController
 import com.xpayworld.payment.R
+import com.xpayworld.payment.network.PosWsRequest
 import com.xpayworld.payment.network.transaction.PaymentType
 import com.xpayworld.payment.network.transaction.TransactionPurchase
 import com.xpayworld.payment.util.*
@@ -29,6 +30,8 @@ class EnterAmountViewModel( context: Context) : BaseViewModel() {
         displayAmount.value = "0.00"
         paymentType  = PaymentType.CREDIT(TransactionPurchase.Action.EMV)
         transTypeSetResource.value = listOf(R.drawable.tab_indenticator, R.drawable.tab_indenticator_clear)
+
+        posRequest = PosWsRequest(context)
     }
 
     private fun onClickClear(v: View) {
@@ -42,7 +45,7 @@ class EnterAmountViewModel( context: Context) : BaseViewModel() {
             return
         }
         if (amountStr.isEmpty()) return
-        transaction.amount = amountStr.toDouble()
+        transaction.amount = ( amountStr.toInt()/100.0)
         val direction = EnterAmountFragmentDirections.actionEnterAmountFragmentToProcessTranactionFragment(amountStr)
         v.findNavController().navigate(direction)
     }

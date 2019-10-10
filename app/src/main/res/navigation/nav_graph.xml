@@ -60,7 +60,7 @@
     </fragment>
     <fragment
         android:id="@+id/historyFragment"
-        android:name="com.xpayworld.payment.ui.history.TransactionHistory"
+        android:name="com.xpayworld.payment.ui.history.TransactionHistoryFragment"
         android:label="Transaction History"
         tools:layout="@layout/fragment_transaction_history" />
     <fragment

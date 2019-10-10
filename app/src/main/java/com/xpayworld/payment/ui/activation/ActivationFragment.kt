@@ -58,8 +58,6 @@ class ActivationFragment : BaseFragment() {
         })
 
         viewModel.navigateToEnterPin.observe(this , Observer {
-            val sharedPref = context.let { SharedPrefStorage(it!!) }
-          sharedPref.writeMessage("activationKey",it)
             val direction = ActivationFragmentDirections.actionActiviationFragmentToEnterPinFragment()
             findNavController().navigate(direction)
         })

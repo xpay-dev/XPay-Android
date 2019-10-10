@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName
 import com.xpayworld.payment.network.PosWsRequest
 
 
-class TransLookUpWSReq {
+class TransLookUp {
 
     @SerializedName("AccountId")
     var accountId: String? = null

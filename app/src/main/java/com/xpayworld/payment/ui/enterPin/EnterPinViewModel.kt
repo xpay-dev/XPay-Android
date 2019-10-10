@@ -90,10 +90,9 @@ class EnterPinViewModel(private val context: Context) : BaseViewModel() {
                                 requestError.value = hasError
 
                             } else {
-
-                                val response = result?.body()?.result
                                 val sharedPref = context.let { SharedPrefStorage(it) }
-                                posRequest!!.rToken  =  response!!.rToken!!
+                                sharedPref.writeMessage(RTOKEN,result.body()!!.result.rToken!!)
+
                                 callUpdateAp(callback = {
                                     toolbarVisibility.value = true
                                     navigateToEnterAmount.value = ""

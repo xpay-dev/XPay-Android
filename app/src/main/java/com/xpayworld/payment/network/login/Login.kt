@@ -3,6 +3,7 @@ package com.xpayworld.payment.network.login
 import android.content.Context
 import com.google.gson.annotations.SerializedName
 import com.xpayworld.payment.network.PosWsRequest
+import com.xpayworld.payment.util.ACTIVATION_KEY
 import com.xpayworld.payment.util.SharedPrefStorage
 import com.xpayworld.payment.util.posRequest
 
@@ -24,9 +25,10 @@ class Login (context : Context) {
 
     init {
         val sharedPref = context.let { SharedPrefStorage(it) }
-        val posReq = PosWsRequest()
-        posReq.activationKey = sharedPref.readMessage("activationKey")
+        val posReq = PosWsRequest(context)
+        posReq.activationKey = sharedPref.readMessage(ACTIVATION_KEY)
         posWsRequest  = posReq
+        // for update app
         posRequest = posReq
     }
 }

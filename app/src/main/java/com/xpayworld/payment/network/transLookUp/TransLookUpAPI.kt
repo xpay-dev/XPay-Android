@@ -15,6 +15,6 @@ import retrofit2.http.POST
 interface TransLookUpAPI {
     @Headers(ApiConstants.Content, ApiConstants.Charset)
     @POST(ApiConstants.TransLookUp)
-    fun transLookUp(@Body body: TransLookUpWSReq): Observable<Response<TransactionResponse>>
+    fun transLookUp(@Body body: TransLookUpRequest): Observable<Response<TransactionResponse>>
 
 }
