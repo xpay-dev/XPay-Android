@@ -13,7 +13,7 @@
     <dimen name="navigation_drawer_image_width">100dp</dimen>
 
     <!--Activation Code-->
-    <dimen name="ed_width_size">78dp</dimen>
+    <dimen name="ed_width_size">100dp</dimen>
 
     <!--Enter pin page -->
     <dimen name="img_pin_code">30dp</dimen>

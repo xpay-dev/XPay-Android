@@ -19,7 +19,6 @@
             android:layout_height="0dp"
             android:adjustViewBounds="true"
             android:scaleType="centerCrop"
-
             android:src="@drawable/bg"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -28,7 +27,7 @@
 
         <EditText
             android:id="@+id/edtext4"
-            android:layout_width="78dp"
+            android:layout_width="@dimen/ed_width_size"
             android:layout_height="50dp"
             android:background="@drawable/tv_activation"
             android:digits="0123456789qwertzuiopasdfghjklyxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM"
@@ -45,7 +44,7 @@
 
         <EditText
             android:id="@+id/edtext2"
-            android:layout_width="78dp"
+            android:layout_width="@dimen/ed_width_size"
             android:layout_height="50dp"
             android:background="@drawable/tv_activation"
             android:digits="0123456789qwertzuiopasdfghjklyxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM"
@@ -61,7 +60,7 @@
 
         <EditText
             android:id="@+id/edtext3"
-            android:layout_width="78dp"
+            android:layout_width="@dimen/ed_width_size"
             android:layout_height="50dp"
             android:background="@drawable/tv_activation"
             android:digits="0123456789qwertzuiopasdfghjklyxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM"
@@ -77,7 +76,7 @@
 
         <EditText
             android:id="@+id/edtext1"
-            android:layout_width="78dp"
+            android:layout_width="@dimen/ed_width_size"
             android:layout_height="50dp"
             android:layout_marginTop="32dp"
             android:background="@drawable/tv_activation"
