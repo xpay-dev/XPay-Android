@@ -12,10 +12,13 @@ import com.xpayworld.payment.ui.base.kt.BaseFragment
 import com.xpayworld.payment.ui.transaction.ToolbarDelegate
 import com.xpayworld.payment.util.SharedPrefStorage
 
-import kotlinx.android.synthetic.main.fragment_enter_pin.*
 import androidx.lifecycle.Observer
 import com.xpayworld.payment.util.ACTIVATION_KEY
 import com.xpayworld.payment.util.InjectorUtil
+import kotlinx.android.synthetic.main.fragment_enter_pin.*
+
+import kotlinx.android.synthetic.main.view_number_pad.*
+import kotlinx.android.synthetic.main.view_number_pad.btnClear
 
 
 class EnterPinFragment : BaseFragment() {
@@ -38,7 +41,7 @@ class EnterPinFragment : BaseFragment() {
         numpad.forEach { it.setOnClickListener(viewModel.numpadClickListener) }
 
         btnClear.setOnClickListener(viewModel.clearClickListener)
-        btnSubmit.setOnClickListener {
+        btnOk.setOnClickListener {
             viewModel.callEnterPinAPI()
         }
 

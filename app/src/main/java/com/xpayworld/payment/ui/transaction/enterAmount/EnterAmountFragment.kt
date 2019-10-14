@@ -19,6 +19,7 @@ import com.xpayworld.payment.util.InjectorUtil
 import com.xpayworld.payment.util.formattedAmount
 import kotlinx.android.synthetic.main.fragment_enter_amount.*
 import kotlinx.android.synthetic.main.view_enter_amount.*
+import kotlinx.android.synthetic.main.view_number_pad.*
 
 
 
