@@ -12,16 +12,13 @@ import com.xpayworld.payment.R
 import com.xpayworld.payment.databinding.ActivityDashboardBinding
 import com.xpayworld.payment.ui.base.kt.BaseActivity
 import kotlinx.android.synthetic.main.toolbar_main.*
-import android.os.Build
-import android.graphics.Color
-import kotlinx.android.synthetic.main.fragment_enter_amount.*
-import android.content.Context.INPUT_METHOD_SERVICE
+
 import android.view.MotionEvent
-import androidx.core.app.ComponentActivity.ExtraData
-import androidx.core.content.ContextCompat.getSystemService
-import android.icu.lang.UCharacter.GraphemeClusterBreak.T
 import android.content.Context
 import android.view.inputmethod.InputMethodManager
+import android.content.pm.PackageManager
+import android.content.ComponentName
+
 
 
 class DashboardActivity : BaseActivity(), DrawerLocker , ToolbarDelegate {
@@ -52,6 +49,13 @@ class DashboardActivity : BaseActivity(), DrawerLocker , ToolbarDelegate {
             toolbar_title.text = controller.currentDestination?.label
         }
         setUpDrawerToggle()
+
+
+        val p = packageManager
+        val componentName = ComponentName(this, DashboardActivity::class.java!!) // activity which is first time open in manifiest file which is declare as <category android:name="android.intent.category.LAUNCHER" />
+        p.setComponentEnabledSetting(componentName, PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP)
+
+
     }
 
     private fun setUpDrawerToggle() {
