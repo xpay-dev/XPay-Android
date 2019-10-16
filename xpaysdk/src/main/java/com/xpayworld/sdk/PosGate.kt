@@ -2,7 +2,7 @@ package com.xpayworld.sdk
 
 import java.io.PipedOutputStream
 
-class  PosGate private constructor(){
+class  PosGate public constructor(){
 
     var merchantName = ""
     var txnType = ""
@@ -10,6 +10,7 @@ class  PosGate private constructor(){
     var cardCaptureMethod = ""
     var amountPurchase = ""
     var staffId = ""
+    var appPackageName = ""
 
     init {
         INSTANCE = this

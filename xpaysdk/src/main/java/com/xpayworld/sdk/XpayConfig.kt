@@ -1,6 +1,7 @@
 package com.xpayworld.sdk
 
-class XpayConfig{
+
+ class XpayConfig{
 
 
 }
