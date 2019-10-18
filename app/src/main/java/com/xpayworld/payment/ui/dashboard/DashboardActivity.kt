@@ -1,6 +1,5 @@
-package com.xpayworld.payment.ui.transaction
+package com.xpayworld.payment.ui.dashboard
 
-import android.view.View
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.widget.Toolbar
 import androidx.databinding.DataBindingUtil
@@ -21,7 +20,7 @@ import android.content.ComponentName
 
 
 
-class DashboardActivity : BaseActivity(), DrawerLocker , ToolbarDelegate {
+class DashboardActivity : BaseActivity(), DrawerLocker, ToolbarDelegate {
     private lateinit var drawerLayout: DrawerLayout
     private lateinit var navController: NavController
     private lateinit var toolbar: Toolbar
@@ -49,12 +48,6 @@ class DashboardActivity : BaseActivity(), DrawerLocker , ToolbarDelegate {
             toolbar_title.text = controller.currentDestination?.label
         }
         setUpDrawerToggle()
-
-
-//        val p = packageManager
-//        val componentName = ComponentName(this, BaseActivity::class.java) // activity which is first time open in manifiest file which is declare as <category android:name="android.intent.category.LAUNCHER" />
-//        p.setComponentEnabledSetting(componentName, PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP)
-
 
     }
 

@@ -1,4 +1,4 @@
-package com.xpayworld.payment.ui.transaction
+package com.xpayworld.payment.ui.dashboard
 
 interface ToolbarDelegate {
     fun showToolbar(visible: Boolean)
@@ -9,4 +9,7 @@ interface  IOnFocusListenable{
 }
 interface DrawerLocker {
     fun drawerEnabled(enabled: Boolean)
+}
+interface  UserInteraction {
+    fun userInteractionListener()
 }

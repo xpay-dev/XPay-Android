@@ -1,22 +1,18 @@
 package com.xpayworld.payment.ui.transaction.enterAmount
 
-import android.content.Context
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProviders
 import com.xpayworld.payment.R
 import com.xpayworld.payment.network.transaction.PaymentType
 import com.xpayworld.payment.network.transaction.TransactionPurchase
 import com.xpayworld.payment.ui.base.kt.BaseFragment
-import com.xpayworld.payment.ui.transaction.DrawerLocker
+import com.xpayworld.payment.ui.dashboard.DrawerLocker
 import com.xpayworld.payment.ui.transaction.processTransaction.ARG_AMOUNT
 import com.xpayworld.payment.util.InjectorUtil
-import com.xpayworld.payment.util.formattedAmount
 import kotlinx.android.synthetic.main.fragment_enter_amount.*
 import kotlinx.android.synthetic.main.view_enter_amount.*
 import kotlinx.android.synthetic.main.view_number_pad.*

@@ -8,12 +8,11 @@ import android.widget.EditText
 import androidx.lifecycle.Observer
 import com.xpayworld.payment.R
 import com.xpayworld.payment.ui.base.kt.BaseFragment
-import com.xpayworld.payment.ui.transaction.DrawerLocker
+import com.xpayworld.payment.ui.dashboard.DrawerLocker
 import kotlinx.android.synthetic.main.fragment_activation_code.*
 import androidx.fragment.app.viewModels
 import com.xpayworld.payment.util.InjectorUtil
 import androidx.navigation.fragment.findNavController
-import com.xpayworld.payment.util.SharedPrefStorage
 
 
 class ActivationFragment : BaseFragment() {

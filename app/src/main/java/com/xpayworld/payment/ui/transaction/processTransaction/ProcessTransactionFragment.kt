@@ -9,8 +9,8 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.findNavController
 import com.xpayworld.payment.R
-import com.xpayworld.payment.ui.transaction.DrawerLocker
-import com.xpayworld.payment.ui.transaction.ToolbarDelegate
+import com.xpayworld.payment.ui.dashboard.DrawerLocker
+import com.xpayworld.payment.ui.dashboard.ToolbarDelegate
 import com.xpayworld.payment.util.formattedAmount
 import kotlinx.android.synthetic.main.fragment_process_transaction.*
 

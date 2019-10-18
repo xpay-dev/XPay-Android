@@ -5,6 +5,7 @@ import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.os.Handler
 import android.util.DisplayMetrics
 import android.view.LayoutInflater
 import android.view.View
@@ -14,15 +15,18 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.xpayworld.payment.R
+import com.xpayworld.payment.ui.dashboard.UserInteraction
 import com.xpayworld.payment.ui.dialog.ErrorDialog
 import com.xpayworld.payment.util.CustomDialog
 import dagger.android.support.AndroidSupportInjection
 
-abstract class BaseFragment : Fragment() {
+abstract class BaseFragment : Fragment() , UserInteraction {
 
     private var parentActivity: BaseActivity? = null
     private lateinit var dialog: CustomDialog
     var mContainer: ViewGroup? = null
+    var handler: Handler? = null
+    var r: Runnable? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view: View? = if (getLayout() is Int) {
@@ -48,7 +52,6 @@ abstract class BaseFragment : Fragment() {
         dialog = CustomDialog(context!!)
     }
 
-
     override fun onAttach(context: Context) {
         super.onAttach(context)
         if (context is BaseActivity) {
@@ -72,14 +75,17 @@ abstract class BaseFragment : Fragment() {
     }
 
     fun showNetworkError(title: String? = null, message: String? = null, callBack: (() -> Unit)? = null) {
-        val dialog = ErrorDialog().showAlert(
+         ErrorDialog().showAlert(
                 title ?: "Network",
                 message
                         ?: "Looks lie we weren't able to connect to our server. Please check your connection and try again",
                 callBack,
                 this)
     }
+    override fun userInteractionListener() {
 
+
+    }
 
     private fun performDependencyInjection() = AndroidSupportInjection.inject(this)
 

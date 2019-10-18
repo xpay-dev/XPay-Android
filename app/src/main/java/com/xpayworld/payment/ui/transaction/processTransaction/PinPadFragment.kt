@@ -1,11 +1,9 @@
 package com.xpayworld.payment.ui.transaction.processTransaction
 
-import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
-import com.xpayworld.payment.ui.transaction.DrawerLocker
+import com.xpayworld.payment.ui.dashboard.DrawerLocker
 
 class PinPadFragment : BaseDeviceFragment() {
 

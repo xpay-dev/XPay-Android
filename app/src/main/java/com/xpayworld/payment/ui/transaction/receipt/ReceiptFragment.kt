@@ -8,7 +8,7 @@ import com.xpayworld.payment.R
 import com.xpayworld.payment.ui.base.kt.BaseFragment
 import kotlinx.android.synthetic.main.fragment_receipt.*
 import androidx.navigation.findNavController
-import com.xpayworld.payment.ui.transaction.DrawerLocker
+import com.xpayworld.payment.ui.dashboard.DrawerLocker
 import com.xpayworld.payment.util.InjectorUtil
 
 class ReceiptFragment : BaseFragment() {

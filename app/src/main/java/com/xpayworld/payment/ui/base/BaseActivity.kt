@@ -11,30 +11,46 @@ import androidx.core.app.ComponentActivity.ExtraData
 import androidx.core.content.ContextCompat.getSystemService
 import android.icu.lang.UCharacter.GraphemeClusterBreak.T
 import android.os.Handler
+import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import com.xpayworld.payment.R
+import com.xpayworld.payment.ui.activation.ActivationFragment
+import com.xpayworld.payment.ui.dashboard.UserInteraction
+import com.xpayworld.payment.ui.enterPin.EnterPinFragment
+import com.xpayworld.payment.ui.transaction.processTransaction.BaseDeviceFragment
 
 abstract  class BaseActivity : AppCompatActivity() ,BaseFragment.CallBack{
     private lateinit var dialog: CustomDialog
     var handler: Handler? = null
     var r: Runnable? = null
+    var userInteraction: UserInteraction? = null
+
+    lateinit var navHostFragment : Fragment
+    lateinit var currentFragment : Fragment
+
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
         dialog = CustomDialog(applicationContext)
         initView()
 
+
         handler = Handler()
         r = Runnable {
-            println("Running")
-            supportFragmentManager.primaryNavigationFragment?.let {
+
+            navHostFragment =  supportFragmentManager.findFragmentById(R.id.nav_host_fragment)!!
+            currentFragment =  navHostFragment.childFragmentManager.fragments[0]
+
+            userInteraction?.userInteractionListener()
+
+            if ((currentFragment !is ActivationFragment) ){
                 ErrorDialog().showAlert(
                         "Session Time out",
                         "Sorry , your session timed out after a long time of inactivity, Please click DONE and Log in again",
                         {
                             findNavController(R.id.nav_host_fragment).navigate(R.id.logoutFragment)
                         },
-                        it)
+                        currentFragment)
             }
 
         }
@@ -71,6 +87,7 @@ abstract  class BaseActivity : AppCompatActivity() ,BaseFragment.CallBack{
 
     override fun onUserInteraction() {
         super.onUserInteraction()
+
         stopHandler()
         startHandler()
     }
@@ -79,7 +96,7 @@ abstract  class BaseActivity : AppCompatActivity() ,BaseFragment.CallBack{
     }
 
     fun startHandler() {
-        handler?.postDelayed(r, (5 * 60 * 1000).toLong()) //for 5 minutes
+        handler?.postDelayed(r, (1* 60 * 1000).toLong()) //for 5 minutes
     }
 
     fun shouldSetToFullScreen(){
