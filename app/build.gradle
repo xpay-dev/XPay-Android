@@ -113,4 +113,5 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-common-java8:2.2.0-beta01'
     implementation 'androidx.navigation:navigation-fragment-ktx:2.2.0-beta01'
     implementation 'androidx.navigation:navigation-ui-ktx:2.2.0-beta01'
+    implementation project(path: ':xpaysdk')
 }

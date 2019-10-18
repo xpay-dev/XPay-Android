@@ -13,6 +13,8 @@ import kotlinx.android.synthetic.main.fragment_activation_code.*
 import androidx.fragment.app.viewModels
 import com.xpayworld.payment.util.InjectorUtil
 import androidx.navigation.fragment.findNavController
+import com.xpayworld.sdk.XpayLink
+import com.xpayworld.sdk.XpayRequest
 
 
 class ActivationFragment : BaseFragment() {
@@ -32,6 +34,13 @@ class ActivationFragment : BaseFragment() {
         edtextList = listOf(edtext1, edtext2, edtext3, edtext4)
         edtextList.forEach { it.addTextChangedListener(OnChangedEditText()) }
 
+        val req = XpayRequest()
+        req.amountPurchase = ""
+        req.appPackageName = ""
+        req.staffId = ""
+
+        val xpay =  XpayLink.INSTANCE.callTransaction(req)
+        startActivity(xpay)
 
         btnActivate.setOnClickListener{
              viewModel.callActivationAPI(strCode)
