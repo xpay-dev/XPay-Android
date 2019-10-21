@@ -43,7 +43,7 @@ abstract  class BaseActivity : AppCompatActivity() ,BaseFragment.CallBack{
 
             userInteraction?.userInteractionListener()
 
-            if ((currentFragment !is ActivationFragment) ){
+            if ((currentFragment !is ActivationFragment && currentFragment !is EnterPinFragment) ){
                 ErrorDialog().showAlert(
                         "Session Time out",
                         "Sorry , your session timed out after a long time of inactivity, Please click DONE and Log in again",

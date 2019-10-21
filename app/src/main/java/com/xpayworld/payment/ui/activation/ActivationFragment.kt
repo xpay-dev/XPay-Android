@@ -39,6 +39,7 @@ class ActivationFragment : BaseFragment() {
         req.appPackageName = ""
         req.staffId = ""
 
+
         XpayLink.INSTANCE.callTransaction(req)
 
         btnActivate.setOnClickListener{
