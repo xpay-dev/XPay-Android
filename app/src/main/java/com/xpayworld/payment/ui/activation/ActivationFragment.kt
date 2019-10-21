@@ -39,8 +39,8 @@ class ActivationFragment : BaseFragment() {
         req.appPackageName = ""
         req.staffId = ""
 
-        val xpay =  XpayLink.INSTANCE.callTransaction(req)
-        startActivity(xpay)
+         XpayLink.INSTANCE.callTransaction(req)
+//        startActivity(xpay)
 
         btnActivate.setOnClickListener{
              viewModel.callActivationAPI(strCode)
