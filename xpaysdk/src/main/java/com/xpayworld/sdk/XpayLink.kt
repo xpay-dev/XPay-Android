@@ -20,7 +20,7 @@ class  XpayLink : ITransCall{
     override fun callActivation() {
     }
 
-
+    //
     override fun callTransaction(params: XpayRequest): Intent {
         val i = Intent(XPAY_LINK)
         val b = Bundle()
@@ -28,12 +28,10 @@ class  XpayLink : ITransCall{
         val gson = GsonBuilder().setPrettyPrinting().create()
         val gsonStr = gson.toJson(params)
         Log.e("ERROR",gsonStr)
-        println(gsonStr)
         b.putString(XPAY_REQUEST,gsonStr)
         i.putExtras(b)
         return  i
     }
-
 
     init {
         INSTANCE = this

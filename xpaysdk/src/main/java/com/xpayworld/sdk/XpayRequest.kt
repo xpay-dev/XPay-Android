@@ -28,4 +28,15 @@ class  XpayRequest {
     @SerializedName("transaction_currency")
     var currency= ""
 
+    @SerializedName("transaction_entry_point")
+    var entryPoint = ""
+
+}
+
+enum class EntryPoint(page: String) {
+    TRANSACTION("transaction_page"),
+    HISTORY("history_page"),
+    ENTER_PIN("enter_pin_page"),
+    PREFERENCE("preference_page"),
+    ACTIVATION("activation_page")
 }

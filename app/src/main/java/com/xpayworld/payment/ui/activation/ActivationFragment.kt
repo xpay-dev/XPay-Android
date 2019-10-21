@@ -34,13 +34,7 @@ class ActivationFragment : BaseFragment() {
         edtextList = listOf(edtext1, edtext2, edtext3, edtext4)
         edtextList.forEach { it.addTextChangedListener(OnChangedEditText()) }
 
-        val req = XpayRequest()
-        req.amountPurchase = ""
-        req.appPackageName = ""
-        req.staffId = ""
 
-
-        XpayLink.INSTANCE.callTransaction(req)
 
         btnActivate.setOnClickListener{
              viewModel.callActivationAPI(strCode)
