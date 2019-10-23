@@ -29,15 +29,19 @@ class LinkActivity : BaseActivity(){
         val data =  gson.fromJson(request,XpayRequest::class.java)
 
         when (EntryPoint.valueOf(data.entryPoint)) {
+
             EntryPoint.TRANSACTION -> {
 
             }
+
             EntryPoint.ACTIVATION -> {
 
             }
+
             EntryPoint.ENTER_PIN -> {
 
             }
+
             EntryPoint.PREFERENCE -> {
 
             }

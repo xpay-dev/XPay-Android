@@ -10,7 +10,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@android:color/white"
+        android:background="#D0FFFFFF"
         android:orientation="vertical">
         <TextView
             android:id="@+id/textView22"
@@ -67,7 +67,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:fontFamily="@font/corsa_grotesk_regular"
-            android:text="@{viewModel.txnAmount}"
+            android:text="@{viewModel.txnCurrency +' '+ viewModel.txnAmount}"
             android:textColor="@color/green"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="@+id/textView25"

@@ -1,7 +1,9 @@
 package com.xpayworld.payment.ui.history
 
 import android.content.Context
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
+import com.xpayworld.payment.network.PosWsRequest
 import com.xpayworld.payment.network.RetrofitClient
 import com.xpayworld.payment.network.activateApp.ActivationApi
 import com.xpayworld.payment.network.transLookUp.TransLookUp
@@ -15,7 +17,7 @@ import io.reactivex.schedulers.Schedulers
 
 class TransactionHistoryViewModel(val context: Context): BaseViewModel(){
 
-    val transResponse : MutableLiveData<TransResponse> = MutableLiveData()
+    val transResponse : MutableLiveData<List<TransResponse>> = MutableLiveData()
 
     private lateinit var subscription: Disposable
 
@@ -29,11 +31,17 @@ class TransactionHistoryViewModel(val context: Context): BaseViewModel(){
         val sharedPref = context.let { SharedPrefStorage(it) }
 
         val history = TransLookUp()
+//        val pos = PosWsRequest(context)
+//        pos.rToken = "mP5El4U4rGfzvIPxqB%2fGbq6Z1sk%2f4gdeIihxqmiYpmILBJTBqlQx021YrfEmjJLn"
+//        pos.activationKey = "GFI23S6AW52TEJ4B"
+//
+
         history.posWsRequest =  posRequest
         history.mobileAppId = sharedPref.readMessage(MOBILE_APP_ID)
+//        history.mobileAppId = "8"
         history.accountId = sharedPref.readMessage(ACCOUNT_ID)
         history.mobileAppTransType = 1
-        history.searchCriteria = ""
+        history.searchCriteria = "1"
         history.searchUsing = 2
 
         val api = RetrofitClient().getRetrofit().create(TransLookUpAPI::class.java)
@@ -48,29 +56,26 @@ class TransactionHistoryViewModel(val context: Context): BaseViewModel(){
                 .subscribe(
                         { result ->
                             if (!result.isSuccessful) {
-//                                networkError.value = "Network Error ${result.code()}"
-//                                pinCode.value = ""
-//                                return@subscribe
+                             networkError.value = "Network Error ${result.code()}"
                             }
-                            val hasError = result?.body()?.result?.errNumber != 0.0
+                            val hasError = result?.body()?.response?.posWsResponse?.errNumber != 0.0
 
                             if (hasError) {
 //                                loadingVisibility.value = false
 //                                pinCode.value = ""
-//                                requestError.value = hasError
+                                 requestError.value = result?.body()?.response?.posWsResponse?.message
 
                             } else {
 
-//                                val response = result?.body()?.result
+                               transResponse.value = result?.body()?.response?.transactions
+                       //        val response = result?.body()?
 //                                val sharedPref = context.let { SharedPrefStorage(it) }
 //                                posRequest!!.rToken  =  response!!.rToken!!
 
                             }
                         },
                         {
-//                            loadingVisibility.value = false
-//                            pinCode.value = ""
-//                            networkError.value = "Network Error"
+                            networkError.value = "Network Error"
                         }
                 )
         }

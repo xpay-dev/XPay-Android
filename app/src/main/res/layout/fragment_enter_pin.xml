@@ -10,6 +10,7 @@
         android:descendantFocusability="beforeDescendants"
         android:focusableInTouchMode="true"
         android:layout_height="match_parent">
+
         <ImageView
             android:id="@+id/imgBackground"
             android:layout_width="0dp"
@@ -21,6 +22,17 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <include
+            android:id="@+id/include"
+            layout="@layout/view_number_pad"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/img1"></include>
 
         <ImageView
             android:id="@+id/img4"
@@ -35,25 +47,14 @@
             app:layout_constraintTop_toTopOf="@+id/img3"
             app:layout_constraintVertical_bias="0.100000024" />
 
-        <include
-            layout="@layout/view_number_pad"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            app:layout_constraintBottom_toTopOf="@+id/btn_forget_pin"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/img1">
-        </include>
-
         <Button
             android:id="@+id/btn_forget_pin"
             android:layout_width="0dp"
-            android:layout_height="@dimen/btn_height"
+            android:layout_height="48dp"
             android:layout_marginStart="80dp"
-            android:layout_marginLeft="80dp"
             android:layout_marginEnd="80dp"
-            android:layout_marginRight="80dp"
-            android:layout_marginBottom="16dp"
+            android:visibility="gone"
+            android:layout_marginBottom="8dp"
             android:background="@drawable/btn_primary_black_pressed"
             android:fontFamily="@font/corsa_grotesk_regular"
             android:text="Forget Pin"
@@ -113,7 +114,6 @@
             android:layout_width="@dimen/img_pin_code"
             android:layout_height="@dimen/img_pin_code"
             android:layout_marginStart="80dp"
-            android:layout_marginLeft="80dp"
             android:layout_marginTop="16dp"
             android:background="@drawable/ic_pin_circle"
             app:layout_constraintEnd_toStartOf="@+id/img2"
@@ -122,13 +122,11 @@
 
         <ImageView
             android:id="@+id/imageView6"
-            android:layout_width="277dp"
-            android:layout_height="91dp"
+            android:layout_width="270dp"
+            android:layout_height="80dp"
             android:layout_marginStart="16dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
-            android:layout_marginRight="16dp"
             android:src="@drawable/xpay_logo"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
