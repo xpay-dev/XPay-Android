@@ -152,4 +152,20 @@
         android:label="Log out"
         tools:layout="@layout/fragment_logout"/>
 
+    <fragment
+        android:id="@+id/linkFragment"
+        android:name="com.xpayworld.payment.ui.link.LinkFragment"
+        android:label="fragment_link"
+        tools:layout="@layout/fragment_link" >
+        <action
+            android:id="@+id/action_linkFragment_to_transactionFragment"
+            app:destination="@id/processTransactionFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left" />
+        <argument
+            android:name="dataRequest"
+            app:argType="string" />
+    </fragment>
+
 </navigation>

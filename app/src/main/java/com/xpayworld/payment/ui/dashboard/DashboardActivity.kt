@@ -18,7 +18,12 @@ import android.view.inputmethod.InputMethodManager
 import android.content.pm.PackageManager
 import android.content.ComponentName
 import android.util.Log
+import androidx.navigation.NavArgument
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.navArgs
 import com.google.gson.Gson
+import com.xpayworld.payment.ui.link.LinkFragment
+import com.xpayworld.payment.util.transaction
 import com.xpayworld.sdk.EntryPoint
 import com.xpayworld.sdk.XPAY_REQUEST
 import com.xpayworld.sdk.XpayRequest
@@ -46,13 +51,13 @@ class DashboardActivity : BaseActivity(), DrawerLocker, ToolbarDelegate {
 
         navController = findNavController(R.id.nav_host_fragment)
 
+
         binding.navigationView.setupWithNavController(navController)
 
         navController.addOnDestinationChangedListener { controller, destination, arguments ->
             toolbar_title.text = controller.currentDestination?.label
         }
         setUpDrawerToggle()
-
 
         getLinkEntryPoint()
     }
@@ -69,33 +74,20 @@ class DashboardActivity : BaseActivity(), DrawerLocker, ToolbarDelegate {
         val extras = intent.extras
         val request = extras?.getString(XPAY_REQUEST)
 
-        val gson = Gson()
+//         navController.graph.startDestination =
+//
+//            navHostFragment.findNavController().navigate(R.id.linkFragment)
 
-        val data = gson.fromJson(request, XpayRequest::class.java)
+//        val gson = Gson()
+//
+//        val data = gson.fromJson(request, XpayRequest::class.java)
+//
+//        data ?: return
+//
 
-        data ?: return
+////        val args =  NavArgument.Builder().setDefaultValue(request).build()
+////        graph.addArgument(XPAY_REQUEST ,args)
 
-        when (EntryPoint.valueOf(data.entryPoint)) {
-
-            EntryPoint.TRANSACTION -> {
-
-                navController.navigate(R.id.action_enter_amount_fragment_to_process_tranaction_Fragment)
-
-            }
-
-            EntryPoint.ACTIVATION -> {
-
-            }
-
-            EntryPoint.ENTER_PIN -> {
-
-            }
-
-            EntryPoint.PREFERENCE -> {
-
-            }
-        }
-        Log.e("DATA",data.amountPurchase)
     }
 
     override fun onSupportNavigateUp(): Boolean {
