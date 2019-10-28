@@ -37,7 +37,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.link.LinkActivity">
+        <activity
+            android:name=".ui.link.LinkActivity"
+            android:noHistory="true">
             <intent-filter>
                 <action android:name="com.xpayworld.link" />
                 <category android:name="android.intent.category.DEFAULT" />

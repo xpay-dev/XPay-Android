@@ -17,7 +17,11 @@ import android.content.Context
 import android.view.inputmethod.InputMethodManager
 import android.content.pm.PackageManager
 import android.content.ComponentName
-
+import android.util.Log
+import com.google.gson.Gson
+import com.xpayworld.sdk.EntryPoint
+import com.xpayworld.sdk.XPAY_REQUEST
+import com.xpayworld.sdk.XpayRequest
 
 
 class DashboardActivity : BaseActivity(), DrawerLocker, ToolbarDelegate {
@@ -49,6 +53,8 @@ class DashboardActivity : BaseActivity(), DrawerLocker, ToolbarDelegate {
         }
         setUpDrawerToggle()
 
+
+        getLinkEntryPoint()
     }
 
     private fun setUpDrawerToggle() {
@@ -56,6 +62,40 @@ class DashboardActivity : BaseActivity(), DrawerLocker, ToolbarDelegate {
                 R.string.openDrawer, R.string.closeDrawer) {}
         drawerLayout.addDrawerListener(toogle)
         toogle.syncState()
+    }
+
+    private fun getLinkEntryPoint(){
+
+        val extras = intent.extras
+        val request = extras?.getString(XPAY_REQUEST)
+
+        val gson = Gson()
+
+        val data = gson.fromJson(request, XpayRequest::class.java)
+
+        data ?: return
+
+        when (EntryPoint.valueOf(data.entryPoint)) {
+
+            EntryPoint.TRANSACTION -> {
+
+                navController.navigate(R.id.action_enter_amount_fragment_to_process_tranaction_Fragment)
+
+            }
+
+            EntryPoint.ACTIVATION -> {
+
+            }
+
+            EntryPoint.ENTER_PIN -> {
+
+            }
+
+            EntryPoint.PREFERENCE -> {
+
+            }
+        }
+        Log.e("DATA",data.amountPurchase)
     }
 
     override fun onSupportNavigateUp(): Boolean {
