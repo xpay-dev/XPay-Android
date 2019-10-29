@@ -15,6 +15,8 @@ import android.annotation.SuppressLint
 import com.xpayworld.payment.ui.enterPin.EnterPinModelViewModelFactory
 import com.xpayworld.payment.ui.enterPin.EnterPinViewModel
 import com.xpayworld.payment.ui.history.TransactionHistoryViewModelFactory
+import com.xpayworld.payment.ui.link.LinkViewModel
+import com.xpayworld.payment.ui.link.LinkViewModelFactory
 import com.xpayworld.payment.ui.transaction.receipt.ReceiptViewModelFactory
 
 
@@ -42,6 +44,10 @@ object InjectorUtil  {
     fun provideTransactionHistoryViewModel(context: Context): TransactionHistoryViewModelFactory{
         return  TransactionHistoryViewModelFactory(context)
 
+    }
+
+    fun provideLinkViewModel(context: Context) : LinkViewModelFactory{
+        return  LinkViewModelFactory(context)
     }
 
 }
