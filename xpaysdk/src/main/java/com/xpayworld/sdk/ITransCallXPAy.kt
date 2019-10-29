@@ -1,9 +1,10 @@
 package com.xpayworld.sdk
 
+import android.content.Context
 import android.content.Intent
 
 interface  ITransCall{
-    fun callTransaction(params : XpayRequest): Intent
+    fun callTransaction(context: Context, params : XpayRequest): Intent
     fun callHistory()
     fun callPreference()
     fun callEnterPin()

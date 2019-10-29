@@ -17,6 +17,8 @@ import android.content.Context
 import android.view.inputmethod.InputMethodManager
 import android.content.pm.PackageManager
 import android.content.ComponentName
+import android.content.Intent
+import android.os.Bundle
 import android.util.Log
 import androidx.navigation.NavArgument
 import androidx.navigation.fragment.findNavController
@@ -59,7 +61,7 @@ class DashboardActivity : BaseActivity(), DrawerLocker, ToolbarDelegate {
         }
         setUpDrawerToggle()
 
-        getLinkEntryPoint()
+       getLinkEntryPoint()
     }
 
     private fun setUpDrawerToggle() {
@@ -72,21 +74,26 @@ class DashboardActivity : BaseActivity(), DrawerLocker, ToolbarDelegate {
     private fun getLinkEntryPoint(){
 
         val extras = intent.extras
-        val request = extras?.getString(XPAY_REQUEST)
+        val request = extras?.getString(XPAY_REQUEST) ?: return
 
-//         navController.graph.startDestination =
-//
-//            navHostFragment.findNavController().navigate(R.id.linkFragment)
+        val b = Bundle()
+        b.putString(XPAY_REQUEST,request)
+        navController.navigate(R.id.linkFragment,b)
+        drawerEnabled(false)
+        showToolbar(false)
 
-//        val gson = Gson()
+//      navController.graph.startDestination =
 //
-//        val data = gson.fromJson(request, XpayRequest::class.java)
-//
-//        data ?: return
-//
+//      navHostFragment.findNavController().navigate(R.id.linkFragment)
 
-////        val args =  NavArgument.Builder().setDefaultValue(request).build()
-////        graph.addArgument(XPAY_REQUEST ,args)
+//      val gson = Gson()
+//
+//      val data = gson.fromJson(request, XpayRequest::class.java)
+//
+//      data ?: return
+//
+////    val args =  NavArgument.Builder().setDefaultValue(request).build()
+////    graph.addArgument(XPAY_REQUEST ,args)
 
     }
 
@@ -125,4 +132,9 @@ class DashboardActivity : BaseActivity(), DrawerLocker, ToolbarDelegate {
     override fun setTitle(title: String) {
         toolbar_title.text = title
     }
+
+//    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+//        super.onActivityResult(requestCode, resultCode, data)
+//
+//    }
 }
