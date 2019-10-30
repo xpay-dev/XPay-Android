@@ -17,7 +17,7 @@ class  XpayRequest {
     var cardCaptureMethod = ""
 
     @SerializedName("amount_purchase")
-    var amountPurchase = 0
+    var amountPurchase = 0.00
 
     @SerializedName("staff_id")
     var staffId = ""

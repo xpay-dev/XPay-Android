@@ -30,31 +30,9 @@ class LinkActivity : BaseActivity(){
         val extras = intent.extras
         val request = extras?.getString(XPAY_REQUEST)
 
-        val gson = Gson()
-
-        val data =  gson.fromJson(request,XpayRequest::class.java)
-
-        when (EntryPoint.valueOf(data.entryPoint)) {
-
-            EntryPoint.TRANSACTION -> {
-
-
-
-            }
-
-            EntryPoint.ACTIVATION -> {
-
-            }
-
-            EntryPoint.ENTER_PIN -> {
-
-            }
-
-            EntryPoint.PREFERENCE -> {
-
-            }
-        }
-        Log.e("DATA",data.amountPurchase)
-
+        val i = Intent(this,DashboardActivity::class.java)
+        i.putExtra(XPAY_REQUEST,request)
+        Log.e("ERROR",request)
+        startActivity(i)
     }
 }

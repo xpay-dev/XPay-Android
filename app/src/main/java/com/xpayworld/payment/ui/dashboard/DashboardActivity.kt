@@ -82,19 +82,6 @@ class DashboardActivity : BaseActivity(), DrawerLocker, ToolbarDelegate {
         drawerEnabled(false)
         showToolbar(false)
 
-//      navController.graph.startDestination =
-//
-//      navHostFragment.findNavController().navigate(R.id.linkFragment)
-
-//      val gson = Gson()
-//
-//      val data = gson.fromJson(request, XpayRequest::class.java)
-//
-//      data ?: return
-//
-////    val args =  NavArgument.Builder().setDefaultValue(request).build()
-////    graph.addArgument(XPAY_REQUEST ,args)
-
     }
 
     override fun onSupportNavigateUp(): Boolean {
@@ -132,9 +119,4 @@ class DashboardActivity : BaseActivity(), DrawerLocker, ToolbarDelegate {
     override fun setTitle(title: String) {
         toolbar_title.text = title
     }
-
-//    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-//        super.onActivityResult(requestCode, resultCode, data)
-//
-//    }
 }
