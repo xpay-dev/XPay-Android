@@ -2,7 +2,6 @@ package com.xpayworld.sdk
 
 import android.content.Context
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Log
 import com.google.gson.GsonBuilder
@@ -24,13 +23,12 @@ class  XpayLink : ITransCall{
 
     //
     override fun callTransaction(context: Context, params: XpayRequest): Intent {
-        val i = Intent(XPAY_LINK)
-        val b = Bundle()
 
+        val  i = context.packageManager.getLaunchIntentForPackage(XPAY_LINK)
         val gson = GsonBuilder().setPrettyPrinting().create()
         val gsonStr = gson.toJson(params)
-        b.putString(XPAY_REQUEST,gsonStr)
-        i.putExtras(b)
+        i!!.putExtra(XPAY_REQUEST,gsonStr)
+        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         return  i
     }
 
