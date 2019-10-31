@@ -8,6 +8,7 @@ import android.content.pm.PackageManager
 import android.os.Build
 import android.telephony.TelephonyManager
 import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import com.xpayworld.payment.network.PosWsRequest
 import com.xpayworld.payment.network.transaction.PaymentType
 import com.xpayworld.payment.network.transaction.Transaction
@@ -55,8 +56,10 @@ fun getDeviceIMEI(activity: Activity): String? {
         ActivityCompat.requestPermissions(activity, arrayOf(Manifest.permission.READ_PHONE_STATE), 1)
     else
 //        deviceUniqueIdentifier = tm.deviceId
-    if (null == deviceUniqueIdentifier || 0 == deviceUniqueIdentifier.length)
+    if (null == deviceUniqueIdentifier || deviceUniqueIdentifier.isEmpty())
         deviceUniqueIdentifier = "0"
     return deviceUniqueIdentifier
 }
+
+
 

@@ -73,7 +73,7 @@ class EnterAmountFragment : BaseFragment() {
         viewModel.displayAmount.observe(this , Observer { tvAmount.text = it })
 
         viewModel.deviceError.observe(this , Observer { msg ->
-            showNetworkError(msg.first,msg.second)
+            showError(msg.first,msg.second)
         })
     }
 

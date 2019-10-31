@@ -36,6 +36,12 @@ class ProcessTransactionFragment : BaseDeviceFragment() {
 
         cancelVisibility.observe(this, Observer { btnCancel.visibility })
 
+        checkBluetoothPermission.observe(this , Observer {
+            if (it) {
+                showError("Bluetooth is denied", "This application requires bluetooth connection to process transaction, Please go to settings to enable bluetooth permission")
+            }
+        })
+
         //Progress dialog
         viewModel?.loadingVisibility?.observe(this, Observer { isShow ->
             if (isShow == true) showProgress() else hideProgress()
@@ -49,13 +55,14 @@ class ProcessTransactionFragment : BaseDeviceFragment() {
 
         viewModel?.requestError?.observe(this, Observer {
             if (it is Double)
-
                 btnCancel.visibility = View.INVISIBLE
-            showNetworkError(title = "REQUEST ERROR $it", callBack = {
+                showNetworkError(title = "REQUEST ERROR $it", callBack = {
                 view.findNavController().popBackStack(R.id.transactionFragment, true)
             })
 
         })
+
+
 
         // Calling Transaction API
         onProcessTransaction.observe(this, Observer {

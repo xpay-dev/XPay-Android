@@ -10,7 +10,7 @@ import com.xpayworld.payment.network.transLookUp.TransResponse
 
 class TransactionHistoryAdapter : RecyclerView.Adapter<TransactionHistoryAdapter.ViewHolder>() {
 
-    private lateinit var txnResponse: List<TransResponse>
+    private lateinit var txnResponse: ArrayList<TransResponse>
 
     override fun getItemCount(): Int {
         return if (::txnResponse.isInitialized) txnResponse.size else 0
@@ -26,8 +26,13 @@ class TransactionHistoryAdapter : RecyclerView.Adapter<TransactionHistoryAdapter
 
     }
 
-    fun updatePostList(txnList: List<TransResponse>) {
+    fun updatePostList(txnList: ArrayList<TransResponse>) {
         this.txnResponse = txnList
+        notifyDataSetChanged()
+    }
+
+    fun clear(){
+        this.txnResponse.clear()
         notifyDataSetChanged()
     }
 

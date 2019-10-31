@@ -17,6 +17,7 @@ import androidx.fragment.app.Fragment
 import com.xpayworld.payment.R
 import com.xpayworld.payment.ui.dashboard.UserInteraction
 import com.xpayworld.payment.ui.dialog.ErrorDialog
+import com.xpayworld.payment.ui.dialog.ErrorType
 import com.xpayworld.payment.util.CustomDialog
 import dagger.android.support.AndroidSupportInjection
 
@@ -75,15 +76,20 @@ abstract class BaseFragment : Fragment() , UserInteraction {
     }
 
     fun showNetworkError(title: String? = null, message: String? = null, callBack: (() -> Unit)? = null) {
-         ErrorDialog().showAlert(
-                title ?: "Network",
-                message
-                        ?: "Looks lie we weren't able to connect to our server. Please check your connection and try again",
+        showError(
+                title?: "Network",
+                message?: "Looks like we weren't able to connect to our server. Please check your connection and try again",
+                 callBack)
+    }
+
+    fun showError(title: String , message: String, callBack: (() -> Unit)? = null){
+        ErrorDialog().showAlert(
+                title ,
+                message,
                 callBack,
                 this)
     }
     override fun userInteractionListener() {
-
 
     }
 

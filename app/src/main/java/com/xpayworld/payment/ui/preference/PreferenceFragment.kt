@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.xpayworld.payment.R
 import com.xpayworld.payment.ui.base.kt.BaseFragment
@@ -33,6 +34,13 @@ class PreferenceFragment : BaseDeviceFragment() {
             SharedPrefStorage(context!!).writeMessage(WISE_PAD, device.name)
             bbDeviceController!!.connectBT(device)
         }
+
+        // check the bluetooth if permission granted
+        checkBluetoothPermission.observe(this , Observer {
+            if (it) {
+                showError("Bluetooth is denied", "This application requires bluetooth connection to process transaction, Please go to settings to enable bluetooth permission")
+            }
+        })
 
         swWisePad.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {

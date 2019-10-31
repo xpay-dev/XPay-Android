@@ -13,19 +13,17 @@
  * limitations under the License
  */
 
-package com.xpayworld.payment.di;
+package com.xpayworld.payment.di
 
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Retention
+import java.lang.annotation.RetentionPolicy
 
-import javax.inject.Scope;
+import javax.inject.Qualifier
 
 /**
  * Created by janisharali on 27/01/17.
  */
 
-@Scope
+@Qualifier
 @Retention(RetentionPolicy.RUNTIME)
-public @interface PerActivity {
-}
-
+annotation class ApplicationContext

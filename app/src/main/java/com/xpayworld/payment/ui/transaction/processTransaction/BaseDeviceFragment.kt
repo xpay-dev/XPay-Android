@@ -1,13 +1,16 @@
 package com.xpayworld.payment.ui.transaction.processTransaction
 
+import android.Manifest
 import android.bluetooth.BluetoothDevice
 import android.content.Context
+import android.content.pm.PackageManager
 import android.graphics.Rect
 import android.media.AudioManager
 import android.media.MediaPlayer
 import android.os.Bundle
 import android.os.Handler
 import android.view.View
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.MutableLiveData
 import androidx.navigation.findNavController
@@ -51,6 +54,7 @@ abstract class BaseDeviceFragment : BaseFragment()  {
 
     val cancelVisibility : MutableLiveData<Int> = MutableLiveData()
     val cancelTitle : MutableLiveData<String> = MutableLiveData()
+    val checkBluetoothPermission : MutableLiveData<Boolean> = MutableLiveData()
     val deviceListAdapter  = DeviceAdapter()
     var deviceArr : MutableList<BluetoothDevice> = arrayListOf()
 
@@ -73,8 +77,6 @@ abstract class BaseDeviceFragment : BaseFragment()  {
         bbDeviceController = BBDeviceController.getInstance(context, listener)
         BBDeviceController.setDebugLogEnabled(true)
 
-
-
         if (currentFragment is ProcessTransactionFragment){
             if (!SharedPrefStorage(context!!).isEmpty(WISE_PAD)){
                 startBluetoothConnection()
@@ -96,7 +98,11 @@ abstract class BaseDeviceFragment : BaseFragment()  {
 
     fun startBluetoothConnection(){
         toolbarTitle.value = "Initializing..."
-        bbDeviceController?.startBTScan(DEVICE_NAMES, 120)
+        if (isBluetoothPermissionGranted()){
+             bbDeviceController?.startBTScan(DEVICE_NAMES, 120)
+        }else {
+            checkBluetoothPermission.value = false
+        }
     }
 
     private fun startEmv() {
@@ -132,6 +138,10 @@ abstract class BaseDeviceFragment : BaseFragment()  {
         bbDeviceController!!.releaseBBDeviceController()
         deviceArr.clear()
         deviceListAdapter.notifyDataSetChanged()
+    }
+
+    fun isBluetoothPermissionGranted(): Boolean {
+        return ContextCompat.checkSelfPermission(context!!, Manifest.permission.BLUETOOTH) == PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(context!!, Manifest.permission.BLUETOOTH_ADMIN) == PackageManager.PERMISSION_GRANTED
     }
 
     private inner class MyBBdeviceControllerListener : BBDeviceController.BBDeviceControllerListener {

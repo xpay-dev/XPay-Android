@@ -13,8 +13,6 @@ import kotlinx.android.synthetic.main.fragment_activation_code.*
 import androidx.fragment.app.viewModels
 import com.xpayworld.payment.util.InjectorUtil
 import androidx.navigation.fragment.findNavController
-import com.xpayworld.sdk.XpayLink
-import com.xpayworld.sdk.XpayRequest
 
 
 class ActivationFragment : BaseFragment() {

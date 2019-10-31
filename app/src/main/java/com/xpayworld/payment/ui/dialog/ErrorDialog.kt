@@ -17,13 +17,18 @@ import android.widget.TextView
 import com.xpayworld.payment.ui.base.kt.BaseDialogFragment
 import android.view.WindowManager
 
+enum class ErrorType {
+    NETWORK,REQUEST
+}
+
 class ErrorDialog : BaseDialogFragment() {
 
     private val ARG_TITLE = "AlertDialog.Title"
     private val ARG_MESSAGE = "AlertDialog.Message"
     private var callback : (()-> Unit)? = null
 
-    fun showAlert(title: String, message: String, callback : (()-> Unit)? = null,  targetFragment: Fragment) {
+
+    fun showAlert(title: String, message: String,callback : (()-> Unit)? = null,  targetFragment: Fragment) {
         val dialog = ErrorDialog()
         dialog.isCancelable = false
 
