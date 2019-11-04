@@ -64,7 +64,6 @@ class TransResponse {
     @SerializedName("SequenceNumber")
     var sequenceNumber: String? = null
 
-
     @SerializedName("SubTotal")
     var subTotal: String? = null
 
@@ -86,7 +85,6 @@ class TransResponse {
     @SerializedName("Tax2Rate")
     var tax2Rate: String? = null
 
-
     @SerializedName("TerminalId")
     var terminalId: String? = null
 
@@ -105,13 +103,11 @@ class TransResponse {
     @SerializedName("TransactionNumber")
     var transNumber: String? = null
 
-
     @SerializedName("TransactionReqToken ")
     var transactionReqToken: String? = null
 
     @SerializedName("TransactionSignature")
     var transactionSignature: String? = null
-
 
     @SerializedName("TransactionType")
     var transType: String? = null

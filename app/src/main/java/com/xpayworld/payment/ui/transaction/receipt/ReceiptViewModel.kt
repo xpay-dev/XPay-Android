@@ -25,11 +25,10 @@ class ReceiptViewModel(context: Context) : BaseViewModel(){
     private val KANJI_FONT_24X24 = byteArrayOf(0x1C, 0x28, 0x41, 0x02, 0x00, 0x30, 0x00)
     private val KANJI_FONT_16X16 = byteArrayOf(0x1C, 0x28, 0x41, 0x02, 0x00, 0x30, 0x01)
 
-
-
     fun genReceipt(context: Context): ByteArray {
         val baos = ByteArrayOutputStream()
-
         return baos.toByteArray()
     }
+
+
 }

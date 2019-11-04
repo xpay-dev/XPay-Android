@@ -1,12 +1,17 @@
 package com.xpayworld.payment.ui.transaction.enterAmount
 
 import android.os.Bundle
+import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import com.xpayworld.payment.R
+import com.xpayworld.payment.databinding.FragmentEnterAmountBinding
+import com.xpayworld.payment.databinding.FragmentEnterPinBinding
+import com.xpayworld.payment.databinding.ViewEnterAmountBinding
 import com.xpayworld.payment.network.transaction.PaymentType
 import com.xpayworld.payment.network.transaction.TransactionPurchase
 import com.xpayworld.payment.ui.base.kt.BaseFragment
@@ -31,6 +36,17 @@ class EnterAmountFragment : BaseFragment() {
         InjectorUtil.provideEnterAmountViewModelFactory(requireContext())
     }
 
+    override fun onCreateView(
+            inflater: LayoutInflater,
+            container: ViewGroup?,
+            savedInstanceState: Bundle?
+    ): View? {
+        val binding = FragmentEnterAmountBinding.inflate(inflater, container, false)
+        binding.vwNumpad.viewModel = viewModel
+        binding.lifecycleOwner = this@EnterAmountFragment
+        return binding.root
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -38,9 +54,7 @@ class EnterAmountFragment : BaseFragment() {
         }
     }
 
-    override fun getLayout(): Int {
-        return R.layout.fragment_enter_amount
-    }
+
     override fun initView(view: View,container: ViewGroup?) {
         // Numpad Button
         // Numpad Button Image
@@ -69,8 +83,6 @@ class EnterAmountFragment : BaseFragment() {
             btnCredit.setBackgroundResource(it[0])
             btnDebit.setBackgroundResource(it[1])
         })
-
-        viewModel.displayAmount.observe(this , Observer { tvAmount.text = it })
 
         viewModel.deviceError.observe(this , Observer { msg ->
             showError(msg.first,msg.second)

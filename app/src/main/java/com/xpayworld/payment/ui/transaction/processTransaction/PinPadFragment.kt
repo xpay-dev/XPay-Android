@@ -1,5 +1,7 @@
 package com.xpayworld.payment.ui.transaction.processTransaction
 
+import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
@@ -9,10 +11,11 @@ class PinPadFragment : BaseDeviceFragment() {
 
     private var wisePOSPlusPinPadView: WisePOSPlusPinPadView? = null
 
-    override fun getLayout(): View {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         wisePOSPlusPinPadView = WisePOSPlusPinPadView(context!!, pinButtonLayout)
         return wisePOSPlusPinPadView as WisePOSPlusPinPadView
     }
+
 
     override fun initView(view: View, container: ViewGroup?) {
         (activity as AppCompatActivity).supportActionBar?.hide()

@@ -62,7 +62,17 @@
         android:id="@+id/historyFragment"
         android:name="com.xpayworld.payment.ui.history.TransactionHistoryFragment"
         android:label="Transaction History"
-        tools:layout="@layout/fragment_transaction_history" />
+        tools:layout="@layout/fragment_transaction_history">
+
+        <action
+            android:id="@+id/action_historyFragment_to_receiptFragment"
+            app:destination="@id/receiptFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+
+    </fragment>
     <fragment
         android:id="@+id/reportsFragment"
         android:name="com.xpayworld.payment.ui.reports.ReportsFragment"
@@ -107,9 +117,6 @@
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right" />
-        <argument
-            android:name="amount"
-            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/signatureFragment"
@@ -126,7 +133,6 @@
         <argument
             android:name="amount"
             app:argType="string" />
-
     </fragment>
 
 
@@ -142,7 +148,7 @@
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left" />
         <argument
-            android:name="amount"
+            android:name="transaction"
             app:argType="string" />
     </fragment>
 

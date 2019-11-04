@@ -9,6 +9,8 @@ import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.xpayworld.payment.R
+import com.xpayworld.payment.databinding.FragmentPreferenceBinding
+import com.xpayworld.payment.databinding.FragmentTransactionHistoryBinding
 import com.xpayworld.payment.ui.base.kt.BaseFragment
 import com.xpayworld.payment.ui.transaction.processTransaction.BaseDeviceFragment
 import com.xpayworld.payment.util.SharedPrefStorage
@@ -19,9 +21,13 @@ import kotlinx.android.synthetic.main.fragment_preference.*
 
 class PreferenceFragment : BaseDeviceFragment() {
 
-
-    override fun getLayout(): Int {
-        return R.layout.fragment_preference
+    override fun onCreateView(
+            inflater: LayoutInflater,
+            container: ViewGroup?,
+            savedInstanceState: Bundle?
+    ): View? {
+        val binding = FragmentPreferenceBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun initView(view: View, container: ViewGroup?) {

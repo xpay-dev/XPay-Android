@@ -1,6 +1,8 @@
 package com.xpayworld.payment.ui.transaction.processTransaction
 
 import android.graphics.drawable.AnimationDrawable
+import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
@@ -9,6 +11,8 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.findNavController
 import com.xpayworld.payment.R
+import com.xpayworld.payment.databinding.FragmentProcessTransactionBinding
+import com.xpayworld.payment.databinding.FragmentReceiptBinding
 import com.xpayworld.payment.ui.dashboard.DrawerLocker
 import com.xpayworld.payment.ui.dashboard.ToolbarDelegate
 import com.xpayworld.payment.util.formattedAmount
@@ -17,10 +21,15 @@ import kotlinx.android.synthetic.main.fragment_process_transaction.*
 
 class ProcessTransactionFragment : BaseDeviceFragment() {
 
-
     var viewModel: ProcessTransactionViewModel? = null
-    override fun getLayout(): Any {
-        return R.layout.fragment_process_transaction
+
+    override fun onCreateView(
+            inflater: LayoutInflater,
+            container: ViewGroup?,
+            savedInstanceState: Bundle?
+    ): View? {
+        val binding = FragmentProcessTransactionBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun initView(view: View, container: ViewGroup?) {

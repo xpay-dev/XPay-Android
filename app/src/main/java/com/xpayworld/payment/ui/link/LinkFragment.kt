@@ -1,12 +1,15 @@
 package com.xpayworld.payment.ui.link
 
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import com.google.gson.Gson
 import com.xpayworld.payment.R
+import com.xpayworld.payment.databinding.FragmentEnterAmountBinding
+import com.xpayworld.payment.databinding.FragmentLinkBinding
 import com.xpayworld.payment.ui.base.kt.BaseFragment
 import com.xpayworld.payment.util.InjectorUtil
 import com.xpayworld.sdk.XPAY_REQUEST
@@ -22,15 +25,21 @@ class LinkFragment : BaseFragment() {
         InjectorUtil.provideLinkViewModel(requireContext())
     }
 
-    override fun getLayout(): Any {
-        return R.layout.fragment_link
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
           request = it.getString(XPAY_REQUEST).toString()
         }
+    }
+
+    override fun onCreateView(
+            inflater: LayoutInflater,
+            container: ViewGroup?,
+            savedInstanceState: Bundle?
+    ): View? {
+        val binding = FragmentLinkBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun initView(view: View, container: ViewGroup?) {

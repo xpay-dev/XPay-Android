@@ -6,6 +6,7 @@ import com.xpayworld.payment.network.transaction.*
 import com.xpayworld.payment.util.BaseViewModel
 import com.xpayworld.payment.util.paymentType
 import com.xpayworld.payment.util.transaction
+import com.xpayworld.payment.util.transactionResponse
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
@@ -21,7 +22,7 @@ class ProcessTransactionViewModel : BaseViewModel() {
 
     override fun onCleared() {
         super.onCleared()
-
+        subscription.dispose()
     }
 
     fun callTransactionAPI() {
@@ -60,6 +61,7 @@ class ProcessTransactionViewModel : BaseViewModel() {
                         requestError.value = body?.result?.errNumber
                         onlineAuthResult.value = "8A023035"
                     } else {
+                        transactionResponse = body
 //                        onlineAuthResult.value = "8A023030${body?.authNumber ?:""}"
                         onlineAuthResult.value = "8A023030"
                     }

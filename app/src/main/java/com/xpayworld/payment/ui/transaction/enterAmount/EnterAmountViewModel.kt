@@ -3,7 +3,9 @@ package com.xpayworld.payment.ui.transaction.enterAmount
 import android.content.Context
 import android.view.View
 import android.widget.Button
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.navigation.findNavController
 import com.xpayworld.payment.R
@@ -30,7 +32,6 @@ class EnterAmountViewModel( context: Context) : BaseViewModel() {
         displayAmount.value = "0.00"
         paymentType  = PaymentType.CREDIT(TransactionPurchase.Action.EMV)
         transTypeSetResource.value = listOf(R.drawable.tab_indenticator, R.drawable.tab_indenticator_clear)
-
         posRequest = PosWsRequest(context)
     }
 
@@ -38,6 +39,7 @@ class EnterAmountViewModel( context: Context) : BaseViewModel() {
         amountStr = amountStr.dropLast(1)
         displayAmount.value = formattedAmount(amountStr)
     }
+
 
     private fun onClickOk(v: View) {
         if (!isDeviceAvailable(v.context)) {
@@ -55,8 +57,8 @@ class EnterAmountViewModel( context: Context) : BaseViewModel() {
         if (len == 8) return
         if (len == 0 && (v as Button).text == "0") return
         amountStr += (v as Button).text
-
         displayAmount.value = formattedAmount(amountStr)
+
     }
 
     private fun onClickTransType(v: View) {

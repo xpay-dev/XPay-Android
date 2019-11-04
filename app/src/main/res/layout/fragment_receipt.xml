@@ -4,6 +4,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.transaction.receipt.ReceiptFragment">
 
+    <data>
+        <variable
+            name="txns"
+            type="com.xpayworld.payment.network.TransactionResponse" />
+    </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -206,7 +212,7 @@
                     android:layout_marginLeft="8dp"
                     android:layout_marginEnd="8dp"
                     android:layout_marginRight="8dp"
-                    android:text="text"
+                    android:text="@{txns.timestamp}"
                     app:layout_constraintBaseline_toBaselineOf="@+id/lblDate"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/dividerDate" />
@@ -219,7 +225,7 @@
                     android:layout_marginLeft="8dp"
                     android:layout_marginEnd="8dp"
                     android:layout_marginRight="8dp"
-                    android:text="text"
+                    android:text="@{txns.merchantId}"
                     app:layout_constraintBaseline_toBaselineOf="@+id/lblMerchantId"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/dividerMerchantId" />
@@ -232,7 +238,7 @@
                     android:layout_marginLeft="8dp"
                     android:layout_marginEnd="8dp"
                     android:layout_marginRight="8dp"
-                    android:text="text"
+                    android:text="@{txns.terminalId}"
                     app:layout_constraintBaseline_toBaselineOf="@+id/lblTerminalId"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/dividerTerminalId" />
@@ -245,7 +251,7 @@
                     android:layout_marginLeft="8dp"
                     android:layout_marginEnd="8dp"
                     android:layout_marginRight="8dp"
-                    android:text="text"
+                    android:text="@{txns.batchNumber}"
                     app:layout_constraintBaseline_toBaselineOf="@+id/lblBatchNumber"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/dividerBatchNum" />
@@ -258,7 +264,7 @@
                     android:layout_marginLeft="8dp"
                     android:layout_marginEnd="8dp"
                     android:layout_marginRight="8dp"
-                    android:text="text"
+                    android:text="@{txns.transNumber}"
                     app:layout_constraintBaseline_toBaselineOf="@+id/lblInvoiceNumber"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/dividerInvoice" />
@@ -268,10 +274,9 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
-                    android:layout_marginLeft="8dp"
                     android:layout_marginEnd="8dp"
-                    android:layout_marginRight="8dp"
-                    android:text="text"
+                    android:text="@{txns.cardNumber}"
+                    android:textSize="12sp"
                     app:layout_constraintBaseline_toBaselineOf="@+id/lblCardNumber"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/dividerCardNumber" />
@@ -284,7 +289,7 @@
                     android:layout_marginLeft="8dp"
                     android:layout_marginEnd="8dp"
                     android:layout_marginRight="8dp"
-                    android:text="text"
+                    android:text="@{txns.cardType}"
                     app:layout_constraintBaseline_toBaselineOf="@+id/lblCardType"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/dividerCardType" />
@@ -297,7 +302,7 @@
                     android:layout_marginLeft="8dp"
                     android:layout_marginEnd="8dp"
                     android:layout_marginRight="8dp"
-                    android:text="text"
+                    android:text="@{txns.authNumber}"
                     app:layout_constraintBaseline_toBaselineOf="@+id/lblAuthNumber"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/dividerDate" />
@@ -311,7 +316,7 @@
                     android:layout_marginLeft="8dp"
                     android:layout_marginEnd="8dp"
                     android:layout_marginRight="8dp"
-                    android:text="PhP 1,000.000"
+                    android:text="@{txns.currency + ' ' + txns.total}"
                     android:textAlignment="textEnd"
                     android:textStyle="bold"
                     app:layout_constraintBaseline_toBaselineOf="@+id/lblAuthNumber2"
@@ -421,7 +426,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="24dp"
                     android:fontFamily="@font/corsa_grotesk_regular"
-                    android:text="Sale"
+                    android:text="@{txns.transType}"
                     android:textColor="@android:color/black"
                     android:textSize="@dimen/text_merchant_name"
                     android:textStyle="bold"

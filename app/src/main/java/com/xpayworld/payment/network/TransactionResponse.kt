@@ -106,13 +106,11 @@ class TransactionResponse {
     @SerializedName("TransactionNumber")
     var transNumber: String? = null
 
-
     @SerializedName("TransactionReqToken ")
     var transactionReqToken: String? = null
 
     @SerializedName("TransactionSignature")
     var transactionSignature: String? = null
-
 
     @SerializedName("TransactionType")
     var transType: String? = null

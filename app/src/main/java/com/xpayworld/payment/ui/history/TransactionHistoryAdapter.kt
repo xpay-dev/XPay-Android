@@ -1,23 +1,27 @@
 package com.xpayworld.payment.ui.history
 
+import android.bluetooth.BluetoothDevice
+import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.xpayworld.payment.R
 import com.xpayworld.payment.databinding.ListItemHistoryBinding
+import com.xpayworld.payment.network.TransactionResponse
 import com.xpayworld.payment.network.transLookUp.TransResponse
 
 class TransactionHistoryAdapter : RecyclerView.Adapter<TransactionHistoryAdapter.ViewHolder>() {
 
-    private lateinit var txnResponse: ArrayList<TransResponse>
-
+    private lateinit var txnResponse: ArrayList<TransactionResponse>
+    var onItemClick: ((TransactionResponse) -> Unit)? = null
     override fun getItemCount(): Int {
         return if (::txnResponse.isInitialized) txnResponse.size else 0
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(txnResponse[position])
+        holder.bind(createOnClickListener(txnResponse[position]),txnResponse[position])
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -26,11 +30,17 @@ class TransactionHistoryAdapter : RecyclerView.Adapter<TransactionHistoryAdapter
 
     }
 
-    fun updatePostList(txnList: ArrayList<TransResponse>) {
+    fun updatePostList(txnList: ArrayList<TransactionResponse>) {
         this.txnResponse = txnList
         notifyDataSetChanged()
     }
 
+
+    private fun createOnClickListener(item : TransactionResponse) : View.OnClickListener{
+        return View.OnClickListener {
+            onItemClick?.invoke(item)
+        }
+    }
     fun clear(){
         this.txnResponse.clear()
         notifyDataSetChanged()
@@ -40,9 +50,11 @@ class TransactionHistoryAdapter : RecyclerView.Adapter<TransactionHistoryAdapter
 
         private val viewModel = HistoryViewModel()
 
-        fun bind(txn: TransResponse) {
-              viewModel.bind(txn)
+        fun bind(listener: View.OnClickListener ,txn: TransactionResponse) {
+            viewModel.bind(txn)
+            binding.clickListener = listener
             binding.viewModel = viewModel
         }
+
     }
 }

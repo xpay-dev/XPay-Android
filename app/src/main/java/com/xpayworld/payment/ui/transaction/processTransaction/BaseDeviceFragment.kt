@@ -605,7 +605,7 @@ abstract class BaseDeviceFragment : BaseFragment()  {
 
         override fun onReturnSetPinPadButtonsResult(p0: Boolean) {
 
-            val direction = ProcessTransactionFragmentDirections.actionProcessTransactionToPinPadFragment(amountStr)
+            val direction = ProcessTransactionFragmentDirections.actionProcessTransactionToPinPadFragment()
             view!!.findNavController().navigate(direction)
         }
 

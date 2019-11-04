@@ -2,6 +2,7 @@ package com.xpayworld.payment.ui.history
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.xpayworld.payment.network.TransactionResponse
 import com.xpayworld.payment.network.transLookUp.TransResponse
 import com.xpayworld.payment.util.BaseViewModel
 
@@ -12,7 +13,7 @@ class HistoryViewModel  : BaseViewModel(){
     private  val txnTimestamp = MutableLiveData<String>()
     private  val txnCurrency = MutableLiveData<String>()
 
-    fun bind(history : TransResponse){
+    fun bind(history : TransactionResponse){
         txnAmount.value = history.total
         txnNumber.value = history.transNumber
         txnType.value = history.transType

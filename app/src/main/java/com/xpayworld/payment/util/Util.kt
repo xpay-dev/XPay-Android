@@ -10,6 +10,7 @@ import android.telephony.TelephonyManager
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.xpayworld.payment.network.PosWsRequest
+import com.xpayworld.payment.network.TransactionResponse
 import com.xpayworld.payment.network.transaction.PaymentType
 import com.xpayworld.payment.network.transaction.Transaction
 import com.xpayworld.payment.network.updateApp.UpdateAppResponse
@@ -19,6 +20,7 @@ import java.text.DecimalFormat
 
 var paymentType : PaymentType? = null
 var posRequest  : PosWsRequest? = null
+var transactionResponse : TransactionResponse? = null
 var  transaction =  Transaction()
 var merchantDetails = UpdateAppResponse().merchantDetails
 

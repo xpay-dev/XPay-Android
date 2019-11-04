@@ -29,16 +29,16 @@ abstract class BaseFragment : Fragment() , UserInteraction {
     var handler: Handler? = null
     var r: Runnable? = null
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view: View? = if (getLayout() is Int) {
-            inflater.inflate((getLayout() as Int), container, false)
-        } else {
-            getLayout() as View
-        }
-
-        mContainer = container
-        return view
-    }
+//    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+//        val view: View? = if (getLayout() is Int) {
+//            inflater.inflate((getLayout() as Int), container, false)
+//        } else {
+//            getLayout() as View
+//        }
+//
+//        mContainer = container
+//        return view
+//    }
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -102,7 +102,6 @@ abstract class BaseFragment : Fragment() , UserInteraction {
         fun onFragmentDetached(tag: String)
     }
 
-    abstract fun getLayout(): Any
     abstract fun initView(view: View, container: ViewGroup?)
 
 

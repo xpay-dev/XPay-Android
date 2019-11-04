@@ -1,7 +1,9 @@
 package com.xpayworld.payment.ui.activation
 
+import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
@@ -13,6 +15,8 @@ import kotlinx.android.synthetic.main.fragment_activation_code.*
 import androidx.fragment.app.viewModels
 import com.xpayworld.payment.util.InjectorUtil
 import androidx.navigation.fragment.findNavController
+import com.xpayworld.payment.databinding.FragmentActivationCodeBinding
+import com.xpayworld.payment.databinding.FragmentEnterPinBinding
 
 
 class ActivationFragment : BaseFragment() {
@@ -24,8 +28,13 @@ class ActivationFragment : BaseFragment() {
         InjectorUtil.provideActivationViewModelFactor(requireContext())
     }
 
-    override fun getLayout(): Int {
-        return R.layout.fragment_activation_code
+    override fun onCreateView(
+            inflater: LayoutInflater,
+            container: ViewGroup?,
+            savedInstanceState: Bundle?
+    ): View? {
+        val binding = FragmentActivationCodeBinding.inflate(inflater, container, false)
+        return binding.root
     }
     override fun initView(view: View, container: ViewGroup?) {
 

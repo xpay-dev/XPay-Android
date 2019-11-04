@@ -1,5 +1,7 @@
 package com.xpayworld.payment.ui.enterPin
 
+import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
@@ -13,6 +15,7 @@ import com.xpayworld.payment.ui.dashboard.ToolbarDelegate
 import com.xpayworld.payment.util.SharedPrefStorage
 
 import androidx.lifecycle.Observer
+import com.xpayworld.payment.databinding.FragmentEnterPinBinding
 import com.xpayworld.payment.util.ACTIVATION_KEY
 import com.xpayworld.payment.util.InjectorUtil
 import kotlinx.android.synthetic.main.fragment_enter_pin.*
@@ -31,8 +34,13 @@ class EnterPinFragment : BaseFragment() {
         InjectorUtil.provideEnterPinViewModelFactory(requireContext())
     }
 
-    override fun getLayout(): Int {
-        return R.layout.fragment_enter_pin
+    override fun onCreateView(
+            inflater: LayoutInflater,
+            container: ViewGroup?,
+            savedInstanceState: Bundle?
+    ): View? {
+        val binding = FragmentEnterPinBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun initView(view: View, container: ViewGroup?) {

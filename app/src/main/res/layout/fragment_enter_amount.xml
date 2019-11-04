@@ -21,6 +21,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <include
+            android:id="@+id/vwNumpad"
             layout="@layout/view_enter_amount"
             android:layout_width="0dp"
             android:layout_height="0dp"
