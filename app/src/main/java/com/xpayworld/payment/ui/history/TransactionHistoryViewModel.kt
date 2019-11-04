@@ -36,15 +36,9 @@ class TransactionHistoryViewModel(val context: Context): BaseViewModel(){
         val sharedPref = context.let { SharedPrefStorage(it) }
 
         val history = TransLookUp()
-        val pos = PosWsRequest(context)
-        pos.rToken = "7swTXuxaMLFIle048m6ejqJwaKxMOo8HIgI9I%2f6%2be%2f6Ajcf6dJ%2bdxKTVj7ntzrjV"
-        pos.activationKey = "GFI23S6AW52TEJ4B"
-
-        history.posWsRequest =  pos
-        history.mobileAppId =  "8"
-        history.accountId = "9"
-//        history.mobileAppId = sharedPref.readMessage(MOBILE_APP_ID)
-//        history.accountId = sharedPref.readMessage(ACCOUNT_ID)
+        history.posWsRequest =  posRequest
+        history.mobileAppId = sharedPref.readMessage(MOBILE_APP_ID)
+        history.accountId = sharedPref.readMessage(ACCOUNT_ID)
         history.mobileAppTransType = 1
 
         subscription =  text.subscribe{ text ->
@@ -97,17 +91,11 @@ class TransactionHistoryViewModel(val context: Context): BaseViewModel(){
     }
 
     fun callTransactionAPI(txn : TransactionResponse){
-
+        val sharedPref = context.let { SharedPrefStorage(it) }
         val history = TransLookUp()
-        val pos = PosWsRequest(context)
-        pos.rToken = "7swTXuxaMLFIle048m6ejqJwaKxMOo8HIgI9I%2f6%2be%2f6Ajcf6dJ%2bdxKTVj7ntzrjV"
-        pos.activationKey = "GFI23S6AW52TEJ4B"
-
-        history.posWsRequest =  pos
-        history.mobileAppId =  "8"
-        history.accountId = "9"
-//        history.mobileAppId = sharedPref.readMessage(MOBILE_APP_ID)
-//        history.accountId = sharedPref.readMessage(ACCOUNT_ID)
+        history.posWsRequest =  posRequest
+        history.mobileAppId = sharedPref.readMessage(MOBILE_APP_ID)
+        history.accountId = sharedPref.readMessage(ACCOUNT_ID)
         history.mobileAppTransType = 1
         history.searchCriteria = txn.transNumber
         history.searchUsing = 1
