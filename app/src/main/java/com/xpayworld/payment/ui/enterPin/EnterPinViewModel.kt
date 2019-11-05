@@ -92,6 +92,7 @@ class EnterPinViewModel(private val context: Context) : BaseViewModel() {
                             } else {
                                 val sharedPref = context.let { SharedPrefStorage(it) }
                                 sharedPref.writeMessage(RTOKEN,result.body()!!.result.rToken!!)
+                                sharedPref.writeMessage(PIN_LOGIN,pinCode.value!!)
 
                                 callUpdateAp(callback = {
                                     toolbarVisibility.value = true

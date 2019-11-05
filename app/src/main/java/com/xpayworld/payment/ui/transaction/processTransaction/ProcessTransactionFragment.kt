@@ -19,6 +19,7 @@ import com.xpayworld.payment.util.formattedAmount
 import kotlinx.android.synthetic.main.fragment_process_transaction.*
 
 
+@Suppress("UNCHECKED_CAST")
 class ProcessTransactionFragment : BaseDeviceFragment() {
 
     var viewModel: ProcessTransactionViewModel? = null
@@ -63,12 +64,13 @@ class ProcessTransactionFragment : BaseDeviceFragment() {
         })
 
         viewModel?.requestError?.observe(this, Observer {
-            if (it is Double)
+            if (it is Pair<*, *>){
+                val message = it as Pair<Double,String>
                 btnCancel.visibility = View.INVISIBLE
-                showNetworkError(title = "REQUEST ERROR $it", callBack = {
+                showNetworkError(title = "REQUEST ERROR ${message.first}", message = message.second, callBack = {
                 view.findNavController().popBackStack(R.id.transactionFragment, true)
-            })
-
+              })
+            }
         })
 
 

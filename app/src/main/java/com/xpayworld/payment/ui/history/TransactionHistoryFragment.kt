@@ -33,6 +33,7 @@ class TransactionHistoryFragment : BaseFragment() {
             savedInstanceState: Bundle?
     ): View? {
         val binding = FragmentTransactionHistoryBinding.inflate(inflater, container, false)
+        binding.lifecycleOwner = this@TransactionHistoryFragment
         return binding.root
     }
 
@@ -72,13 +73,17 @@ class TransactionHistoryFragment : BaseFragment() {
         viewModel.navigateToReceipt.observe(this , Observer {
 
             val gson = GsonBuilder().setPrettyPrinting().create()
-            val gsonStr = gson.toJson(it[0])
+            val gsonStr = gson.toJson(it)
             val directions = TransactionHistoryFragmentDirections.actionHistoryFragmentToReceiptFragment(gsonStr)
             findNavController().navigate(directions)
         })
 
         viewModel.networkError.observe(this, Observer {
             showNetworkError(title = it)
+        })
+
+        viewModel.showError.observe(this , Observer { message ->
+            showError(title = message.first,message = message.second)
         })
 
     }

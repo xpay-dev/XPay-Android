@@ -1,6 +1,7 @@
 package com.xpayworld.payment.ui.link
 
 import android.content.Context
+import androidx.lifecycle.MutableLiveData
 import com.xpayworld.payment.network.RetrofitClient
 import com.xpayworld.payment.network.login.Login
 import com.xpayworld.payment.network.login.LoginApi
@@ -19,6 +20,7 @@ class LinkViewModel (private val context : Context) : BaseViewModel(){
 
 
     private lateinit var subscription: Disposable
+    val navigateToNextEntry : MutableLiveData<Boolean> = MutableLiveData()
 
     init {
         toolbarVisibility.value = false
@@ -80,8 +82,7 @@ class LinkViewModel (private val context : Context) : BaseViewModel(){
                                 sharedPref.writeMessage(RTOKEN,result.body()!!.result.rToken!!)
 
                                 callUpdateAp(callback = {
-                                    toolbarVisibility.value = true
-
+                                    navigateToNextEntry.value = true
                                 })
                             }
                         },

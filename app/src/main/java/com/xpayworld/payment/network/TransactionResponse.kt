@@ -35,7 +35,7 @@ class TransactionResponse {
     var cardType: String? = null
 
     @SerializedName("Currency")
-    var currency: String? = null
+    var currency: String? = "PHP"
 
     @SerializedName("MerchantId")
     var merchantId: String? = null
@@ -92,19 +92,19 @@ class TransactionResponse {
     var terminalId: String? = null
 
     @SerializedName("Timestamp")
-    var timestamp: String? = null
+    var timestamp: String? = "11/4/2019 10:58:03 PM"
 
     @SerializedName("Tips")
     var tips: String? = null
 
     @SerializedName("Total")
-    var total: String? = null
+    var total: String? = "12.33"
 
     @SerializedName("TransactionEntryType")
     var transactionEntryType: String? = null
 
     @SerializedName("TransactionNumber")
-    var transNumber: String? = null
+    var transNumber: String? = "1033-1029"
 
     @SerializedName("TransactionReqToken ")
     var transactionReqToken: String? = null
@@ -113,6 +113,6 @@ class TransactionResponse {
     var transactionSignature: String? = null
 
     @SerializedName("TransactionType")
-    var transType: String? = null
+    var transType: String? = "Sale"
 
 }

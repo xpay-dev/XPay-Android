@@ -6,12 +6,19 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import com.google.gson.Gson
 import com.xpayworld.payment.R
 import com.xpayworld.payment.databinding.FragmentEnterAmountBinding
 import com.xpayworld.payment.databinding.FragmentLinkBinding
+import com.xpayworld.payment.network.transaction.PaymentType
+import com.xpayworld.payment.network.transaction.TransactionPurchase
 import com.xpayworld.payment.ui.base.kt.BaseFragment
 import com.xpayworld.payment.util.InjectorUtil
+import com.xpayworld.payment.util.paymentType
+import com.xpayworld.payment.util.transaction
+import com.xpayworld.sdk.EntryPoint
+import com.xpayworld.sdk.EntryPoint.*
 import com.xpayworld.sdk.XPAY_REQUEST
 import com.xpayworld.sdk.XpayRequest
 
@@ -62,28 +69,30 @@ class LinkFragment : BaseFragment() {
 
         })
 
-//        when (EntryPoint.valueOf(data.entryPoint)) {
-//
-//            EntryPoint.TRANSACTION -> {
-//                paymentType  = PaymentType.CREDIT(TransactionPurchase.Action.EMV)
-//                transaction.amount = ( data.amountPurchase.toInt()/100.0)
-//                val direction = LinkFragmentDirections.actionLinkFragmentToTransactionFragment(data.amountPurchase)
-//                findNavController().navigate(direction)
-//            }
-//
-//            EntryPoint.ACTIVATION -> {
-//
-//            }
-//
-//            EntryPoint.ENTER_PIN -> {
-//
-//            }
-//
-//            EntryPoint.PREFERENCE -> {
-//
-//            }
-//        }
+        viewModel.navigateToNextEntry.observe( this , Observer {
 
+            when (valueOf(data.entryPoint)) {
+                TRANSACTION -> {
+                    paymentType  = PaymentType.CREDIT(TransactionPurchase.Action.EMV)
+                    transaction.amount = data.amountPurchase
+                    val strAmount = "${data.amountPurchase}".removePrefix(".")
+                    val direction = LinkFragmentDirections.actionLinkFragmentToProcessTranactionFragment(strAmount)
+                    findNavController().navigate(direction)
+                }
+
+                ACTIVATION -> {
+
+                }
+
+                ENTER_PIN -> {
+
+                }
+
+                PREFERENCE -> {
+
+                }
+            }
+        })
     }
 
 

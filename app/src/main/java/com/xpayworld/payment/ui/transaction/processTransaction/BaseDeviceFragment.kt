@@ -78,11 +78,12 @@ abstract class BaseDeviceFragment : BaseFragment()  {
         BBDeviceController.setDebugLogEnabled(true)
 
         if (currentFragment is ProcessTransactionFragment){
-            if (!SharedPrefStorage(context!!).isEmpty(WISE_PAD)){
+            if (!SharedPrefStorage(context!!).isEmpty(WISE_PAD) && isBluetoothPermissionGranted()){
                 startBluetoothConnection()
-            }
-            if (!SharedPrefStorage(context!!).isEmpty(WISE_POS)){
+            } else if (!SharedPrefStorage(context!!).isEmpty(WISE_POS)){
                 startTransaction()
+            } else {
+                checkBluetoothPermission.value = false
             }
         }
     }
@@ -98,11 +99,7 @@ abstract class BaseDeviceFragment : BaseFragment()  {
 
     fun startBluetoothConnection(){
         toolbarTitle.value = "Initializing..."
-        if (isBluetoothPermissionGranted()){
-             bbDeviceController?.startBTScan(DEVICE_NAMES, 120)
-        }else {
-            checkBluetoothPermission.value = false
-        }
+        bbDeviceController?.startBTScan(DEVICE_NAMES, 120)
     }
 
     private fun startEmv() {
@@ -183,9 +180,8 @@ abstract class BaseDeviceFragment : BaseFragment()  {
         }
 
         override fun onBTConnected(pairedObjects: BluetoothDevice?) {
+            if (currentFragment is PreferenceFragment) return
             startEmv()
-
-
         }
 
         override fun onReturnApduResult(p0: Boolean, p1: Hashtable<String, Any>?) {
@@ -605,7 +601,7 @@ abstract class BaseDeviceFragment : BaseFragment()  {
 
         override fun onReturnSetPinPadButtonsResult(p0: Boolean) {
 
-            val direction = ProcessTransactionFragmentDirections.actionProcessTransactionToPinPadFragment()
+            val direction = ProcessTransactionFragmentDirections.actionProcessTransactionToPinPadFragment(amountStr)
             view!!.findNavController().navigate(direction)
         }
 

@@ -21,7 +21,7 @@ import java.text.DecimalFormat
 var paymentType : PaymentType? = null
 var posRequest  : PosWsRequest? = null
 var transactionResponse : TransactionResponse? = null
-var  transaction =  Transaction()
+var transaction =  Transaction()
 var merchantDetails = UpdateAppResponse().merchantDetails
 
 

@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.google.gson.Gson
 import com.xpayworld.payment.R
 import com.xpayworld.payment.databinding.ListItemHistoryBinding
 import com.xpayworld.payment.network.TransactionResponse
@@ -14,7 +15,7 @@ import com.xpayworld.payment.network.transLookUp.TransResponse
 
 class TransactionHistoryAdapter : RecyclerView.Adapter<TransactionHistoryAdapter.ViewHolder>() {
 
-    private lateinit var txnResponse: ArrayList<TransactionResponse>
+    private lateinit var txnResponse: List<TransactionResponse>
     var onItemClick: ((TransactionResponse) -> Unit)? = null
     override fun getItemCount(): Int {
         return if (::txnResponse.isInitialized) txnResponse.size else 0
@@ -25,12 +26,10 @@ class TransactionHistoryAdapter : RecyclerView.Adapter<TransactionHistoryAdapter
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val binding: ListItemHistoryBinding = DataBindingUtil.inflate(LayoutInflater.from(parent.context), R.layout.list_item_history, parent, false)
-        return ViewHolder(binding)
-
+        return ViewHolder( DataBindingUtil.inflate(LayoutInflater.from(parent.context), R.layout.list_item_history, parent, false))
     }
 
-    fun updatePostList(txnList: ArrayList<TransactionResponse>) {
+    fun updatePostList(txnList: List<TransactionResponse>) {
         this.txnResponse = txnList
         notifyDataSetChanged()
     }
@@ -42,18 +41,24 @@ class TransactionHistoryAdapter : RecyclerView.Adapter<TransactionHistoryAdapter
         }
     }
     fun clear(){
-        this.txnResponse.clear()
+      //  this.txnResponse.clear()
         notifyDataSetChanged()
     }
 
     class ViewHolder(private val binding: ListItemHistoryBinding) : RecyclerView.ViewHolder(binding.root) {
 
-        private val viewModel = HistoryViewModel()
+        private val mViewModel = HistoryViewModel()
 
         fun bind(listener: View.OnClickListener ,txn: TransactionResponse) {
-            viewModel.bind(txn)
-            binding.clickListener = listener
-            binding.viewModel = viewModel
+            val gson = Gson()
+            val gson1 = gson.toJson(txn)
+
+            Log.e("ERROR",gson1)
+
+                mViewModel.bind(txn)
+                binding.clickListener = listener
+                binding.viewModel = mViewModel
+
         }
 
     }

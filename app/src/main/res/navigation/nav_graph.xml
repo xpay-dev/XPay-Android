@@ -117,6 +117,9 @@
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right" />
+        <argument
+            android:name="amount"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/signatureFragment"
@@ -164,7 +167,7 @@
         android:label="fragment_link"
         tools:layout="@layout/fragment_link" >
         <action
-            android:id="@+id/action_linkFragment_to_transactionFragment"
+            android:id="@+id/action_linkFragment_to_process_tranaction_Fragment"
             app:destination="@id/processTransactionFragment"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"

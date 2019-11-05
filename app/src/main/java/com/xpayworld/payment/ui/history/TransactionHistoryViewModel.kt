@@ -6,10 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import com.xpayworld.payment.network.PosWsRequest
 import com.xpayworld.payment.network.RetrofitClient
 import com.xpayworld.payment.network.TransactionResponse
-import com.xpayworld.payment.network.transLookUp.TransLookUp
-import com.xpayworld.payment.network.transLookUp.TransLookUpAPI
-import com.xpayworld.payment.network.transLookUp.TransLookUpRequest
-import com.xpayworld.payment.network.transLookUp.TransResponse
+import com.xpayworld.payment.network.transLookUp.*
 import com.xpayworld.payment.util.*
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -19,17 +16,65 @@ import java.util.concurrent.TimeUnit
 
 class TransactionHistoryViewModel(val context: Context): BaseViewModel(){
 
-    val transResponse : MutableLiveData<ArrayList<TransactionResponse>> = MutableLiveData()
+    val transResponse : MutableLiveData< List<TransactionResponse>> = MutableLiveData()
+    val showError : MutableLiveData<Pair<String,String>> = MutableLiveData()
     val navigateToReceipt : MutableLiveData<ArrayList<TransactionResponse>> = MutableLiveData()
 
     private lateinit var subscription: Disposable
 
-
-    override fun onCleared() {
-        super.onCleared()
-        subscription.dispose()
-
+    init {
+        callTransLookUpAPI1()
     }
+
+   private fun callTransLookUpAPI1(){
+        val sharedPref = context.let { SharedPrefStorage(it) }
+
+        val history = TransLookUp()
+        history.posWsRequest =  posRequest
+        history.mobileAppId = sharedPref.readMessage(MOBILE_APP_ID)
+        history.accountId = sharedPref.readMessage(ACCOUNT_ID)
+        history.mobileAppTransType = 1
+        history.searchCriteria = "1"
+        history.searchUsing = 2
+
+        val api = RetrofitClient().getRetrofit().create(TransLookUpAPI::class.java)
+        val historyReq = TransLookUpRequest(history)
+
+        val apiCall = api.transLookUp(historyReq)
+
+        subscription = apiCall
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe { loadingVisibility.value = true }
+                .doAfterTerminate {loadingVisibility.value = false}
+                .subscribe(
+                        { result ->
+                            loadingVisibility.value  = false
+                            if (!result.isSuccessful) {
+                                networkError.value = "Network Error ${result.code()}"
+                            }
+                            val hasError = result?.body()?.response?.posWsResponse?.errNumber != 0.0
+
+                            if (hasError) {
+
+                                requestError.value = result?.body()?.response?.posWsResponse?.message
+                            } else {
+
+                                val txns = result?.body()?.response?.transactions
+
+                                if (txns?.count() != 0) {
+                                    transResponse.value =  txns
+                                } else {
+                                    requestError.value = "No transaction available"
+                                }
+                            }
+                        },
+                        {
+                            networkError.value = "Network Error"
+                        }
+                )
+    }
+
 
     fun callTransLookUpAPI(text: Observable<String>){
 
@@ -56,7 +101,7 @@ class TransactionHistoryViewModel(val context: Context): BaseViewModel(){
 
         val apiCall = api.transLookUp(historyReq)
 
-        subscription = text.distinctUntilChanged()
+        subscription = text
                 .switchMap { apiCall }
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -75,9 +120,9 @@ class TransactionHistoryViewModel(val context: Context): BaseViewModel(){
                                 requestError.value = result?.body()?.response?.posWsResponse?.message
                             } else {
 
-                                val txns = result?.body()?.response?.transactions as ArrayList<TransactionResponse>
+                                val txns = result?.body()?.response?.transactions
 
-                                if (txns.count() != 0) {
+                                if (txns?.count() != 0) {
                                     transResponse.value =  txns
                                 } else {
                                     requestError.value = "No transaction available"
@@ -118,6 +163,11 @@ class TransactionHistoryViewModel(val context: Context): BaseViewModel(){
                             val hasError = result?.body()?.response?.posWsResponse?.errNumber != 0.0
 
                             if (hasError) {
+                                val errorNumber = "REQUEST ERROR "+result.body()?.response?.posWsResponse?.errNumber!!
+                                val errorMessage = result.body()?.response?.posWsResponse?.message!!
+                                val message = Pair(errorNumber,errorMessage)
+                                showError.value = message
+                            } else {
                                 val txns = result?.body()?.response?.transactions as ArrayList<TransactionResponse>
                                 navigateToReceipt.value = txns
                             }
@@ -125,6 +175,5 @@ class TransactionHistoryViewModel(val context: Context): BaseViewModel(){
                         {
                             networkError.value = "Network Error"
                         }
-                )
-    }
+                )}
 }

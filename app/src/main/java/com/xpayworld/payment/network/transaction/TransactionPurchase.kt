@@ -72,7 +72,7 @@ class TransactionPurchase(txn: Transaction) {
         card.refNumberApp = posRequest!!.activationKey +""+ System.currentTimeMillis()
         cardInfo = card
         posWsRequest = posRequest
-       // posWsRequest?.systemMode = "TESTAPPROVED"
+       posWsRequest?.systemMode = "TESTBANK"
 
         when (val mPaymentType = paymentType) {
             is PaymentType.CREDIT -> {

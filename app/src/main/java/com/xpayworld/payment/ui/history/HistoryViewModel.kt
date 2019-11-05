@@ -6,7 +6,7 @@ import com.xpayworld.payment.network.TransactionResponse
 import com.xpayworld.payment.network.transLookUp.TransResponse
 import com.xpayworld.payment.util.BaseViewModel
 
-class HistoryViewModel  : BaseViewModel(){
+class HistoryViewModel  : ViewModel(){
     private  val txnNumber  = MutableLiveData<String>()
     private  val txnType = MutableLiveData<String>()
     private  val txnAmount = MutableLiveData<String>()
@@ -40,4 +40,5 @@ class HistoryViewModel  : BaseViewModel(){
     fun getTxnCurrency(): MutableLiveData<String>{
         return  txnCurrency
     }
+
 }
