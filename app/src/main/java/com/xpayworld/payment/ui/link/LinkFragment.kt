@@ -15,6 +15,7 @@ import com.xpayworld.payment.network.transaction.PaymentType
 import com.xpayworld.payment.network.transaction.TransactionPurchase
 import com.xpayworld.payment.ui.base.kt.BaseFragment
 import com.xpayworld.payment.util.InjectorUtil
+import com.xpayworld.payment.util.isSDK
 import com.xpayworld.payment.util.paymentType
 import com.xpayworld.payment.util.transaction
 import com.xpayworld.sdk.EntryPoint
@@ -61,37 +62,39 @@ class LinkFragment : BaseFragment() {
 
         // Network Error
         viewModel.networkError.observe(this, Observer {
-            showNetworkError(title = it)
+            showNetworkError(title = it,callBack = { activity?.finish()})
         })
 
         viewModel.requestError.observe(this, Observer {
-
-
+            showNetworkError(title = "REQUEST ERROR ${it as Double}",callBack = { activity?.finish()})
         })
 
         viewModel.navigateToNextEntry.observe( this , Observer {
-
-            when (valueOf(data.entryPoint)) {
-                TRANSACTION -> {
+       //     val entryPoint = EntryPoint.valueOf(data.entryPoint)
+                    isSDK = true
                     paymentType  = PaymentType.CREDIT(TransactionPurchase.Action.EMV)
                     transaction.amount = data.amountPurchase
                     val strAmount = "${data.amountPurchase}".removePrefix(".")
                     val direction = LinkFragmentDirections.actionLinkFragmentToProcessTranactionFragment(strAmount)
                     findNavController().navigate(direction)
-                }
-
-                ACTIVATION -> {
-
-                }
-
-                ENTER_PIN -> {
-
-                }
-
-                PREFERENCE -> {
-
-                }
-            }
+//            when (entryPoint) {
+//                TRANSACTION -> {
+//                    paymentType  = PaymentType.CREDIT(TransactionPurchase.Action.EMV)
+//                    transaction.amount = data.amountPurchase
+//                    val strAmount = "${data.amountPurchase}".removePrefix(".")
+//                    val direction = LinkFragmentDirections.actionLinkFragmentToProcessTranactionFragment(strAmount)
+//                    findNavController().navigate(direction)
+//                }
+//                ACTIVATION -> {
+//
+//                }
+//                ENTER_PIN -> {
+//
+//                }
+//                PREFERENCE -> {
+//
+//                }
+//            }
         })
     }
 

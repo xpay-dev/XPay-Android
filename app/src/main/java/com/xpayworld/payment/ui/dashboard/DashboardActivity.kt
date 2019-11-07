@@ -21,14 +21,18 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.navigation.NavArgument
+import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.navArgs
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.setupActionBarWithNavController
 import com.google.gson.Gson
 import com.xpayworld.payment.ui.link.LinkFragment
 import com.xpayworld.payment.util.transaction
 import com.xpayworld.sdk.EntryPoint
 import com.xpayworld.sdk.XPAY_REQUEST
 import com.xpayworld.sdk.XpayRequest
+import kotlinx.android.synthetic.main.activity_dashboard.*
 
 
 class DashboardActivity : BaseActivity(), DrawerLocker, ToolbarDelegate {
@@ -50,18 +54,18 @@ class DashboardActivity : BaseActivity(), DrawerLocker, ToolbarDelegate {
         supportActionBar?.title = ""
 
         drawerLayout = binding.drawerLayout
+        setUpDrawerToggle()
 
         navController = findNavController(R.id.nav_host_fragment)
-
+        getLinkEntryPoint()
 
         binding.navigationView.setupWithNavController(navController)
+
 
         navController.addOnDestinationChangedListener { controller, destination, arguments ->
             toolbar_title.text = controller.currentDestination?.label
         }
-        setUpDrawerToggle()
 
-       getLinkEntryPoint()
     }
 
     private fun setUpDrawerToggle() {
@@ -74,11 +78,20 @@ class DashboardActivity : BaseActivity(), DrawerLocker, ToolbarDelegate {
     private fun getLinkEntryPoint(){
 
         val extras = intent.extras
-        val request = extras?.getString(XPAY_REQUEST) ?: return
+        val request = extras?.getString(XPAY_REQUEST)
 
+        request?: return
+        Log.e("REQUEST",request)
         val b = Bundle()
         b.putString(XPAY_REQUEST,request)
-        navController.navigate(R.id.linkFragment,b)
+
+        // Configure the navigation
+        val navHost = nav_host_fragment as NavHostFragment
+         val   graph = navHost.navController
+                .navInflater.inflate(R.navigation.nav_graph)
+        graph.startDestination = R.id.linkFragment
+        navController.setGraph(graph,b)
+
         drawerEnabled(false)
         showToolbar(false)
 

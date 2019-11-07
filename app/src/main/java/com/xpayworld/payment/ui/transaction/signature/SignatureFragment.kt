@@ -42,7 +42,7 @@ class SignatureFragment : BaseFragment() {
         btnSubmit.setOnClickListener {
             val gson = GsonBuilder().setPrettyPrinting().create()
             val gsonStr = gson.toJson(transactionResponse)
-            val direction = SignatureFragmentDirections.actionSignatureFragmentToReceiptFragment(gsonStr)
+            val direction = SignatureFragmentDirections.actionSignatureFragmentToReceiptFragment(gsonStr,"")
             it.findNavController().navigate(direction)
         }
     }

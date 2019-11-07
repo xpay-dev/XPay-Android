@@ -16,6 +16,7 @@ import com.xpayworld.payment.databinding.FragmentReceiptBinding
 import com.xpayworld.payment.ui.dashboard.DrawerLocker
 import com.xpayworld.payment.ui.dashboard.ToolbarDelegate
 import com.xpayworld.payment.util.formattedAmount
+import com.xpayworld.payment.util.isSDK
 import kotlinx.android.synthetic.main.fragment_process_transaction.*
 
 
@@ -34,6 +35,9 @@ class ProcessTransactionFragment : BaseDeviceFragment() {
     }
 
     override fun initView(view: View, container: ViewGroup?) {
+        if (amountStr.contains("."))
+            amountStr = amountStr.replace(".","")
+
         tvAmount.text = formattedAmount(amountStr)
 
         viewModel = ViewModelProviders.of(this).get(ProcessTransactionViewModel::class.java)
@@ -67,8 +71,10 @@ class ProcessTransactionFragment : BaseDeviceFragment() {
             if (it is Pair<*, *>){
                 val message = it as Pair<Double,String>
                 btnCancel.visibility = View.INVISIBLE
-                showNetworkError(title = "REQUEST ERROR ${message.first}", message = message.second, callBack = {
-                view.findNavController().popBackStack(R.id.transactionFragment, true)
+                showError(title = "REQUEST ERROR ${message.first}", message = message.second, callBack = {
+                    if (isSDK){
+                        activity?.finish()
+                    } else view.findNavController().popBackStack(R.id.transactionFragment, true)
               })
             }
         })

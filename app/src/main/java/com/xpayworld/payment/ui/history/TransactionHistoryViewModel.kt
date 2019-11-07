@@ -4,6 +4,7 @@ import android.content.Context
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.xpayworld.payment.network.PosWsRequest
+import com.xpayworld.payment.network.PosWsResponse
 import com.xpayworld.payment.network.RetrofitClient
 import com.xpayworld.payment.network.TransactionResponse
 import com.xpayworld.payment.network.transLookUp.*
@@ -18,7 +19,7 @@ class TransactionHistoryViewModel(val context: Context): BaseViewModel(){
 
     val transResponse : MutableLiveData< List<TransactionResponse>> = MutableLiveData()
     val showError : MutableLiveData<Pair<String,String>> = MutableLiveData()
-    val navigateToReceipt : MutableLiveData<ArrayList<TransactionResponse>> = MutableLiveData()
+    val navigateToReceipt : MutableLiveData<Pair<ArrayList<TransactionResponse>, PosWsResponse>> = MutableLiveData()
 
     private lateinit var subscription: Disposable
 
@@ -26,7 +27,12 @@ class TransactionHistoryViewModel(val context: Context): BaseViewModel(){
         callTransLookUpAPI1()
     }
 
-   private fun callTransLookUpAPI1(){
+    override fun onCleared() {
+        super.onCleared()
+        subscription.dispose()
+    }
+
+    private fun callTransLookUpAPI1(){
         val sharedPref = context.let { SharedPrefStorage(it) }
 
         val history = TransLookUp()
@@ -162,14 +168,15 @@ class TransactionHistoryViewModel(val context: Context): BaseViewModel(){
                             }
                             val hasError = result?.body()?.response?.posWsResponse?.errNumber != 0.0
 
-                            if (hasError) {
+                            if (!hasError) {
                                 val errorNumber = "REQUEST ERROR "+result.body()?.response?.posWsResponse?.errNumber!!
                                 val errorMessage = result.body()?.response?.posWsResponse?.message!!
                                 val message = Pair(errorNumber,errorMessage)
                                 showError.value = message
                             } else {
                                 val txns = result?.body()?.response?.transactions as ArrayList<TransactionResponse>
-                                navigateToReceipt.value = txns
+                                val response = result.body()?.response?.posWsResponse!!
+                                navigateToReceipt.value = Pair(txns,response)
                             }
                         },
                         {

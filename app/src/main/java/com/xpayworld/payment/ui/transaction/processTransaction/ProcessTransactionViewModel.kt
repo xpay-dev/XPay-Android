@@ -20,6 +20,11 @@ class ProcessTransactionViewModel : BaseViewModel() {
     val transactionError : MutableLiveData<String> = MutableLiveData()
     private lateinit var subscription: Disposable
 
+    override fun onCleared() {
+        super.onCleared()
+        subscription.dispose()
+    }
+
 
     fun callTransactionAPI() {
         var txnResponse: Single<Response<TransactionResult>>? = null

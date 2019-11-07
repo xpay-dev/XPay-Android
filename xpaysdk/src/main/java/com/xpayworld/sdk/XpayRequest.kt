@@ -29,16 +29,17 @@ class  XpayRequest {
     var currency= ""
 
     @SerializedName("transaction_entry_point")
-    var entryPoint =  EntryPoint.TRANSACTION.value
+    var entryPoint =  EntryPoint.TRANSACTION.toString()
 
 }
 
 enum class EntryPoint(val value: String) {
-    TRANSACTION("transaction_page"),
-    HISTORY("history_page"),
-    ENTER_PIN("enter_pin_page"),
-    PREFERENCE("preference_page"),
-    ACTIVATION("activation_page")
+    TRANSACTION("TRANSACTION"),
+    HISTORY("HISTORY"),
+    ENTER_PIN("ENTER_PIN"),
+    PREFERENCE("PREFERENCE"),
+    ACTIVATION("ACTIVATION");
+    override fun toString() = value
 }
 
 enum class  TransactionType(val value: Int){

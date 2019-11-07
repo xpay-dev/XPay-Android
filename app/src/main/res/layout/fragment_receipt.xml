@@ -8,6 +8,9 @@
         <variable
             name="txns"
             type="com.xpayworld.payment.network.TransactionResponse" />
+        <variable
+            name="response"
+            type="com.xpayworld.payment.network.PosWsResponse" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -55,6 +58,18 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
+
+                <TextView
+                    android:id="@+id/lblStatus"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:fontFamily="@font/corsa_grotesk_regular"
+                    android:text="Transaction Status"
+                    android:textColor="@android:color/black"
+                    android:textSize="@dimen/text_merchant_details"
+                    app:layout_constraintStart_toStartOf="@+id/lblDate"
+                    app:layout_constraintTop_toBottomOf="@+id/tvAuthNumber" />
 
                 <androidx.constraintlayout.widget.Guideline
                     android:id="@+id/guideline8"
@@ -205,6 +220,18 @@
                     app:layout_constraintTop_toTopOf="@+id/lblAuthNumber" />
 
                 <TextView
+                    android:id="@+id/dividerStatus"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=" : "
+                    android:textSize="@dimen/text_merchant_details"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="@+id/lblStatus"
+                    app:layout_constraintEnd_toStartOf="@+id/guideline8"
+                    app:layout_constraintStart_toStartOf="@+id/guideline8"
+                    app:layout_constraintTop_toTopOf="@+id/lblStatus" />
+
+                <TextView
                     android:id="@+id/tvDate"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -304,6 +331,17 @@
                     android:layout_marginRight="8dp"
                     android:text="@{txns.authNumber}"
                     app:layout_constraintBaseline_toBaselineOf="@+id/lblAuthNumber"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/dividerDate" />
+
+                <TextView
+                    android:id="@+id/tvStatus"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:text="@{response.status}"
+                    app:layout_constraintBaseline_toBaselineOf="@+id/lblStatus"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/dividerDate" />
 
@@ -411,7 +449,7 @@
                     android:id="@+id/lblAuthNumber2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
+                    android:layout_marginTop="60dp"
                     android:fontFamily="@font/corsa_grotesk_regular"
                     android:text="AMOUNT:"
                     android:textColor="@android:color/black"

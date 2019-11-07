@@ -23,6 +23,7 @@ var posRequest  : PosWsRequest? = null
 var transactionResponse : TransactionResponse? = null
 var transaction =  Transaction()
 var merchantDetails = UpdateAppResponse().merchantDetails
+var isSDK = false
 
 
 fun formattedAmount(amount : String) : String {

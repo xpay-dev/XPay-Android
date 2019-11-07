@@ -73,8 +73,9 @@ class TransactionHistoryFragment : BaseFragment() {
         viewModel.navigateToReceipt.observe(this , Observer {
 
             val gson = GsonBuilder().setPrettyPrinting().create()
-            val gsonStr = gson.toJson(it)
-            val directions = TransactionHistoryFragmentDirections.actionHistoryFragmentToReceiptFragment(gsonStr)
+            val txnsStr = gson.toJson(it.first[0])
+            val respStr  = gson.toJson(it.second)
+            val directions = TransactionHistoryFragmentDirections.actionHistoryFragmentToReceiptFragment(txnsStr,respStr)
             findNavController().navigate(directions)
         })
 

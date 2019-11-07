@@ -75,7 +75,7 @@ class LinkViewModel (private val context : Context) : BaseViewModel(){
                             if (hasError) {
                                 loadingVisibility.value = false
 
-                                requestError.value = hasError
+                                requestError.value = result?.body()?.result?.errNumber
 
                             } else {
                                 val sharedPref = context.let { SharedPrefStorage(it) }

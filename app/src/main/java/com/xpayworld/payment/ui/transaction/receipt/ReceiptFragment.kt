@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.*
 import android.view.animation.AnimationUtils
+import androidx.activity.addCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.viewModels
 import com.xpayworld.payment.R
@@ -13,7 +14,9 @@ import kotlinx.android.synthetic.main.fragment_receipt.*
 import androidx.navigation.findNavController
 import com.google.gson.Gson
 import com.xpayworld.payment.databinding.FragmentReceiptBinding
+import com.xpayworld.payment.network.PosWsResponse
 import com.xpayworld.payment.network.TransactionResponse
+import com.xpayworld.payment.ui.dashboard.DashboardActivity
 import com.xpayworld.payment.ui.dashboard.DrawerLocker
 import com.xpayworld.payment.ui.transaction.receipt.ReceiptFragmentArgs.fromBundle
 import com.xpayworld.payment.util.InjectorUtil
@@ -28,6 +31,11 @@ class ReceiptFragment : BaseFragment() {
         fromBundle(arguments!!).transaction
     }
 
+    val mResponse : String by lazy {
+        fromBundle(arguments!!).status
+    }
+
+
     override fun onCreateView(
             inflater: LayoutInflater,
             container: ViewGroup?,
@@ -35,10 +43,17 @@ class ReceiptFragment : BaseFragment() {
     ): View? {
         val binding = FragmentReceiptBinding.inflate(inflater, container, false)
         val gson = Gson()
-         val data =  gson.fromJson(transaction, TransactionResponse::class.java)
+        val txn =  gson.fromJson(transaction, TransactionResponse::class.java)
+        val status : PosWsResponse?
+
+        if (mResponse != ""){
+            status = gson.fromJson(mResponse,PosWsResponse::class.java)
+            binding.response = status!!
+            binding.btnDone.visibility = View.INVISIBLE
+        }
 
         Log.e("error",transaction)
-         binding.txns = data
+        binding.txns = txn
         binding.lifecycleOwner = this@ReceiptFragment
         return binding.root
     }
@@ -70,6 +85,6 @@ class ReceiptFragment : BaseFragment() {
 
     override fun onResume() {
         super.onResume()
-        (activity as DrawerLocker).drawerEnabled(false)
+         (activity as DrawerLocker).drawerEnabled(false)
     }
 }
