@@ -24,6 +24,7 @@ var transactionResponse : TransactionResponse? = null
 var transaction =  Transaction()
 var merchantDetails = UpdateAppResponse().merchantDetails
 var isSDK = false
+var externalPackageName = ""
 
 
 fun formattedAmount(amount : String) : String {

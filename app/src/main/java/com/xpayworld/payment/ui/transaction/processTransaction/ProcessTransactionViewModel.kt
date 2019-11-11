@@ -20,11 +20,6 @@ class ProcessTransactionViewModel : BaseViewModel() {
     val transactionError : MutableLiveData<String> = MutableLiveData()
     private lateinit var subscription: Disposable
 
-    override fun onCleared() {
-        super.onCleared()
-        subscription.dispose()
-    }
-
 
     fun callTransactionAPI() {
         var txnResponse: Single<Response<TransactionResult>>? = null
@@ -59,13 +54,14 @@ class ProcessTransactionViewModel : BaseViewModel() {
                     val body = if ( result.body()?.resultEmv != null) result.body()?.resultEmv else  result.body()?.resultSwipe
                     val hasError = body?.result?.errNumber != 0.0
                     if (hasError) {
-                        requestError.value = Pair(first = body?.result?.errNumber, second = body?.result?.message )
+                        requestError.value = body?.result
                         onlineAuthResult.value = "8A023035"
                     } else {
                         transactionResponse = body
 //                        onlineAuthResult.value = "8A023030${body?.authNumber ?:""}"
                         onlineAuthResult.value = "8A023030"
                     }
+                    subscription.dispose()
                 }, {
                     println(it)
                     networkError.value = "Network Error"

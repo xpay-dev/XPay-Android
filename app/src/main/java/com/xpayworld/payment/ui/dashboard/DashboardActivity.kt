@@ -81,7 +81,6 @@ class DashboardActivity : BaseActivity(), DrawerLocker, ToolbarDelegate {
         val request = extras?.getString(XPAY_REQUEST)
 
         request?: return
-        Log.e("REQUEST",request)
         val b = Bundle()
         b.putString(XPAY_REQUEST,request)
 

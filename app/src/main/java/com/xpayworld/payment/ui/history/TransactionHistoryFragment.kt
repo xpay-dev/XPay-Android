@@ -37,7 +37,6 @@ class TransactionHistoryFragment : BaseFragment() {
         return binding.root
     }
 
-
     override fun initView(view: View, container: ViewGroup?) {
         recyclerView.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
         recyclerView.adapter = adapter
@@ -52,7 +51,6 @@ class TransactionHistoryFragment : BaseFragment() {
                   charSequence.toString()}
 
         viewModel.callTransLookUpAPI(search)
-
 
         viewModel.loadingVisibility.observe(this, Observer {
             if (it) showProgress() else hideProgress()
@@ -71,7 +69,6 @@ class TransactionHistoryFragment : BaseFragment() {
         })
 
         viewModel.navigateToReceipt.observe(this , Observer {
-
             val gson = GsonBuilder().setPrettyPrinting().create()
             val txnsStr = gson.toJson(it.first[0])
             val respStr  = gson.toJson(it.second)

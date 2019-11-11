@@ -115,6 +115,14 @@ abstract  class BaseActivity : AppCompatActivity() ,BaseFragment.CallBack{
         stopHandler()
         startHandler()
     }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        stopHandler()
+    }
+
+
+
     fun stopHandler() {
         handler?.removeCallbacks(r)
     }

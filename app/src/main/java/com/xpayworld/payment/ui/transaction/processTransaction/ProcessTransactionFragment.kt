@@ -1,5 +1,7 @@
 package com.xpayworld.payment.ui.transaction.processTransaction
 
+import android.app.Activity
+import android.content.Intent
 import android.graphics.drawable.AnimationDrawable
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,20 +12,28 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.findNavController
+import com.google.gson.GsonBuilder
 import com.xpayworld.payment.R
 import com.xpayworld.payment.databinding.FragmentProcessTransactionBinding
 import com.xpayworld.payment.databinding.FragmentReceiptBinding
+import com.xpayworld.payment.network.PosWsResponse
 import com.xpayworld.payment.ui.dashboard.DrawerLocker
 import com.xpayworld.payment.ui.dashboard.ToolbarDelegate
 import com.xpayworld.payment.util.formattedAmount
 import com.xpayworld.payment.util.isSDK
+import com.xpayworld.sdk.XPAY_RESPONSE
 import kotlinx.android.synthetic.main.fragment_process_transaction.*
+
+
+
+
 
 
 @Suppress("UNCHECKED_CAST")
 class ProcessTransactionFragment : BaseDeviceFragment() {
 
     var viewModel: ProcessTransactionViewModel? = null
+
 
     override fun onCreateView(
             inflater: LayoutInflater,
@@ -64,22 +74,33 @@ class ProcessTransactionFragment : BaseDeviceFragment() {
         // Network Error
         viewModel?.networkError?.observe(this, Observer {
             btnCancel.visibility = View.INVISIBLE
-            showNetworkError(title = it)
+            showNetworkError(title = it ,callBack = {
+                if (isSDK){
+                    activity?.finish()
+                } else {
+                    view.findNavController().popBackStack(R.id.transactionFragment, true)
+                }
+            })
         })
 
         viewModel?.requestError?.observe(this, Observer {
-            if (it is Pair<*, *>){
-                val message = it as Pair<Double,String>
+            if (it is PosWsResponse){
+                val response = it
                 btnCancel.visibility = View.INVISIBLE
-                showError(title = "REQUEST ERROR ${message.first}", message = message.second, callBack = {
+
+                showError(title = "REQUEST ERROR ${response.errNumber}", message = response.message?: "", callBack = {
                     if (isSDK){
+                        val gson = GsonBuilder().setPrettyPrinting().create()
+                        val i = Intent()
+                        i.putExtra(XPAY_RESPONSE,gson.toJson(response))
+                        activity!!.setResult(Activity.RESULT_OK,i)
                         activity?.finish()
-                    } else view.findNavController().popBackStack(R.id.transactionFragment, true)
+                    } else {
+                        view.findNavController().popBackStack(R.id.transactionFragment, true)
+                    }
               })
             }
         })
-
-
 
         // Calling Transaction API
         onProcessTransaction.observe(this, Observer {

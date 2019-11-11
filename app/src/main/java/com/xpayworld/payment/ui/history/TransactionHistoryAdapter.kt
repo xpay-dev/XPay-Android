@@ -40,10 +40,6 @@ class TransactionHistoryAdapter : RecyclerView.Adapter<TransactionHistoryAdapter
             onItemClick?.invoke(item)
         }
     }
-    fun clear(){
-      //  this.txnResponse.clear()
-        notifyDataSetChanged()
-    }
 
     class ViewHolder(private val binding: ListItemHistoryBinding) : RecyclerView.ViewHolder(binding.root) {
 
