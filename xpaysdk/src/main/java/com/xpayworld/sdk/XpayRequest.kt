@@ -31,6 +31,8 @@ class  XpayRequest {
     @SerializedName("transaction_entry_point")
     var entryPoint =  EntryPoint.TRANSACTION.toString()
 
+    @SerializedName("transaction_connection")
+    var isOffine = false
 }
 
 enum class EntryPoint(val value: String) {

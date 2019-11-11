@@ -25,7 +25,6 @@ class TransactionHistoryViewModel(val context: Context): BaseViewModel(){
 
     override fun onCleared() {
         super.onCleared()
-
     }
 
 
