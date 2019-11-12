@@ -12,6 +12,8 @@ import androidx.core.app.ActivityCompat
 import android.content.pm.PackageManager
 import android.telephony.TelephonyManager
 import android.annotation.SuppressLint
+import com.xpayworld.payment.data.AppDatabase
+import com.xpayworld.payment.data.TransactionRepository
 import com.xpayworld.payment.ui.enterPin.EnterPinModelViewModelFactory
 import com.xpayworld.payment.ui.enterPin.EnterPinViewModel
 import com.xpayworld.payment.ui.history.TransactionHistoryViewModelFactory
@@ -48,6 +50,11 @@ object InjectorUtil  {
 
     fun provideLinkViewModel(context: Context) : LinkViewModelFactory{
         return  LinkViewModelFactory(context)
+    }
+
+    fun getTransactionRepository(context: Context): TransactionRepository {
+        return TransactionRepository.getInstance(
+                AppDatabase.getInstance(context.applicationContext).transactionDao())
     }
 
 }

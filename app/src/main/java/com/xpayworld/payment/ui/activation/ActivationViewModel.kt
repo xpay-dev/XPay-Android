@@ -4,6 +4,8 @@ import android.content.Context
 import android.os.Handler
 import android.telephony.TelephonyManager
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
+import com.xpayworld.payment.data.Transaction
 import com.xpayworld.payment.network.PosWsRequest
 import com.xpayworld.payment.network.RetrofitClient
 import com.xpayworld.payment.network.activateApp.Activation
@@ -13,6 +15,7 @@ import com.xpayworld.payment.util.*
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
+import kotlinx.coroutines.launch
 
 
 class ActivationViewModel(private val context: Context) : BaseViewModel() {
@@ -25,11 +28,19 @@ class ActivationViewModel(private val context: Context) : BaseViewModel() {
 
     init {
         toolbarVisibility.value = false
+
+
     }
 
     override fun onCleared() {
         super.onCleared()
         subscription.dispose()
+
+    }
+
+    fun  addTransaction(){
+
+
 
     }
 

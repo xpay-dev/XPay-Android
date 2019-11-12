@@ -1,8 +1,10 @@
 package com.xpayworld.payment.ui.activation
 
+import android.os.AsyncTask
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,10 +15,13 @@ import com.xpayworld.payment.ui.base.kt.BaseFragment
 import com.xpayworld.payment.ui.dashboard.DrawerLocker
 import kotlinx.android.synthetic.main.fragment_activation_code.*
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.viewModelScope
 import com.xpayworld.payment.util.InjectorUtil
 import androidx.navigation.fragment.findNavController
+import com.xpayworld.payment.data.Transaction
 import com.xpayworld.payment.databinding.FragmentActivationCodeBinding
 import com.xpayworld.payment.databinding.FragmentEnterPinBinding
+import kotlinx.coroutines.launch
 
 
 class ActivationFragment : BaseFragment() {
@@ -41,7 +46,32 @@ class ActivationFragment : BaseFragment() {
         edtextList = listOf(edtext1, edtext2, edtext3, edtext4)
         edtextList.forEach { it.addTextChangedListener(OnChangedEditText()) }
 
+    viewModel.addTransaction()
 
+        AsyncTask.execute {
+            val transRepository = Transaction(
+                    amount = 1002.00,
+                    cardData = "asdasdddd",
+                    currency = "PHPsss",
+                    transNumber = "sdas",
+                    transDate = "ddd",
+                    merchantName =  "dasda",
+                    posEntry = 1
+            )
+
+            InjectorUtil.getTransactionRepository(requireContext()).createTransaction(transRepository)
+        }
+
+        val  trans =  InjectorUtil.getTransactionRepository(requireContext()).getTransaction()
+
+        trans.value?.forEach {
+            Log.e("Trasaction",it.cardData)
+
+        }
+//        ioThread {
+//            getInstance(context).dataDao()
+//                    .insert(PREPOPULATE_DATA)
+//        }
 
         btnActivate.setOnClickListener{
              viewModel.callActivationAPI(strCode)
