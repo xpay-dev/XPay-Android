@@ -9,10 +9,9 @@ import com.xpayworld.payment.util.DATABASE_NAME
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
 
-@Database(entities = [Transaction::class],version = 1,exportSchema = true)
+@Database(entities = [Transaction::class],version = 2)
 abstract class AppDatabase : RoomDatabase(){
     abstract fun transactionDao(): TransactionDao
-
 
     companion object {
 
@@ -29,13 +28,7 @@ abstract class AppDatabase : RoomDatabase(){
         // https://medium.com/google-developers/7-pro-tips-for-room-fbadea4bfbd1#4785
         private fun buildDatabase(context: Context): AppDatabase {
             return Room.databaseBuilder(context, AppDatabase::class.java, DATABASE_NAME)
-                    .addCallback(object : RoomDatabase.Callback() {
-                        override fun onCreate(db: SupportSQLiteDatabase) {
-                            super.onCreate(db)
-                           // val request = OneTimeWorkRequestBuilder<SeedDatabaseWorker>().build()
-                            //WorkManager.getInstance(context).enqueue(request)
-                        }
-                    })
+                    .fallbackToDestructiveMigration()
                     .build()
         }
     }

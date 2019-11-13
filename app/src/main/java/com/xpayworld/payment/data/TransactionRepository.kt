@@ -1,10 +1,12 @@
 package com.xpayworld.payment.data
 
-class TransactionRepository private  constructor(private val transDao : TransactionDao){
+class TransactionRepository private constructor(
+        private val transDao : TransactionDao
+){
 
     fun getTransaction() = transDao.getTransaction()
 
-    fun createTransaction(trans : Transaction){
+    suspend fun createTransaction(trans : Transaction){
         transDao.inserTransaction(trans)
     }
 

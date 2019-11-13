@@ -12,6 +12,6 @@ interface  TransactionDao {
     @Query(value = "SELECT * FROM transactions")
     fun getTransaction(): LiveData<List<Transaction>>
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert
     fun inserTransaction(vararg txn : Transaction)
 }

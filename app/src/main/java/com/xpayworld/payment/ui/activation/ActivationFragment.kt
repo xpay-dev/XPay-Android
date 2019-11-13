@@ -18,10 +18,13 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.viewModelScope
 import com.xpayworld.payment.util.InjectorUtil
 import androidx.navigation.fragment.findNavController
+import com.xpayworld.payment.data.AppDatabase
 import com.xpayworld.payment.data.Transaction
 import com.xpayworld.payment.databinding.FragmentActivationCodeBinding
 import com.xpayworld.payment.databinding.FragmentEnterPinBinding
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import kotlin.concurrent.thread
 
 
 class ActivationFragment : BaseFragment() {
@@ -46,9 +49,8 @@ class ActivationFragment : BaseFragment() {
         edtextList = listOf(edtext1, edtext2, edtext3, edtext4)
         edtextList.forEach { it.addTextChangedListener(OnChangedEditText()) }
 
-    viewModel.addTransaction()
 
-        AsyncTask.execute {
+        GlobalScope.launch {
             val transRepository = Transaction(
                     amount = 1002.00,
                     cardData = "asdasdddd",
@@ -60,18 +62,16 @@ class ActivationFragment : BaseFragment() {
             )
 
             InjectorUtil.getTransactionRepository(requireContext()).createTransaction(transRepository)
+
+//            val  trans =  InjectorUtil.getTransactionRepository(requireContext()).getTransaction()
+//
+//            trans.value?.forEach {
+//                textView3.text = it.currency
+//                Log.i("Fetch Records", "Id:  : ${it.cardData}")
+//            }
         }
 
-        val  trans =  InjectorUtil.getTransactionRepository(requireContext()).getTransaction()
 
-        trans.value?.forEach {
-            Log.e("Trasaction",it.cardData)
-
-        }
-//        ioThread {
-//            getInstance(context).dataDao()
-//                    .insert(PREPOPULATE_DATA)
-//        }
 
         btnActivate.setOnClickListener{
              viewModel.callActivationAPI(strCode)

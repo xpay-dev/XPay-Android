@@ -9,15 +9,13 @@ import java.sql.Timestamp
 
 @Entity(tableName = "transactions")
 data class Transaction(
-        @ColumnInfo(name="card_data")  val cardData: String?,
-        @ColumnInfo(name="amount")  val amount: Double?,
-        @ColumnInfo(name="currency") val currency: String?,
-        @ColumnInfo(name="transaction_number") val transNumber: String?, // how often the plant should be watered, in days
-        @ColumnInfo(name="transaction_date") val transDate: String?,
-        @ColumnInfo(name="merchant_name") val merchantName :String?,
-        @ColumnInfo(name="pos_entry") val posEntry : Int?
-){
         @PrimaryKey (autoGenerate = true)
-        @ColumnInfo(name = "trans_id")
-         var transId: Long = 0
-}
+        var transId: Long = 0,
+        @ColumnInfo(name="card_data")  val cardData: String,
+        @ColumnInfo(name="amount")  val amount: Double,
+        @ColumnInfo(name="currency") val currency: String,
+        @ColumnInfo(name="transaction_number") val transNumber: String, // how often the plant should be watered, in days
+        @ColumnInfo(name="transaction_date") val transDate: String,
+        @ColumnInfo(name="merchant_name") val merchantName :String,
+        @ColumnInfo(name="pos_entry") val posEntry : Int
+)
