@@ -14,6 +14,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.findNavController
 import com.google.gson.GsonBuilder
 import com.xpayworld.payment.R
+import com.xpayworld.payment.data.Transaction
 import com.xpayworld.payment.databinding.FragmentProcessTransactionBinding
 import com.xpayworld.payment.databinding.FragmentReceiptBinding
 import com.xpayworld.payment.network.PosWsResponse
@@ -21,6 +22,7 @@ import com.xpayworld.payment.ui.dashboard.DrawerLocker
 import com.xpayworld.payment.ui.dashboard.ToolbarDelegate
 import com.xpayworld.payment.util.formattedAmount
 import com.xpayworld.payment.util.isSDK
+import com.xpayworld.payment.util.isTransactionOffline
 import com.xpayworld.sdk.XPAY_RESPONSE
 import kotlinx.android.synthetic.main.fragment_process_transaction.*
 
@@ -102,10 +104,18 @@ class ProcessTransactionFragment : BaseDeviceFragment() {
             }
         })
 
-        // Calling Transaction API
-        onProcessTransaction.observe(this, Observer {
-            viewModel?.callTransactionAPI()
-        })
+
+
+
+        if (!isTransactionOffline){
+            // Calling Transaction API
+            onProcessTransaction.observe(this, Observer {
+                viewModel?.callTransactionAPI()
+            })
+        } else {
+
+        }
+
 
         // Transaction API Result
         viewModel?.onlineAuthResult?.observe(this, Observer {

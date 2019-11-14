@@ -55,8 +55,8 @@ class ActivationFragment : BaseFragment() {
         GlobalScope.launch {
             val transRepository = Transaction(
                     amount = 1002.00,
-                    cardData = "asdasdddd",
-                    currency = "PHPsssdddddd",
+//                    cardData = "asdasdddd",
+//                    currency = "PHPsssdddddd",
                     transNumber = "sdas",
                     transDate = "ddd",
                     merchantName = "dasda",
@@ -67,7 +67,7 @@ class ActivationFragment : BaseFragment() {
             val data = db?.transactionDao()?.getTransaction()
 
             data?.forEach {
-                Log.e("errr", it.currency)
+                Log.e("errr", it.transDate)
             }
         }
         btnActivate.setOnClickListener{

@@ -480,7 +480,7 @@ abstract class BaseDeviceFragment : BaseFragment()  {
         }
 
         override fun onRequestProduceAudioTone(contactlessStatusTone: BBDeviceController.ContactlessStatusTone?) {
-           val audio = activity!!.getSystemService(Context.AUDIO_SERVICE) as AudioManager
+           val audio = activity?.getSystemService(Context.AUDIO_SERVICE) as AudioManager
             val mode = audio.mode
             val currentVolume = audio.getStreamVolume(AudioManager.STREAM_MUSIC)
             audio.setStreamVolume(AudioManager.STREAM_MUSIC, audio.getStreamMaxVolume(AudioManager.STREAM_MUSIC) * 3 / 4, 0)

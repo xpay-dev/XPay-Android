@@ -8,10 +8,7 @@ import com.xpayworld.payment.network.login.LoginApi
 import com.xpayworld.payment.network.login.LoginRequest
 import com.xpayworld.payment.network.updateApp.UpdateAppApi
 import com.xpayworld.payment.network.updateApp.UpdateAppRequest
-import com.xpayworld.payment.util.BaseViewModel
-import com.xpayworld.payment.util.RTOKEN
-import com.xpayworld.payment.util.SharedPrefStorage
-import com.xpayworld.payment.util.merchantDetails
+import com.xpayworld.payment.util.*
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
@@ -32,7 +29,7 @@ class LinkViewModel (private val context : Context) : BaseViewModel(){
         subscription.dispose()
     }
 
-    fun callUpdateAp(callback: (()-> Unit)? = null){
+    fun callUpdateApp(callback: (()-> Unit)? = null){
         val api = RetrofitClient().getRetrofit().create(UpdateAppApi::class.java)
 
         val request = UpdateAppRequest()
@@ -50,10 +47,11 @@ class LinkViewModel (private val context : Context) : BaseViewModel(){
     }
 
     fun callEnterPinAPI() {
+        val sharedPref = context.let { SharedPrefStorage(it) }
         val api = RetrofitClient().getRetrofit().create(LoginApi::class.java)
         val login = Login(context)
         login.appVersion = "1"
-        login.pin = "1234"
+        login.pin = sharedPref.readMessage(PIN_LOGIN)
 
         val request = LoginRequest()
         request.request = login
@@ -78,10 +76,12 @@ class LinkViewModel (private val context : Context) : BaseViewModel(){
                                 requestError.value = result?.body()?.result
 
                             } else {
-                                val sharedPref = context.let { SharedPrefStorage(it) }
-                                sharedPref.writeMessage(RTOKEN,result.body()!!.result.rToken!!)
 
-                                callUpdateAp(callback = {
+                                val rToken =  result.body()!!.result.rToken!!
+                                sharedPref.writeMessage(RTOKEN,rToken)
+                                posRequest?.rToken = rToken
+
+                                callUpdateApp(callback = {
                                     navigateToNextEntry.value = true
                                 })
                             }

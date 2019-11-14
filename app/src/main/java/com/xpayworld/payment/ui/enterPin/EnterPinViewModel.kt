@@ -76,7 +76,7 @@ class EnterPinViewModel(private val context: Context) : BaseViewModel() {
         subscription = api.updateApp(request)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .doOnSubscribe {}
+                .doOnSubscribe {loadingVisibility.value = true }
                 .doAfterTerminate { loadingVisibility.value = false }
                 .subscribe({ result ->
                     merchantDetails = result.body()?.result?.merchantDetails

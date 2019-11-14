@@ -1,5 +1,6 @@
 package com.xpayworld.payment.ui.link
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -80,9 +81,14 @@ class LinkFragment : BaseFragment() {
             showNetworkError(title = "REQUEST ERROR ${response.errNumber}", callBack = {
 
                 val gson = GsonBuilder().setPrettyPrinting().create()
-                val i = Intent(activity, LinkActivity::class.java)
-                i.putExtra(XPAY_RESPONSE, gson.toJson(response))
-                startActivity(i)
+//                val i = Intent(activity, LinkActivity::class.java)
+//                i.putExtra(XPAY_RESPONSE,)
+//                startActivity(i)
+
+                val i = Intent()
+                i.putExtra(XPAY_RESPONSE,  gson.toJson(response))
+                activity?.setResult(Activity.RESULT_OK, i)
+                activity?.finish()
 
             })
         })
