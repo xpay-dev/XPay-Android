@@ -55,6 +55,17 @@ class LinkFragment : BaseFragment() {
 
         val data = gson.fromJson(request, XpayRequest::class.java)
         externalPackageName = data.appPackageName
+        isTransactionOffline = transaction.isOffline
+
+        if (isTransactionOffline){
+
+            val strAmount = "${data.amountPurchase}".removePrefix(".")
+            val direction = LinkFragmentDirections.actionLinkFragmentToProcessTranactionFragment(strAmount)
+            findNavController().navigate(direction)
+
+            return
+        }
+
         viewModel.loadingVisibility.observe(this, Observer {
             if (it) showProgress() else hideProgress()
         })
@@ -68,7 +79,6 @@ class LinkFragment : BaseFragment() {
             val response = it as PosWsResponse
             showNetworkError(title = "REQUEST ERROR ${response.errNumber}", callBack = {
 
-
                 val gson = GsonBuilder().setPrettyPrinting().create()
                 val i = Intent(activity, LinkActivity::class.java)
                 i.putExtra(XPAY_RESPONSE, gson.toJson(response))
@@ -80,8 +90,10 @@ class LinkFragment : BaseFragment() {
         viewModel.navigateToNextEntry.observe(this, Observer {
 
             isSDK = true
+
             paymentType = PaymentType.CREDIT(TransactionPurchase.Action.EMV)
             transaction.amount = data.amountPurchase
+
             val strAmount = "${data.amountPurchase}".removePrefix(".")
             val direction = LinkFragmentDirections.actionLinkFragmentToProcessTranactionFragment(strAmount)
             findNavController().navigate(direction)

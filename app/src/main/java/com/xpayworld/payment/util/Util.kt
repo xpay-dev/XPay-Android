@@ -24,6 +24,7 @@ var transactionResponse : TransactionResponse? = null
 var transaction =  Transaction()
 var merchantDetails = UpdateAppResponse().merchantDetails
 var isSDK = false
+var isTransactionOffline = false
 var externalPackageName = ""
 
 
