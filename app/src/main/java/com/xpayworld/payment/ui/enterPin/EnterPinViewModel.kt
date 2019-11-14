@@ -1,9 +1,11 @@
 package com.xpayworld.payment.ui.enterPin
 
 import android.content.Context
+import android.util.Log
 import android.view.View
 import android.widget.Button
 import androidx.lifecycle.MutableLiveData
+import com.xpayworld.payment.data.Transaction
 import com.xpayworld.payment.network.RetrofitClient
 import com.xpayworld.payment.network.login.Login
 import com.xpayworld.payment.network.login.LoginApi
@@ -14,6 +16,9 @@ import com.xpayworld.payment.util.*
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
+import kotlinx.android.synthetic.main.fragment_activation_code.*
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 class EnterPinViewModel(private val context: Context) : BaseViewModel() {
 
@@ -28,6 +33,26 @@ class EnterPinViewModel(private val context: Context) : BaseViewModel() {
     init {
         toolbarVisibility.value = false
         pinCode.value = ""
+//
+//        GlobalScope.launch {
+//            val transRepository = Transaction(
+//                    amount = 1002.00,
+//                    cardData = "asdasdddd",
+//                    currency = "PHPsss",
+//                    transNumber = "sdas",
+//                    transDate = "ddd",
+//                    merchantName =  "dasda",
+//                    posEntry = 1
+//            )
+//
+//            InjectorUtil.getTransactionRepository(context).createTransaction(transRepository)
+//
+//            val  trans =  InjectorUtil.getTransactionRepository(context).getTransaction()
+//
+//            trans.value?.forEach {
+//                Log.i("Fetch Records", "Id:  : ${it.cardData}")
+//            }
+//        }
     }
 
     override fun onCleared() {
@@ -74,7 +99,7 @@ class EnterPinViewModel(private val context: Context) : BaseViewModel() {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe { loadingVisibility.value = true }
-                .doAfterTerminate {}
+                .doAfterTerminate {loadingVisibility.value = false}
                 .subscribe(
                         { result ->
                             if (!result.isSuccessful) {

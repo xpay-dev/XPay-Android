@@ -54,7 +54,7 @@ object InjectorUtil  {
 
     fun getTransactionRepository(context: Context): TransactionRepository {
         return TransactionRepository.getInstance(
-                AppDatabase.getInstance(context.applicationContext).transactionDao())
+                AppDatabase.getDatabase(context.applicationContext)!!.transactionDao())
     }
 
 }

@@ -4,32 +4,33 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import androidx.sqlite.db.SupportSQLiteDatabase
 import com.xpayworld.payment.util.DATABASE_NAME
-import androidx.work.OneTimeWorkRequestBuilder
-import androidx.work.WorkManager
 
-@Database(entities = [Transaction::class],version = 2)
+@Database(entities = [Transaction::class],version = 1,exportSchema = false)
 abstract class AppDatabase : RoomDatabase(){
+
     abstract fun transactionDao(): TransactionDao
 
     companion object {
+        // Singleton prevents multiple instances of database opening at the
+        // same time.
+        private var INSTANCE: AppDatabase? = null
 
-        // For Singleton instantiation
-        @Volatile private var instance: AppDatabase? = null
 
-        fun getInstance(context: Context): AppDatabase {
-            return instance ?: synchronized(this) {
-                instance ?: buildDatabase(context).also { instance = it }
+        fun getDatabase(context: Context): AppDatabase? {
+            val tempInstance = INSTANCE
+            if (tempInstance != null) {
+                return tempInstance
             }
-        }
-
-        // Create and pre-populate the database. See this article for more details:
-        // https://medium.com/google-developers/7-pro-tips-for-room-fbadea4bfbd1#4785
-        private fun buildDatabase(context: Context): AppDatabase {
-            return Room.databaseBuilder(context, AppDatabase::class.java, DATABASE_NAME)
-                    .fallbackToDestructiveMigration()
-                    .build()
+            synchronized(this) {
+                val instance = Room.databaseBuilder(
+                        context.applicationContext,
+                        AppDatabase::class.java,
+                        DATABASE_NAME
+                ).fallbackToDestructiveMigration().build()
+                INSTANCE = instance
+                return instance
+            }
         }
     }
 }

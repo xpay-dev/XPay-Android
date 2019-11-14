@@ -7,15 +7,28 @@ import io.reactivex.annotations.NonNull
 import java.sql.Timestamp
 
 
-@Entity(tableName = "transactions")
-data class Transaction(
-        @PrimaryKey (autoGenerate = true)
-        var transId: Long = 0,
-        @ColumnInfo(name="card_data")  val cardData: String,
-        @ColumnInfo(name="amount")  val amount: Double,
-        @ColumnInfo(name="currency") val currency: String,
-        @ColumnInfo(name="transaction_number") val transNumber: String, // how often the plant should be watered, in days
-        @ColumnInfo(name="transaction_date") val transDate: String,
-        @ColumnInfo(name="merchant_name") val merchantName :String,
-        @ColumnInfo(name="pos_entry") val posEntry : Int
+@Entity
+data class Transaction (
+        @ColumnInfo(name = "card_data")
+        val cardData: String ,
+
+        val amount: Double,
+
+        val currency: String,
+
+        @ColumnInfo(name = "trans_number")
+        val transNumber: String , // how often the plant should be watered, in days
+
+        @ColumnInfo(name = "trans_date")
+        val transDate: String,
+
+        @ColumnInfo(name = "merchant_name")
+        val merchantName: String,
+
+        @ColumnInfo(name = "pos_entry")
+        val posEntry: Int
 )
+{
+        @PrimaryKey(autoGenerate = true)
+        var id: Long? = null
+}

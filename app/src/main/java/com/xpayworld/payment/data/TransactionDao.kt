@@ -9,9 +9,9 @@ import androidx.room.Query
 @Dao
 interface  TransactionDao {
 
-    @Query(value = "SELECT * FROM transactions")
-    fun getTransaction(): LiveData<List<Transaction>>
+    @Query( "SELECT * FROM `transaction`")
+    fun getTransaction():  List<Transaction>
 
-    @Insert
-    fun inserTransaction(vararg txn : Transaction)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insertTransaction(vararg txn : Transaction)
 }

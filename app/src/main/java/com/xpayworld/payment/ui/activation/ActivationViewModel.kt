@@ -28,8 +28,6 @@ class ActivationViewModel(private val context: Context) : BaseViewModel() {
 
     init {
         toolbarVisibility.value = false
-
-
     }
 
     override fun onCleared() {

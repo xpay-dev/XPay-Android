@@ -50,29 +50,26 @@ class ActivationFragment : BaseFragment() {
         edtextList.forEach { it.addTextChangedListener(OnChangedEditText()) }
 
 
+        val db = AppDatabase.getDatabase(context = activity!!.applicationContext)
+
         GlobalScope.launch {
             val transRepository = Transaction(
                     amount = 1002.00,
                     cardData = "asdasdddd",
-                    currency = "PHPsss",
+                    currency = "PHPsssdddddd",
                     transNumber = "sdas",
                     transDate = "ddd",
-                    merchantName =  "dasda",
+                    merchantName = "dasda",
                     posEntry = 1
             )
+            db?.transactionDao()?.insertTransaction(transRepository)
 
-            InjectorUtil.getTransactionRepository(requireContext()).createTransaction(transRepository)
+            val data = db?.transactionDao()?.getTransaction()
 
-//            val  trans =  InjectorUtil.getTransactionRepository(requireContext()).getTransaction()
-//
-//            trans.value?.forEach {
-//                textView3.text = it.currency
-//                Log.i("Fetch Records", "Id:  : ${it.cardData}")
-//            }
+            data?.forEach {
+                Log.e("errr", it.currency)
+            }
         }
-
-
-
         btnActivate.setOnClickListener{
              viewModel.callActivationAPI(strCode)
         }

@@ -1,6 +1,7 @@
 package com.xpayworld.payment.ui.enterPin
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,13 +16,18 @@ import com.xpayworld.payment.ui.dashboard.ToolbarDelegate
 import com.xpayworld.payment.util.SharedPrefStorage
 
 import androidx.lifecycle.Observer
+import com.xpayworld.payment.data.AppDatabase
+import com.xpayworld.payment.data.Transaction
 import com.xpayworld.payment.databinding.FragmentEnterPinBinding
 import com.xpayworld.payment.util.ACTIVATION_KEY
 import com.xpayworld.payment.util.InjectorUtil
+import kotlinx.android.synthetic.main.fragment_activation_code.*
 import kotlinx.android.synthetic.main.fragment_enter_pin.*
 
 import kotlinx.android.synthetic.main.view_number_pad.*
 import kotlinx.android.synthetic.main.view_number_pad.btnClear
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 
 class EnterPinFragment : BaseFragment() {
@@ -44,6 +50,8 @@ class EnterPinFragment : BaseFragment() {
     }
 
     override fun initView(view: View, container: ViewGroup?) {
+
+
         // Input
         pinCodeImgArr = listOf(img1, img2, img3, img4)
         numpad = listOf(btn1, btn2, btn3, btn4, btn5, btn6, btn7, btn8, btn9, btn0)
@@ -77,7 +85,7 @@ class EnterPinFragment : BaseFragment() {
             showNetworkError()
         })
 
-        viewModel.navigateToEnterAmount.observe(this , Observer {
+        viewModel.navigateToEnterAmount.observe(this, Observer {
             val direction = EnterPinFragmentDirections.actionEnterPinFragmentToTransactionFragment(it)
             findNavController().navigate(direction)
         })
@@ -92,7 +100,7 @@ class EnterPinFragment : BaseFragment() {
     }
 
     private fun shouldUpdateCodeImage(pinCode: String) {
-        for (x in 0 until  pinCodeImgArr.size) {
+        for (x in 0 until pinCodeImgArr.size) {
             val img = if (pinCode.length >= x + 1) R.drawable.ic_pin_cirlce_dot else R.drawable.ic_pin_circle
             pinCodeImgArr[x].setBackgroundResource(img)
         }

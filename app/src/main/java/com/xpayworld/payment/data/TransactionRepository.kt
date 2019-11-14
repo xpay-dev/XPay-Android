@@ -7,7 +7,7 @@ class TransactionRepository private constructor(
     fun getTransaction() = transDao.getTransaction()
 
     suspend fun createTransaction(trans : Transaction){
-        transDao.inserTransaction(trans)
+        transDao.insertTransaction(trans)
     }
 
     companion object{
