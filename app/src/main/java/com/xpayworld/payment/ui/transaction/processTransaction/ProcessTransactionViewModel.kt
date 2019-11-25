@@ -105,7 +105,7 @@ class ProcessTransactionViewModel : BaseViewModel() {
        val timeStamp = SimpleDateFormat("MM/dd/yyyy HH:mm:ss").format(Date())
 
         val transRepository = com.xpayworld.payment.data.Transaction(
-                amount = transaction.amount,
+                amount = trans.amount,
                 transNumber = randomAlphaNumericString(8),
                 timestamp =  timeStamp  ,
                 posEntry = emv.posEntryMode,
@@ -117,17 +117,7 @@ class ProcessTransactionViewModel : BaseViewModel() {
         )
 
         GlobalScope.launch {
-          val data =    InjectorUtil.getTransactionRepository(context).getTransaction()
-
-            data.forEach{ data ->
-
-                println("EMV >>> ${data.emvCard.emvICCData}")
-                println("AMOUNT >>> ${data.amount}")
-                println("CURRENCY >>> ${data.currency}")
-                println("TIMESTAMP >>> ${data.timestamp}")
-                println("TRANS DATE >>> ${data.timestamp}")
-                println("TRANS NUMBER >>> ${data.timestamp}")
-            }
+            InjectorUtil.getTransactionRepository(context).createTransaction(transRepository)
         }
 
     }

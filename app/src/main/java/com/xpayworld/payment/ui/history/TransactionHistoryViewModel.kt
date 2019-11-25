@@ -150,8 +150,9 @@ class TransactionHistoryViewModel(val context: Context): BaseViewModel(){
                     data.transNumber = it.transNumber
                     trans.add(data)
                 }
-                transResponse.value = trans
         }
+
+        transResponse.value = trans
     }
 
     fun callforBatchUpload(){
