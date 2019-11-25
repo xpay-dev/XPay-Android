@@ -1,5 +1,8 @@
 package com.xpayworld.payment.network.transaction
 
+import androidx.room.Embedded
+import androidx.room.Entity
+
 class Transaction {
     var amount = 0.0
     var tmpAmount = 0.0

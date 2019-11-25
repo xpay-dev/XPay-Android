@@ -1,7 +1,9 @@
 package com.xpayworld.payment.network.transaction
 
+import androidx.room.Entity
 import kotlinx.android.parcel.RawValue
 
+@Entity
 sealed class PaymentType {
 
     data class  CREDIT(var  action : TransactionPurchase.Action) : PaymentType()

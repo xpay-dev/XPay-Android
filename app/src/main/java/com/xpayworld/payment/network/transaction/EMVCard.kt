@@ -1,8 +1,10 @@
 package com.xpayworld.payment.network.transaction
 
+import androidx.room.Entity
 import java.util.*
 
-class EMVCard(data: Hashtable<String, String>) {
+@Entity
+data class EMVCard (var data: Hashtable<String, String>) {
 
     var cardholderName = ""
     var emvICCData = ""
@@ -23,8 +25,9 @@ class EMVCard(data: Hashtable<String, String>) {
     var serviceCode = ""
     var serialNumber = ""
     var trackEncoding = ""
-    var cardNumber = 0
+    var cardNumber = ""
     var cardXNumber = ""
+
 
     init {
         cardholderName = data["cardholderName"].toString()
@@ -43,6 +46,30 @@ class EMVCard(data: Hashtable<String, String>) {
 
         cardXNumber = "XXX-XXX-XXX-${maskedPan.substring(maskedPan.length - 4)}"
 
+
+
+//        emvData = EMVCardv2(
+//                cardholderName = cardholderName,
+//                cardNumber = cardNumber,
+//                ksn = ksn,
+//                emvICCData = emvICCData ,
+//                expiryDate = expiryDate,
+//                expiryMonth = expiryMonth,
+//                encTrack1 = encTrack1,
+//                encTrack2 = encTrack2,
+//                posEntryMode = posEntryMode,
+//                encTrack3 = encTrack3,
+//                appReferredName = appReferredName,
+//                epb = epb,
+//                epbksn = epbksn,
+//                cardXNumber = cardXNumber,
+//                expiryYear = expiryYear,
+//                trackEncoding = trackEncoding,
+//                maskedPan = maskedPan,
+//                serialNumber = serialNumber,
+//                serviceCode = serviceCode,
+//                appId = appId)
+
 //        val formatID = decodeData["formatID"]
 //        val maskedPAN = decodeData["maskedPAN"]
 //        val PAN = decodeData["pan"]
@@ -57,6 +84,4 @@ class EMVCard(data: Hashtable<String, String>) {
 //        val encWorkingKey = decodeData["encWorkingKey"]
 //        val posEntryMode = decodeData["posEntryMode"]
     }
-
-
 }

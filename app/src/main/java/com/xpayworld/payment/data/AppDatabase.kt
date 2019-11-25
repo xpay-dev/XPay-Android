@@ -4,9 +4,13 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.room.TypeConverter
 import com.xpayworld.payment.util.DATABASE_NAME
+import com.xpayworld.payment.util.HashMapTypeConverter
 
-@Database(entities = [Transaction::class],version = 2,exportSchema = false)
+
+
+@Database(entities = [Transaction::class ],version = 7,exportSchema = false)
 abstract class AppDatabase : RoomDatabase(){
 
     abstract fun transactionDao(): TransactionDao

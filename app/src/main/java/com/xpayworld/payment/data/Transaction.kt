@@ -1,49 +1,36 @@
 package com.xpayworld.payment.data
 
-import androidx.room.ColumnInfo
-import androidx.room.Embedded
-import androidx.room.Entity
-import androidx.room.PrimaryKey
-import com.xpayworld.payment.network.transaction.EMVCard
-import com.xpayworld.payment.network.transaction.PaymentType
-import io.reactivex.annotations.NonNull
-import java.sql.Timestamp
+import androidx.room.*
 
 
- @Entity
+@Entity
  data class Transaction (
 
-        val amount: Double = 0.0,
+        @ColumnInfo(name = "amount")
+        var amount: Double = 0.0,
 
         @ColumnInfo(name = "trans_number")
-        val transNumber: String = "" ,// how often the plant should be watered, in days
+        var transNumber: String = "" ,// how often the plant should be watered, in days
 
         @ColumnInfo(name = "trans_date")
-        val transDate: String = "",
-
-        @ColumnInfo(name = "merchant_name")
-        val merchantName: String = "",
-
-        @ColumnInfo(name = "pos_entry")
-        val posEntry: Int= 0,
-
-        val tmpAmount : Double = 0.0,
-        val currencyCode : String= "",
-        val orderId : String= "",
-//        @Embedded
-//        val paymentType : PaymentType? = null
-        val isOffline: Boolean = false,
-        val isFallback: Boolean = false,
-        @ColumnInfo(name = "customer_email")
+        var transDate: String = "",
+        var action: Int = 0,
+        var accounType: Int = 0,
+        var posEntry: String = "",
+        var currencyCode : String = "",
+        var currency: String = "PHP",
+        var orderId : String = "",
+        var isOffline: Boolean = false,
         var customerEmail: String = "",
         var deviceModelVersion: String = "",
         var deviceOsVersion: String = "",
         var posAppVersion: String = "",
-        var device: Int = 0
-//        @Embedded
-//        var emvCard : EMVCard? = null
+        var device: Int = 0,
+        @Embedded
+        var emvCard : EMVCardData
 )
  {
      @PrimaryKey(autoGenerate = true)
      var id: Long = 0
  }
+

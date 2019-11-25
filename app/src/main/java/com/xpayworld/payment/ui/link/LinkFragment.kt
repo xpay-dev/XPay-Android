@@ -56,7 +56,7 @@ class LinkFragment : BaseFragment() {
 
         val data = gson.fromJson(request, XpayRequest::class.java)
         externalPackageName = data.appPackageName
-        isTransactionOffline = transaction.isOffline
+        isTransactionOffline = data.isOffine
 
         if (isTransactionOffline){
 

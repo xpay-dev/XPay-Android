@@ -168,6 +168,8 @@
         android:label="Log out"
         tools:layout="@layout/fragment_logout"/>
 
+
+
     <fragment
         android:id="@+id/linkFragment"
         android:name="com.xpayworld.payment.ui.link.LinkFragment"
@@ -183,5 +185,10 @@
             android:name="dataRequest"
             app:argType="string" />
     </fragment>
+    <fragment
+        android:id="@+id/offlineTransactionFragment"
+        android:name="com.xpayworld.payment.ui.history.OfflineTransactionFragment"
+        android:label="Offline Transaction"
+        tools:layout="@layout/fragment_transaction_offline" />
 
 </navigation>

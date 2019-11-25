@@ -104,15 +104,17 @@ class ProcessTransactionFragment : BaseDeviceFragment() {
             }
         })
 
-
-
-
         if (!isTransactionOffline){
             // Calling Transaction API
             onProcessTransaction.observe(this, Observer {
                 viewModel?.callTransactionAPI()
             })
         } else {
+            // process offline transaction
+
+            onProcessTransaction.observe(this, Observer {
+                viewModel?.callOfflineTransction(requireContext())
+            })
 
         }
 

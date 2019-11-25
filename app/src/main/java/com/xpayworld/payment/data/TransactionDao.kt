@@ -14,4 +14,7 @@ interface  TransactionDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertTransaction(vararg txn : Transaction)
+
+
+
 }
