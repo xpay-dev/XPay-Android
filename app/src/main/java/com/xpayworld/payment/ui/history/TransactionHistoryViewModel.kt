@@ -1,9 +1,7 @@
 package com.xpayworld.payment.ui.history
 
 import android.content.Context
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
-import com.xpayworld.payment.network.PosWsRequest
 import com.xpayworld.payment.network.PosWsResponse
 import com.xpayworld.payment.network.RetrofitClient
 import com.xpayworld.payment.network.TransactionResponse
@@ -13,7 +11,8 @@ import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
-import java.util.concurrent.TimeUnit
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 class TransactionHistoryViewModel(val context: Context): BaseViewModel(){
 
@@ -133,4 +132,29 @@ class TransactionHistoryViewModel(val context: Context): BaseViewModel(){
                         }
                 )
         }
+
+
+    fun callOfflineTransaction(){
+
+
+        var trans = mutableListOf<TransactionResponse>()
+
+        GlobalScope.launch {
+           val txn =   InjectorUtil.getTransactionRepository(context).getTransaction()
+                txn.forEach {
+                    val data = TransactionResponse()
+                    data.transType = "Offline"
+                    data.timestamp = it.timestamp
+                    data.total = "${it.amount}"
+                    data.currency = it.currency
+                    data.transNumber = it.transNumber
+                    trans.add(data)
+                }
+                transResponse.value = trans
+        }
+    }
+
+    fun callforBatchUpload(){
+
+    }
 }

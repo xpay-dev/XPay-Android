@@ -10,14 +10,15 @@ import androidx.room.*
         var amount: Double = 0.0,
 
         @ColumnInfo(name = "trans_number")
-        var transNumber: String = "" ,// how often the plant should be watered, in days
+        var transNumber: String = "",// how often the plant should be watered, in days
 
         @ColumnInfo(name = "trans_date")
-        var transDate: String = "",
+        var timestamp: String = "",
         var action: Int = 0,
+        var transType: String = "Offline",
         var accounType: Int = 0,
         var posEntry: String = "",
-        var currencyCode : String = "",
+        var currencyCode : String = "618",
         var currency: String = "PHP",
         var orderId : String = "",
         var isOffline: Boolean = false,

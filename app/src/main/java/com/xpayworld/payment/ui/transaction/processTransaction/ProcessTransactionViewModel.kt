@@ -14,6 +14,9 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import retrofit2.Response
 
+import java.text.SimpleDateFormat
+import java.util.*
+
 class ProcessTransactionViewModel : BaseViewModel() {
 
 
@@ -99,15 +102,18 @@ class ProcessTransactionViewModel : BaseViewModel() {
                 serviceCode = emv.serviceCode,
                 appId = emv.appId)
 
+       val timeStamp = SimpleDateFormat("MM/dd/yyyy HH:mm:ss").format(Date())
+
         val transRepository = com.xpayworld.payment.data.Transaction(
                 amount = transaction.amount,
-                transNumber = "",
-                transDate = "ddd",
+                transNumber = randomAlphaNumericString(8),
+                timestamp =  timeStamp  ,
                 posEntry = emv.posEntryMode,
-                currency = trans.currency,
-                currencyCode = trans.currencyCode,
+                currency = "PHP",
+                currencyCode = "618",
                 isOffline =  true,
-                emvCard = emvData
+                emvCard = emvData,
+                device = 7
         )
 
         GlobalScope.launch {
@@ -115,10 +121,22 @@ class ProcessTransactionViewModel : BaseViewModel() {
 
             data.forEach{ data ->
 
-                println("DATA >>> ${data.emvCard.emvICCData}")
-
+                println("EMV >>> ${data.emvCard.emvICCData}")
+                println("AMOUNT >>> ${data.amount}")
+                println("CURRENCY >>> ${data.currency}")
+                println("TIMESTAMP >>> ${data.timestamp}")
+                println("TRANS DATE >>> ${data.timestamp}")
+                println("TRANS NUMBER >>> ${data.timestamp}")
             }
         }
 
+    }
+
+    fun randomAlphaNumericString(desiredStrLength: Int): String {
+        val charPool: List<Char> = ('a'..'z') + ('A'..'Z') + ('0'..'9')
+        return (1..desiredStrLength)
+                .map{ kotlin.random.Random.nextInt(0, charPool.size) }
+                .map(charPool::get)
+                .joinToString("")
     }
 }

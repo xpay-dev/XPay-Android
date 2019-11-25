@@ -28,9 +28,6 @@ import kotlinx.android.synthetic.main.fragment_process_transaction.*
 
 
 
-
-
-
 @Suppress("UNCHECKED_CAST")
 class ProcessTransactionFragment : BaseDeviceFragment() {
 
