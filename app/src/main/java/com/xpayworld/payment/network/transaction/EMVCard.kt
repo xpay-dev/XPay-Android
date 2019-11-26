@@ -31,7 +31,7 @@ data class EMVCard (var data: Hashtable<String, String>) {
 
     init {
         cardholderName = data["cardholderName"].toString()
-        expiryDate = data["expiryDate"].toString()
+        expiryDate = if (data.contains("expiryDate")) data["expiryDate"].toString() else data["5F24"].toString()
         emvICCData = data["C2"].toString()
         ksn = if (data.containsKey("C0")) data["C0"].toString() else data["ksn"].toString()
 

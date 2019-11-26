@@ -110,13 +110,20 @@ class ProcessTransactionFragment : BaseDeviceFragment() {
             })
         } else {
             // process offline transaction
-
             onProcessTransaction.observe(this, Observer {
                 viewModel?.callOfflineTransction(requireContext())
             })
 
         }
 
+        // Execute offline transaction
+        viewModel?.offlineTransaction?.observe(this , Observer {
+            val i = Intent()
+            i.putExtra(XPAY_RESPONSE,it)
+            activity!!.setResult(Activity.RESULT_OK,i)
+            activity?.finish()
+
+        })
 
         // Transaction API Result
         viewModel?.onlineAuthResult?.observe(this, Observer {
@@ -135,7 +142,15 @@ class ProcessTransactionFragment : BaseDeviceFragment() {
 
         btnCancel.setOnClickListener {
             stopConnection()
-            view.findNavController().popBackStack(R.id.transactionFragment, true)
+            if (!isTransactionOffline) {
+                view.findNavController().popBackStack(R.id.transactionFragment, true)
+
+            } else {
+                val i = Intent()
+                i.putExtra(XPAY_RESPONSE,"")
+                activity!!.setResult(Activity.RESULT_OK,i)
+                activity?.finish()
+            }
         }
     }
 

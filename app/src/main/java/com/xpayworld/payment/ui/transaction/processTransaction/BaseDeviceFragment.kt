@@ -203,14 +203,12 @@ abstract class BaseDeviceFragment : BaseFragment()  {
         override fun onRequestOnlineProcess(tlv: String?) {
             val decodeData = BBDeviceController.decodeTlv(tlv)
 
-
-
             println(decodeData["C0"])
             println(tlv)
 
             println("ksn : ${decodeData["C0"]}")
             println("emvICCData : ${decodeData["C2"]}")
-            println("maskedPan® : ${decodeData["C4"]}")
+            println("maskedPan : ${decodeData["C4"]}")
 
             transaction.emvCard = EMVCard(decodeData)
             onProcessTransaction.value =  EMVCard(decodeData)

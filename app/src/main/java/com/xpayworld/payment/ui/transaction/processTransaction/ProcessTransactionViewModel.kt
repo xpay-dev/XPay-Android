@@ -6,6 +6,7 @@ import com.xpayworld.payment.data.EMVCardData
 import com.xpayworld.payment.network.RetrofitClient
 import com.xpayworld.payment.network.transaction.*
 import com.xpayworld.payment.util.*
+import com.xpayworld.sdk.XpayResponse
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
@@ -22,6 +23,7 @@ class ProcessTransactionViewModel : BaseViewModel() {
 
     val onlineAuthResult: MutableLiveData<String> = MutableLiveData()
     val transactionError : MutableLiveData<String> = MutableLiveData()
+    val offlineTransaction : MutableLiveData<String> = MutableLiveData()
     private lateinit var subscription: Disposable
 
 
@@ -118,6 +120,14 @@ class ProcessTransactionViewModel : BaseViewModel() {
 
         GlobalScope.launch {
             InjectorUtil.getTransactionRepository(context).createTransaction(transRepository)
+
+            var xPayResponse = XpayResponse()
+            xPayResponse.cardNumber = emv.cardNumber
+            xPayResponse.maskedCard = emv.cardXNumber
+            xPayResponse.expiry = emv.expiryDate
+
+
+            offlineTransaction.value = ""
         }
 
     }
