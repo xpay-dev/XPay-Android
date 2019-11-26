@@ -16,6 +16,7 @@ class Transaction {
     var deviceModelVersion = ""
     var deviceOsVersion = ""
     var posAppVersion = ""
+    var cardCaptureMethod = 5
     var device = 0
     var emvCard : EMVCard? = null
 }

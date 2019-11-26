@@ -41,7 +41,7 @@ data class EMVCard (var data: Hashtable<String, String>) {
         encTrack1 = data["cardholderName"].toString()
         encTrack2 =  if (data.containsKey("encTrack2Eq")) data["encTrack2Eq"].toString() else data["encTrack2"].toString()
         encTrack3 = data["cardholderName"].toString()
-        posEntryMode = data["cardholderName"].toString()
+        posEntryMode =  if (data.contains("posEntryMode")) data["posEntryMode"].toString() else data["9F39"].toString()
         serviceCode = data["cardholderName"].toString()
 
         cardXNumber = "XXX-XXX-XXX-${maskedPan.substring(maskedPan.length - 4)}"

@@ -11,16 +11,12 @@ import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
-import com.xpayworld.payment.R
-import com.xpayworld.payment.databinding.FragmentEnterAmountBinding
 import com.xpayworld.payment.databinding.FragmentLinkBinding
 import com.xpayworld.payment.network.PosWsResponse
 import com.xpayworld.payment.network.transaction.PaymentType
 import com.xpayworld.payment.network.transaction.TransactionPurchase
 import com.xpayworld.payment.ui.base.kt.BaseFragment
 import com.xpayworld.payment.util.*
-import com.xpayworld.sdk.EntryPoint
-import com.xpayworld.sdk.EntryPoint.*
 import com.xpayworld.sdk.XPAY_REQUEST
 import com.xpayworld.sdk.XPAY_RESPONSE
 import com.xpayworld.sdk.XpayRequest
@@ -57,8 +53,8 @@ class LinkFragment : BaseFragment() {
         val data = gson.fromJson(request, XpayRequest::class.java)
         externalPackageName = data.appPackageName
         isTransactionOffline = data.isOffine
-
-
+        transaction.orderId = data.transactionId
+        transaction.cardCaptureMethod = data.cardCaptureMethod
         if (isTransactionOffline){
 
             val strAmount = "${data.amountPurchase}".removePrefix(".")

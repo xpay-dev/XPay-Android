@@ -114,7 +114,8 @@ abstract class BaseDeviceFragment : BaseFragment()  {
         data["terminalTime"] = terminalTime
 
         // Check for Swipe, Insert and Tap card
-        data.put("checkCardMode", BBDeviceController.CheckCardMode.SWIPE_OR_INSERT_OR_TAP)
+        //BBDeviceController.CheckCardMode.SWIPE_OR_INSERT_OR_TAP
+        data.put("checkCardMode", transaction.cardCaptureMethod)
         startAnimation.value = true
         toolbarTitle.value = "Please confirm amount"
         bbDeviceController!!.startEmv(data)
@@ -127,7 +128,7 @@ abstract class BaseDeviceFragment : BaseFragment()  {
         var currencyCharacters = listOf(BBDeviceController.CurrencyCharacter.P, BBDeviceController.CurrencyCharacter.H, BBDeviceController.CurrencyCharacter.P)
         input.put("amount", String.format("%.2f", amountStr.toInt() / 100.0))
         input.put("transactionType", BBDeviceController.TransactionType.GOODS)
-        input.put("currencyCode", "604")
+        input.put("currencyCode", transaction.currencyCode)
         bbDeviceController!!.setAmount(input)
     }
 
@@ -559,8 +560,11 @@ abstract class BaseDeviceFragment : BaseFragment()  {
                 println(encTrack2)
                 println(ksn)
                 println(expiryDate)
-
                 println(maskedPAN)
+
+                transaction.emvCard = EMVCard(decodeData)
+                onProcessTransaction.value =  EMVCard(decodeData)
+
             }
             if(checkCardResult == CheckCardResult.INSERTED_CARD){
                 paymentType  = PaymentType.CREDIT(TransactionPurchase.Action.EMV)

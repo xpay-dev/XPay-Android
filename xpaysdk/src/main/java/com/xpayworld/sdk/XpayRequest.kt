@@ -8,13 +8,23 @@ class  XpayRequest {
     var merchantName = ""
 
     @SerializedName("transaction_type")
-    var txnType = TransactionType.CREDIT.value
+    var transactionType = TransactionType.CREDIT.value
 
     @SerializedName("transaction_id")
-    var txnId = ""
+    var transactionId = ""
+
+    /*
+    SWIPE(0),
+    INSERT(1),
+    TAP(2),
+    SWIPE_OR_INSERT(3),
+    SWIPE_OR_TAP(4),
+    SWIPE_OR_INSERT_OR_TAP(5),
+    INSERT_OR_TAP(6)
+    */
 
     @SerializedName("card_capture_method")
-    var cardCaptureMethod = ""
+    var cardCaptureMethod : Int = 5
 
     @SerializedName("amount_purchase")
     var amountPurchase = 0.00

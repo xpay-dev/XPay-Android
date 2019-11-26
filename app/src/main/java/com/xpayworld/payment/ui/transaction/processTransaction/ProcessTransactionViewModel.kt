@@ -1,11 +1,14 @@
 package com.xpayworld.payment.ui.transaction.processTransaction
 
 import android.content.Context
+import android.content.Intent
 import androidx.lifecycle.MutableLiveData
+import com.google.gson.GsonBuilder
 import com.xpayworld.payment.data.EMVCardData
 import com.xpayworld.payment.network.RetrofitClient
 import com.xpayworld.payment.network.transaction.*
 import com.xpayworld.payment.util.*
+import com.xpayworld.sdk.XPAY_RESPONSE
 import com.xpayworld.sdk.XpayResponse
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -78,8 +81,6 @@ class ProcessTransactionViewModel : BaseViewModel() {
     fun callOfflineTransction(context : Context){
 
         val trans = transaction
-
-
         val emv = trans.emvCard!!
 
         val emvData = EMVCardData(
@@ -105,14 +106,13 @@ class ProcessTransactionViewModel : BaseViewModel() {
                 appId = emv.appId)
 
        val timeStamp = SimpleDateFormat("MM/dd/yyyy HH:mm:ss").format(Date())
-
         val transRepository = com.xpayworld.payment.data.Transaction(
                 amount = trans.amount,
-                transNumber = randomAlphaNumericString(8),
+                transNumber = trans.orderId,
                 timestamp =  timeStamp  ,
                 posEntry = emv.posEntryMode,
-                currency = "PHP",
-                currencyCode = "618",
+                currency = trans.currency,
+                currencyCode = trans.currencyCode,
                 isOffline =  true,
                 emvCard = emvData,
                 device = 7
@@ -120,14 +120,13 @@ class ProcessTransactionViewModel : BaseViewModel() {
 
         GlobalScope.launch {
             InjectorUtil.getTransactionRepository(context).createTransaction(transRepository)
-
             var xPayResponse = XpayResponse()
             xPayResponse.cardNumber = emv.cardNumber
             xPayResponse.maskedCard = emv.cardXNumber
             xPayResponse.expiry = emv.expiryDate
 
-
-            offlineTransaction.value = ""
+            val gson = GsonBuilder().setPrettyPrinting().create()
+            offlineTransaction.value = gson.toJson(xPayResponse)
         }
 
     }
