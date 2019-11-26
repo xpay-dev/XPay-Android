@@ -46,16 +46,9 @@ class TransactionHistoryAdapter : RecyclerView.Adapter<TransactionHistoryAdapter
         private val mViewModel = HistoryViewModel()
 
         fun bind(listener: View.OnClickListener ,txn: TransactionResponse) {
-            val gson = Gson()
-            val gson1 = gson.toJson(txn)
-
-            Log.e("ERROR",gson1)
-
                 mViewModel.bind(txn)
                 binding.clickListener = listener
                 binding.viewModel = mViewModel
-
         }
-
     }
 }

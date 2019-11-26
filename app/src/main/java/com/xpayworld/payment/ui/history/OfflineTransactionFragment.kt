@@ -1,15 +1,17 @@
 package com.xpayworld.payment.ui.history
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.xpayworld.payment.R
 import com.xpayworld.payment.databinding.FragmentTransactionHistoryBinding
 import com.xpayworld.payment.network.TransactionResponse
 import com.xpayworld.payment.ui.base.kt.BaseFragment
+import com.xpayworld.payment.ui.dashboard.DrawerLocker
+import com.xpayworld.payment.ui.transaction.receipt.ReceiptFragmentDirections
 import com.xpayworld.payment.util.InjectorUtil
 import kotlinx.android.synthetic.main.fragment_preference.*
 import kotlinx.android.synthetic.main.fragment_preference.recyclerView
@@ -37,7 +39,7 @@ class OfflineTransactionFragment : BaseFragment(){
 
 
     override fun initView(view: View, container: ViewGroup?) {
-
+        setHasOptionsMenu(true)
         recyclerView.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
         recyclerView.adapter = adapter
 
@@ -47,5 +49,21 @@ class OfflineTransactionFragment : BaseFragment(){
             adapter.updatePostList(it)
             tvStatus.visibility = View.GONE
         })
+    }
+
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        val inflater = activity?.menuInflater
+        inflater?.inflate(R.menu.menu_offline, menu)
+        super.onCreateOptionsMenu(menu, inflater!!)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.offline_upload -> {
+
+            }
+        }
+        return false
     }
 }
