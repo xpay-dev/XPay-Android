@@ -58,6 +58,7 @@ class LinkFragment : BaseFragment() {
         externalPackageName = data.appPackageName
         isTransactionOffline = data.isOffine
 
+
         if (isTransactionOffline){
 
             val strAmount = "${data.amountPurchase}".removePrefix(".")

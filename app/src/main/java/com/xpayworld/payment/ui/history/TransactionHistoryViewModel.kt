@@ -136,10 +136,8 @@ class TransactionHistoryViewModel(val context: Context): BaseViewModel(){
 
     fun callOfflineTransaction(){
 
+        val trans = mutableListOf<TransactionResponse>()
 
-        var trans = mutableListOf<TransactionResponse>()
-
-        GlobalScope.launch {
            val txn =   InjectorUtil.getTransactionRepository(context).getTransaction()
                 txn.forEach {
                     val data = TransactionResponse()
@@ -150,8 +148,6 @@ class TransactionHistoryViewModel(val context: Context): BaseViewModel(){
                     data.transNumber = it.transNumber
                     trans.add(data)
                 }
-        }
-
         transResponse.value = trans
     }
 

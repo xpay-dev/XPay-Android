@@ -23,6 +23,7 @@ import com.xpayworld.payment.ui.dashboard.ToolbarDelegate
 import com.xpayworld.payment.util.formattedAmount
 import com.xpayworld.payment.util.isSDK
 import com.xpayworld.payment.util.isTransactionOffline
+import com.xpayworld.payment.util.transaction
 import com.xpayworld.sdk.XPAY_RESPONSE
 import kotlinx.android.synthetic.main.fragment_process_transaction.*
 
@@ -48,6 +49,7 @@ class ProcessTransactionFragment : BaseDeviceFragment() {
             amountStr = amountStr.replace(".","")
 
         tvAmount.text = formattedAmount(amountStr)
+        transaction.amount = ( amountStr.toInt()/100.0)
 
         viewModel = ViewModelProviders.of(this).get(ProcessTransactionViewModel::class.java)
 

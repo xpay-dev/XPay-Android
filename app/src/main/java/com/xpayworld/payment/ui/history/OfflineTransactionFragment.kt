@@ -41,55 +41,11 @@ class OfflineTransactionFragment : BaseFragment(){
         recyclerView.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
         recyclerView.adapter = adapter
 
-
-        GlobalScope.launch {
-            val txn =   InjectorUtil.getTransactionRepository(requireContext()).getTransaction()
-            txn.forEach {
-                val data = TransactionResponse()
-                data.transType = "Offline"
-                data.timestamp = it.timestamp
-                data.total = "${it.amount}"
-                data.currency = it.currency
-                data.transNumber = it.transNumber
-
-                println("EMV >>> ${it.emvCard.emvICCData}")
-                println("AMOUNT >>> ${it.amount}")
-                println("CURRENCY >>> ${it.currency}")
-                println("TIMESTAMP >>> ${it.timestamp}")
-
-                println("TRANS NUMBER >>> ${it.transNumber}")
-//                trans.add(data)
-            }
-//            transResponse.value = trans
-        }
-
-//        var trans : arra<TransactionResponse> = ()
-
-        var trans = arrayListOf<TransactionResponse>()
-        GlobalScope.launch {
-            val txn =   InjectorUtil.getTransactionRepository(requireContext()).getTransaction()
-            txn.forEach {
-                val data = TransactionResponse()
-                data.transType = "Offline"
-                data.timestamp = it.timestamp
-                data.total = "${it.amount}"
-                data.currency = it.currency
-                data.transNumber = it.transNumber
-                trans.add(data)
-            }
-            adapter.updatePostList(trans)
-        }
-//       viewModel.callOfflineTransaction()
-//
-//        viewModel.transResponse.observe(this , Observer {
-//            recyclerView.visibility = View.VISIBLE
-//
-//            tvStatus.visibility = View.GONE
-//        })
+        viewModel.callOfflineTransaction()
+        viewModel.transResponse.observe(this , Observer {
+            recyclerView.visibility = View.VISIBLE
+            adapter.updatePostList(it)
+            tvStatus.visibility = View.GONE
+        })
     }
-
-
-
-
-
 }
