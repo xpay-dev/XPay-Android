@@ -51,10 +51,16 @@ class LinkFragment : BaseFragment() {
     override fun initView(view: View, container: ViewGroup?) {
 
         val data = gson.fromJson(request, XpayRequest::class.java)
+
+        // initialization
         externalPackageName = data.appPackageName
         isTransactionOffline = data.isOffine
         transaction.orderId = data.transactionId
         transaction.cardCaptureMethod = data.cardCaptureMethod
+        transaction.currency = data.currency
+        transaction.currencyCode = data.currencyCode
+
+
         if (isTransactionOffline){
 
             val strAmount = "${data.amountPurchase}".removePrefix(".")

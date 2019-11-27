@@ -38,6 +38,9 @@ class  XpayRequest {
     @SerializedName("transaction_currency")
     var currency= ""
 
+    @SerializedName("transaction_code")
+    var currencyCode = ""
+
     @SerializedName("transaction_entry_point")
     var entryPoint =  EntryPoint.TRANSACTION.toString()
 

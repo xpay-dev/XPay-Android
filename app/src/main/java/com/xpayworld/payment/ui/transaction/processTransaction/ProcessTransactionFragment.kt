@@ -59,7 +59,8 @@ class ProcessTransactionFragment : BaseDeviceFragment() {
 
         toolbarTitle.observe(this, Observer((activity as ToolbarDelegate)::setTitle))
 
-        cancelVisibility.observe(this, Observer { btnCancel.visibility })
+        cancelVisibility.observe(this, Observer {
+            btnCancel.visibility = it})
 
         checkBluetoothPermission.observe(this , Observer {
             if (it) {

@@ -7,6 +7,7 @@ import android.content.pm.PackageManager
 import android.graphics.Rect
 import android.media.AudioManager
 import android.media.MediaPlayer
+import android.opengl.Visibility
 import android.os.Bundle
 import android.os.Handler
 import android.view.View
@@ -114,8 +115,43 @@ abstract class BaseDeviceFragment : BaseFragment()  {
         data["terminalTime"] = terminalTime
 
         // Check for Swipe, Insert and Tap card
-        //BBDeviceController.CheckCardMode.SWIPE_OR_INSERT_OR_TAP
-        data.put("checkCardMode", transaction.cardCaptureMethod)
+        //BBDeviceController.CheckCardMode.SWIPE_OR_INSERT_OR_TAP  transaction.cardCaptureMethod
+//        SWIPE(0),
+//        INSERT(1),
+//        TAP(2),
+//        SWIPE_OR_INSERT(3),
+//        SWIPE_OR_TAP(4),
+//        SWIPE_OR_INSERT_OR_TAP(5),
+//        INSERT_OR_TAP(6)
+
+
+        var checkCardMode = BBDeviceController.CheckCardMode.SWIPE_OR_INSERT_OR_TAP
+        when(transaction.cardCaptureMethod){
+            0-> {
+                checkCardMode =  BBDeviceController.CheckCardMode.SWIPE
+            }
+            1->{
+                checkCardMode =  BBDeviceController.CheckCardMode.INSERT
+            }
+            2-> {
+                checkCardMode =  BBDeviceController.CheckCardMode.TAP
+            }
+            3-> {
+                checkCardMode =  BBDeviceController.CheckCardMode.SWIPE_OR_INSERT
+            }
+            4->{
+                checkCardMode =  BBDeviceController.CheckCardMode.SWIPE_OR_TAP
+            }
+            5->{
+                checkCardMode =  BBDeviceController.CheckCardMode.SWIPE_OR_INSERT_OR_TAP
+            }
+            6->{
+                checkCardMode =  BBDeviceController.CheckCardMode.INSERT_OR_TAP
+            }
+        }
+
+
+        data.put("checkCardMode",checkCardMode )
         startAnimation.value = true
         toolbarTitle.value = "Please confirm amount"
         bbDeviceController!!.startEmv(data)
@@ -164,6 +200,10 @@ abstract class BaseDeviceFragment : BaseFragment()  {
         }
 
         override fun onRequestDisplayText(displayText: BBDeviceController.DisplayText?) {
+            if (displayText == BBDeviceController.DisplayText.PLEASE_WAIT){
+                cancelVisibility.value = View.INVISIBLE
+            }
+
             toolbarTitle.value = displayText.toString()
 
         }
@@ -419,6 +459,7 @@ abstract class BaseDeviceFragment : BaseFragment()  {
         override fun onRequestFinalConfirm() {
             bbDeviceController?.sendFinalConfirmResult(true)
 
+
         }
 
         override fun onReturnBarcode(p0: String?) {
@@ -603,12 +644,13 @@ abstract class BaseDeviceFragment : BaseFragment()  {
 
         override fun onReturnSetPinPadButtonsResult(p0: Boolean) {
 
+
             val direction = ProcessTransactionFragmentDirections.actionProcessTransactionToPinPadFragment(amountStr)
             view!!.findNavController().navigate(direction)
         }
 
         override fun onReturnPinEntryResult(pinEntryResult: BBDeviceController.PinEntryResult?, data: Hashtable<String, String>) {
-
+            cancelVisibility.value = View.INVISIBLE
             if (currentFragment is PinPadFragment){
 
                 val direction = PinPadFragmentDirections.actionPinPadFragmentToProcessTransaction(amountStr)

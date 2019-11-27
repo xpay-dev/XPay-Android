@@ -6,7 +6,7 @@ import androidx.room.Entity
 class Transaction {
     var amount = 0.0
     var tmpAmount = 0.0
-    val currencyCode  = "608"
+    var currencyCode  = "608"
     var currency = "PHP"
     var orderId = ""
     var paymentType : PaymentType? = null
