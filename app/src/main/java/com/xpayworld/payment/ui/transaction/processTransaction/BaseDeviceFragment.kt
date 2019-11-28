@@ -599,15 +599,21 @@ abstract class BaseDeviceFragment : BaseFragment()  {
                 println(ksn)
                 println(expiryDate)
                 println(maskedPAN)
+                println(posEntryMode)
 
                 transaction.emvCard = EMVCard(decodeData)
                 onProcessTransaction.value =  EMVCard(decodeData)
+                transaction.posEntryMode = 0
 
-            }
-            if(checkCardResult == CheckCardResult.INSERTED_CARD){
+            } else if(checkCardResult == CheckCardResult.INSERTED_CARD){
+                transaction.posEntryMode = 99
                 paymentType  = PaymentType.CREDIT(TransactionPurchase.Action.EMV)
-
+                val posEntryMode = decodeData["posEntryMode"]
+                println(posEntryMode)
+            } else if (checkCardResult == CheckCardResult.TAP_CARD_DETECTED){
+                transaction.posEntryMode = 99
             }
+
         }
 
         override fun onRequestPinEntry(pinEntrySource: BBDeviceController.PinEntrySource?) {

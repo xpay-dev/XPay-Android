@@ -15,10 +15,7 @@ data class EMVCard (var data: Hashtable<String, String>) {
     var expiryYear = ""
     var expiryDate = "0000"
     var appId = ""
-
     var appReferredName = ""
-    // 90 Swipe
-    var posEntryMode = ""
     var ksn = ""
     var epb = ""
     var epbksn = ""
@@ -42,47 +39,10 @@ data class EMVCard (var data: Hashtable<String, String>) {
         encTrack1 = data["cardholderName"].toString()
         encTrack2 =  if (data.containsKey("encTrack2Eq")) data["encTrack2Eq"].toString() else data["encTrack2"].toString()
         encTrack3 = data["cardholderName"].toString()
-        posEntryMode =  if (data.contains("posEntryMode")) data["posEntryMode"].toString() else data["9F39"].toString()
+
         serviceCode = data["cardholderName"].toString()
         cardNumber =if (data.contains("pan")) data["pan"].toString() else  data["5A"].toString()
         cardXNumber = "XXX-XXX-XXX-${maskedPan.substring(maskedPan.length - 4)}"
 
-
-
-//        emvData = EMVCardv2(
-//                cardholderName = cardholderName,
-//                cardNumber = cardNumber,
-//                ksn = ksn,
-//                emvICCData = emvICCData ,
-//                expiryDate = expiryDate,
-//                expiryMonth = expiryMonth,
-//                encTrack1 = encTrack1,
-//                encTrack2 = encTrack2,
-//                posEntryMode = posEntryMode,
-//                encTrack3 = encTrack3,
-//                appReferredName = appReferredName,
-//                epb = epb,
-//                epbksn = epbksn,
-//                cardXNumber = cardXNumber,
-//                expiryYear = expiryYear,
-//                trackEncoding = trackEncoding,
-//                maskedPan = maskedPan,
-//                serialNumber = serialNumber,
-//                serviceCode = serviceCode,
-//                appId = appId)
-
-//        val formatID = decodeData["formatID"]
-//        val maskedPAN = decodeData["maskedPAN"]
-//        val PAN = decodeData["pan"]
-//        val expiryDate = decodeData["expiryDate"]
-//        val cardHolderName = decodeData["cardholderName"]
-//        val ksn = decodeData["ksn"]
-//        val serviceCode = decodeData["serviceCode"]
-//        val encTracks = decodeData["encTracks"]
-//        val encTrack1 = decodeData["encTrack1"]
-//        val encTrack2 = decodeData["encTrack2"]
-//        val encTrack3 = decodeData["encTrack3"]
-//        val encWorkingKey = decodeData["encWorkingKey"]
-//        val posEntryMode = decodeData["posEntryMode"]
     }
 }

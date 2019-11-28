@@ -6,14 +6,17 @@ import com.xpayworld.payment.network.PosWsResponse
 import com.xpayworld.payment.network.RetrofitClient
 import com.xpayworld.payment.network.TransactionResponse
 import com.xpayworld.payment.network.transLookUp.*
+import com.xpayworld.payment.network.transaction.*
 import com.xpayworld.payment.util.*
 import io.reactivex.Observable
+import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import io.reactivex.schedulers.Timed
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import retrofit2.Response
 import java.util.*
 import java.util.logging.Handler
 import kotlin.concurrent.schedule
@@ -157,28 +160,108 @@ class TransactionHistoryViewModel(val context: Context): BaseViewModel(){
         transResponse.value = trans
     }
 
+    fun callTransactionAPI( callBack: ((Boolean) -> Unit)? = null) {
+        var txnResponse: Single<Response<TransactionResult>>? = null
+        val api = RetrofitClient().getRetrofit().create(TransactionApi::class.java)
+
+        val txnPurchase = TransactionPurchase(transaction)
+
+        when (val mPaymentType = paymentType) {
+            is PaymentType.DEBIT -> {
+
+            }
+            is PaymentType.CREDIT -> {
+                if (mPaymentType.action != TransactionPurchase.Action.SWIPE) {
+                    txnResponse = api.creditEMV(TransactionRequest(txnPurchase))
+                } else {
+                    txnResponse = api.creditSwipe(TransactionRequest(txnPurchase))
+                }
+            }
+        }
+
+        subscription = txnResponse!!
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe { loadingVisibility.value = true }
+                .doAfterTerminate { loadingVisibility.value = false }
+                .subscribe({ result ->
+                    if (!result.isSuccessful) {
+                       callBack?.invoke(false)
+                        return@subscribe
+                    }
+                    callBack?.invoke(true)
+                    subscription.dispose()
+                }, {
+                    callBack?.invoke(false)
+                 })
+    }
+
     fun callforBatchUpload(){
-        val txn =   InjectorUtil.getTransactionRepository(context).getTransaction()
 
-        val  tim =    Timer().schedule(1000000){
+        val txnDao = InjectorUtil.getTransactionRepository(context)
 
-            val dispatch = DispatchGroup()
+        val dispatch = DispatchGroup()
 
-            for (transaction in txn) {
-
+            for (txn in txnDao.getTransaction()) {
                 dispatch.enter()
+                if (!txn.isSync){
+                    txnDao.updateTransaction(true,txn.orderId)
 
-                Timer().schedule(3){
-                    println("finish")
-                    dispatch.leave()
+                   val  trans = Transaction()
+                    trans.posEntryMode = txn.posEntry
+                    trans.emvCard?.appId = txn.emvCard.appId
+                    trans.emvCard?.appReferredName = txn.emvCard.appReferredName
+                    trans.emvCard?.cardNumber = txn.emvCard.cardNumber
+                    trans.emvCard?.cardXNumber = txn.emvCard.cardXNumber
+                    trans.emvCard?.cardholderName = txn.emvCard.cardholderName
+                    trans.emvCard?.emvICCData = txn.emvCard.emvICCData
+                    trans.emvCard?.encTrack1 = txn.emvCard.encTrack1
+                    trans.emvCard?.encTrack2 = txn.emvCard.encTrack2
+                    trans.emvCard?.epb = txn.emvCard.epb
+                    trans.emvCard?.epbksn = txn.emvCard.epbksn
+                    trans.emvCard?.encTrack3 = txn.emvCard.encTrack3
+                    trans.emvCard?.expiryDate = txn.emvCard.expiryDate
+                    trans.emvCard?.expiryMonth = txn.emvCard.expiryMonth
+                    trans.emvCard?.expiryYear = txn.emvCard.expiryYear
+                    trans.emvCard?.ksn = txn.emvCard.ksn
+                    trans.emvCard?.maskedPan = txn.emvCard.maskedPan
+                    trans.emvCard?.serviceCode = txn.emvCard.serviceCode
+                    trans.emvCard?.serialNumber = txn.emvCard.serialNumber
+                    trans.orderId = txn.orderId
+                    trans.isOffline = txn.isOffline
+                    trans.amount = txn.amount
+                    trans.currencyCode = txn.currencyCode
+                    trans.currency = txn.currency
+
+                    if (trans.posEntryMode == 0) {
+                        trans.paymentType = PaymentType.CREDIT(TransactionPurchase.Action.SWIPE)
+                    } else {
+                        trans.paymentType = PaymentType.CREDIT(TransactionPurchase.Action.EMV)
+                    }
+
+                    trans.device = txn.device
+                    trans.deviceModelVersion = txn.deviceModelVersion
+
+                    transaction  = trans
+
+                    callTransactionAPI(callBack = {isSuccess ->
+                        if (isSuccess){
+                            txnDao.deleteTranscation(trans.orderId)
+                        }else {
+                            txnDao.updateTransaction(false,trans.orderId)
+                        }
+                    })
                 }
             }
             dispatch.notify {
                 println("finish")
             }
-        }
+
     }
 }
+
+
+
 
 class DispatchGroup {
     private var count = 0

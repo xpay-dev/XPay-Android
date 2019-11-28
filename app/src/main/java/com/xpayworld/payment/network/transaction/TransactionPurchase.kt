@@ -86,12 +86,19 @@ class TransactionPurchase(txn: Transaction) {
 
 
     enum class AccountType(val type: Int) {
-        NONE(0), CHEQUING(1), SAVINGS(2), CURRENT(3)
+        NONE(0), CHEQUING(1), SAVINGS(2), CURRENT(3);
+        companion object : EnumCompanion<Int, AccountType>(AccountType.values().associateBy(AccountType::type))
 
     }
 
     enum class Action(val type: Int) {
-        NONE(0), SWIPE(1), EMV(2)
+        NONE(0), SWIPE(1), EMV(2);
+        companion object : EnumCompanion<Int, Action>(values().associateBy(Action::type))
     }
 
+
+}
+
+open class EnumCompanion<T, V>(private val valueMap: Map<T, V>) {
+    fun fromInt(type: T) = valueMap[type]
 }

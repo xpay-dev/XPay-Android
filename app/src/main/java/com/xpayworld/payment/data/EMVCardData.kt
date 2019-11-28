@@ -36,9 +36,6 @@ data class EMVCardData(
      //   @ColumnInfo(name = "merchant_name")
         var appReferredName: String = "",
 
-     //   @ColumnInfo(name = "merchant_name")
-        var posEntryMode: String = "",
-
       //  @ColumnInfo(name = "merchant_name")
         var ksn: String = "",
 
