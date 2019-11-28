@@ -17,6 +17,7 @@ data class EMVCard (var data: Hashtable<String, String>) {
     var appId = ""
 
     var appReferredName = ""
+    // 90 Swipe
     var posEntryMode = ""
     var ksn = ""
     var epb = ""
@@ -43,7 +44,7 @@ data class EMVCard (var data: Hashtable<String, String>) {
         encTrack3 = data["cardholderName"].toString()
         posEntryMode =  if (data.contains("posEntryMode")) data["posEntryMode"].toString() else data["9F39"].toString()
         serviceCode = data["cardholderName"].toString()
-
+        cardNumber =if (data.contains("pan")) data["pan"].toString() else  data["5A"].toString()
         cardXNumber = "XXX-XXX-XXX-${maskedPan.substring(maskedPan.length - 4)}"
 
 

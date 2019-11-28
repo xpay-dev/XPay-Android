@@ -9,9 +9,6 @@ import androidx.room.*
         @ColumnInfo(name = "amount")
         var amount: Double = 0.0,
 
-        @ColumnInfo(name = "trans_number")
-        var transNumber: String = "",// how often the plant should be watered, in days
-
         @ColumnInfo(name = "trans_date")
         var timestamp: String = "",
         var action: Int = 0,
@@ -22,6 +19,7 @@ import androidx.room.*
         var currency: String = "PHP",
         var orderId : String = "",
         var isOffline: Boolean = false,
+        var isSync: Boolean = false,
         var customerEmail: String = "",
         var deviceModelVersion: String = "",
         var deviceOsVersion: String = "",

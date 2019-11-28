@@ -11,8 +11,13 @@ import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
+import io.reactivex.schedulers.Timed
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import java.util.*
+import java.util.logging.Handler
+import kotlin.concurrent.schedule
+import kotlin.concurrent.timer
 
 class TransactionHistoryViewModel(val context: Context): BaseViewModel(){
 
@@ -145,13 +150,63 @@ class TransactionHistoryViewModel(val context: Context): BaseViewModel(){
                     data.timestamp = it.timestamp
                     data.total = "${it.amount}"
                     data.currency = it.currency
-                    data.transNumber = it.transNumber
+                    data.transNumber = it.orderId
                     trans.add(data)
                 }
+
         transResponse.value = trans
     }
 
     fun callforBatchUpload(){
+        val txn =   InjectorUtil.getTransactionRepository(context).getTransaction()
 
+        val  tim =    Timer().schedule(1000000){
+
+            val dispatch = DispatchGroup()
+
+            for (transaction in txn) {
+
+                dispatch.enter()
+
+                Timer().schedule(3){
+                    println("finish")
+                    dispatch.leave()
+                }
+            }
+            dispatch.notify {
+                println("finish")
+            }
+        }
+    }
+}
+
+class DispatchGroup {
+    private var count = 0
+    private var runnable: (() -> Unit)? = null
+
+    init {
+        count = 0
+    }
+
+    @Synchronized
+    fun enter() {
+        count++
+    }
+
+    @Synchronized
+    fun leave() {
+        count--
+        notifyGroup()
+    }
+
+    fun notify(r: () -> Unit) {
+        runnable = r
+        notifyGroup()
+    }
+
+    private fun notifyGroup() {
+        if (count <= 0 && runnable != null) {
+            runnable!!()
+        }
     }
 }

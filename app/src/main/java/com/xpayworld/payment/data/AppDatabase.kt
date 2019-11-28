@@ -10,7 +10,7 @@ import com.xpayworld.payment.util.HashMapTypeConverter
 
 
 
-@Database(entities = [Transaction::class ],version = 7,exportSchema = false)
+@Database(entities = [Transaction::class ],version = 8,exportSchema = false)
 abstract class AppDatabase : RoomDatabase(){
 
     abstract fun transactionDao(): TransactionDao

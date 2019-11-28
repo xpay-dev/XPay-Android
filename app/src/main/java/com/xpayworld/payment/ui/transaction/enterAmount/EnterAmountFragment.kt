@@ -16,14 +16,14 @@ import com.xpayworld.payment.network.transaction.PaymentType
 import com.xpayworld.payment.network.transaction.TransactionPurchase
 import com.xpayworld.payment.ui.base.kt.BaseFragment
 import com.xpayworld.payment.ui.dashboard.DrawerLocker
+import com.xpayworld.payment.ui.history.DispatchGroup
 import com.xpayworld.payment.ui.transaction.processTransaction.ARG_AMOUNT
 import com.xpayworld.payment.util.InjectorUtil
 import kotlinx.android.synthetic.main.fragment_enter_amount.*
 import kotlinx.android.synthetic.main.view_enter_amount.*
 import kotlinx.android.synthetic.main.view_number_pad.*
-
-
-
+import java.util.*
+import kotlin.concurrent.schedule
 
 
 class EnterAmountFragment : BaseFragment() {
@@ -78,6 +78,9 @@ class EnterAmountFragment : BaseFragment() {
 
         }
 
+        callforBatchUpload()
+
+
         // output
         viewModel.transTypeSetResource.observe(this , Observer {
             btnCredit.setBackgroundResource(it[0])
@@ -90,6 +93,27 @@ class EnterAmountFragment : BaseFragment() {
     }
 
 
+
+    fun callforBatchUpload(){
+        val txn =   InjectorUtil.getTransactionRepository(requireContext()).getTransaction()
+
+
+            val dispatch = DispatchGroup()
+
+            for (transaction in txn) {
+
+                dispatch.enter()
+
+                Timer().schedule(10){
+                    println("finish")
+                    dispatch.leave()
+                }
+            }
+            dispatch.notify {
+                println("finish")
+            }
+
+    }
 
     override fun onResume() {
         super.onResume()

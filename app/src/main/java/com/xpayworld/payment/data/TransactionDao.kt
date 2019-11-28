@@ -1,10 +1,7 @@
 package com.xpayworld.payment.data
 
 import androidx.lifecycle.LiveData
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
 
 @Dao
 interface  TransactionDao {
@@ -15,6 +12,12 @@ interface  TransactionDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertTransaction(vararg txn : Transaction)
 
+    @Query("DELETE FROM `transaction`")
+    fun deleteAllTransaction()
 
+    @Query("DELETE FROM `transaction` WHERE orderId =:orderId")
+    fun deleteTransaction(orderId: String)
 
+    @Query("UPDATE `transaction` SET isSync = :isSync WHERE orderId = :orderId")
+    fun updateSync(isSync: Boolean , orderId: String)
 }

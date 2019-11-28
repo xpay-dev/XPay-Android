@@ -108,7 +108,7 @@ class ProcessTransactionViewModel : BaseViewModel() {
        val timeStamp = SimpleDateFormat("MM/dd/yyyy HH:mm:ss").format(Date())
         val transRepository = com.xpayworld.payment.data.Transaction(
                 amount = trans.amount,
-                transNumber = trans.orderId,
+                orderId = trans.orderId,
                 timestamp =  timeStamp  ,
                 posEntry = emv.posEntryMode,
                 currency = trans.currency,
@@ -120,14 +120,14 @@ class ProcessTransactionViewModel : BaseViewModel() {
 
         GlobalScope.launch {
             InjectorUtil.getTransactionRepository(context).createTransaction(transRepository)
-            var xPayResponse = XpayResponse()
-            xPayResponse.cardNumber = emv.cardNumber
-            xPayResponse.maskedCard = emv.cardXNumber
-            xPayResponse.expiry = emv.expiryDate
-
-            val gson = GsonBuilder().setPrettyPrinting().create()
-            offlineTransaction.value = gson.toJson(xPayResponse)
         }
+
+        var xPayResponse = XpayResponse()
+        xPayResponse.cardNumber = emv.cardNumber
+        xPayResponse.maskedCard = emv.cardXNumber
+        xPayResponse.expiry = emv.expiryDate
+        val gson = GsonBuilder().setPrettyPrinting().create()
+        offlineTransaction.value = gson.toJson(xPayResponse)
 
     }
 

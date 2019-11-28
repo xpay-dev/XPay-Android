@@ -61,7 +61,7 @@ class OfflineTransactionFragment : BaseFragment(){
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.offline_upload -> {
-
+                viewModel.callforBatchUpload()
             }
         }
         return false

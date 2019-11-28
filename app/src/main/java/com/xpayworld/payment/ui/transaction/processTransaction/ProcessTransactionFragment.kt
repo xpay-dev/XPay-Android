@@ -121,9 +121,10 @@ class ProcessTransactionFragment : BaseDeviceFragment() {
         viewModel?.offlineTransaction?.observe(this , Observer {
             val i = Intent()
             i.putExtra(XPAY_RESPONSE,it)
+
+            println(i)
             activity!!.setResult(Activity.RESULT_OK,i)
             activity?.finish()
-
         })
 
         // Transaction API Result

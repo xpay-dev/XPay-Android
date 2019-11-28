@@ -63,7 +63,7 @@ class EnterPinFragment : BaseFragment() {
         }
 
         shouldCheckActivationKey()
-
+          InjectorUtil.getTransactionRepository(requireContext()).deleteAllTransaction()
         viewModel.pinCode
                 .observe(this, Observer {
                     shouldUpdateCodeImage(it)

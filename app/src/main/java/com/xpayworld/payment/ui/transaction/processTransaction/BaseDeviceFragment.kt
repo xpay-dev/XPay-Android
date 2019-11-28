@@ -200,9 +200,6 @@ abstract class BaseDeviceFragment : BaseFragment()  {
         }
 
         override fun onRequestDisplayText(displayText: BBDeviceController.DisplayText?) {
-            if (displayText == BBDeviceController.DisplayText.PLEASE_WAIT){
-                cancelVisibility.value = View.INVISIBLE
-            }
 
             toolbarTitle.value = displayText.toString()
 
@@ -614,7 +611,6 @@ abstract class BaseDeviceFragment : BaseFragment()  {
         }
 
         override fun onRequestPinEntry(pinEntrySource: BBDeviceController.PinEntrySource?) {
-            cancelVisibility.value = View.INVISIBLE
 
             if (pinEntrySource == BBDeviceController.PinEntrySource.SMARTPOS) {
                 pinButtonLayout = Hashtable()
