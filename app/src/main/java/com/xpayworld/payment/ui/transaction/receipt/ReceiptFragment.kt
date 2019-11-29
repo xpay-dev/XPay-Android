@@ -18,10 +18,12 @@ import com.xpayworld.payment.network.PosWsResponse
 import com.xpayworld.payment.network.TransactionResponse
 import com.xpayworld.payment.ui.dashboard.DashboardActivity
 import com.xpayworld.payment.ui.dashboard.DrawerLocker
+import com.xpayworld.payment.ui.transaction.processTransaction.BaseDeviceFragment
 import com.xpayworld.payment.ui.transaction.receipt.ReceiptFragmentArgs.fromBundle
 import com.xpayworld.payment.util.InjectorUtil
+import com.xpayworld.payment.util.merchantDetails
 
-class ReceiptFragment : BaseFragment() {
+class ReceiptFragment: BaseDeviceFragment()  {
 
     private val viewModel: ReceiptViewModel by viewModels {
         InjectorUtil.provideReceiptViewModelFactory(requireContext())
@@ -35,6 +37,8 @@ class ReceiptFragment : BaseFragment() {
         fromBundle(arguments!!).status
     }
 
+    var txn : TransactionResponse ? = null
+    var response : PosWsResponse? = null
 
     override fun onCreateView(
             inflater: LayoutInflater,
@@ -43,16 +47,15 @@ class ReceiptFragment : BaseFragment() {
     ): View? {
         val binding = FragmentReceiptBinding.inflate(inflater, container, false)
         val gson = Gson()
-        val txn =  gson.fromJson(transaction, TransactionResponse::class.java)
-        val status : PosWsResponse?
+         txn =  gson.fromJson(transaction, TransactionResponse::class.java)
+
 
         if (mResponse != ""){
-            status = gson.fromJson(mResponse,PosWsResponse::class.java)
-            binding.response = status!!
+            response = gson.fromJson(mResponse,PosWsResponse::class.java)
+            binding.response = response!!
             binding.btnDone.visibility = View.INVISIBLE
         }
 
-        Log.e("error",transaction)
         binding.txns = txn
         binding.lifecycleOwner = this@ReceiptFragment
         return binding.root
@@ -60,8 +63,16 @@ class ReceiptFragment : BaseFragment() {
 
     override fun initView(view: View , container: ViewGroup?) {
 
+        lblMerchantName.text = merchantDetails?.merchantName
+        val address = merchantDetails?.address+ ","+ merchantDetails?.city +","+ merchantDetails?.country
+        lblMerchantAddress.text = address
+
         setHasOptionsMenu(true)
         btnDone.setOnClickListener {
+            val receipt = viewModel.getReceiptSerial(requireContext(),txn =  txn!! , posStatus =  response!!)
+            onReceiptData.value = receipt
+            bbDeviceController?.startPrint(1,60)
+
             clReceipt.startAnimation(AnimationUtils.loadAnimation(context!!, R.anim.receipt_out))
         }
     }

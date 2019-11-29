@@ -79,7 +79,7 @@
                     app:layout_constraintGuide_percent="0.5" />
 
                 <TextView
-                    android:id="@+id/textView31"
+                    android:id="@+id/lblMerchantName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
@@ -97,16 +97,16 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
-                    android:id="@+id/textView35"
+                    android:id="@+id/lblMerchantAddress"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Makati , Philippines"
                     android:textColor="@android:color/black"
                     android:textSize="@dimen/text_merchant_details"
                     android:textStyle="bold"
-                    app:layout_constraintEnd_toEndOf="@+id/textView31"
-                    app:layout_constraintStart_toStartOf="@+id/textView31"
-                    app:layout_constraintTop_toBottomOf="@+id/textView31" />
+                    app:layout_constraintEnd_toEndOf="@+id/lblMerchantName"
+                    app:layout_constraintStart_toStartOf="@+id/lblMerchantName"
+                    app:layout_constraintTop_toBottomOf="@+id/lblMerchantName" />
 
                 <TextView
                     android:id="@+id/lblDate"
@@ -121,7 +121,7 @@
                     android:textColor="@android:color/black"
                     android:textSize="@dimen/text_merchant_details"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textView35" />
+                    app:layout_constraintTop_toBottomOf="@+id/lblMerchantAddress" />
 
                 <TextView
                     android:id="@+id/dividerDate"
