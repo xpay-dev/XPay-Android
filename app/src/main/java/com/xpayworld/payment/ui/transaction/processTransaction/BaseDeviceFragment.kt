@@ -63,6 +63,7 @@ abstract class BaseDeviceFragment : BaseFragment()  {
     val onProcessTransaction : MutableLiveData<EMVCard> = MutableLiveData()
     val onTransactionResult : MutableLiveData<Boolean> = MutableLiveData()
     val onlineProcessResult : MutableLiveData<String> = MutableLiveData()
+    val onReceiptData: MutableLiveData<ByteArray> = MutableLiveData()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -468,6 +469,7 @@ abstract class BaseDeviceFragment : BaseFragment()  {
         }
 
         override fun onRequestPrintData(p0: Int, p1: Boolean) {
+            bbDeviceController?.sendPrintData(onReceiptData.value)
 
         }
 
