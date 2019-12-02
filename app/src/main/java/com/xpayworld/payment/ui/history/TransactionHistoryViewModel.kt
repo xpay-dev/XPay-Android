@@ -141,12 +141,15 @@ class TransactionHistoryViewModel(val context: Context): BaseViewModel(){
                 )
         }
 
+    fun callTransactionDelete(){
+        InjectorUtil.getTransactionRepository(context).deleteAllTransaction()
+    }
 
     fun callOfflineTransaction(){
 
         val trans = mutableListOf<TransactionResponse>()
 
-           val txn =   InjectorUtil.getTransactionRepository(context).getTransaction()
+           val txn = InjectorUtil.getTransactionRepository(context).getTransaction()
                 txn.forEach {
                     val data = TransactionResponse()
                     data.transType = "Offline"

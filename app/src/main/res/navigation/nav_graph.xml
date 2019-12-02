@@ -185,10 +185,11 @@
             android:name="dataRequest"
             app:argType="string" />
     </fragment>
-<!--    <fragment-->
-<!--        android:id="@+id/offlineTransactionFragment"-->
-<!--        android:name="com.xpayworld.payment.ui.history.OfflineTransactionFragment"-->
-<!--        android:label="Offline Transaction"-->
-<!--        tools:layout="@layout/fragment_transaction_offline" />-->
+
+    <fragment
+        android:id="@+id/offlineTransactionFragment"
+        android:name="com.xpayworld.payment.ui.history.OfflineTransactionFragment"
+        android:label="Offline Transaction"
+        tools:layout="@layout/fragment_transaction_offline" />
 
 </navigation>

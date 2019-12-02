@@ -30,6 +30,12 @@ class ProcessTransactionViewModel : BaseViewModel() {
     private lateinit var subscription: Disposable
 
 
+    override fun onCleared() {
+        super.onCleared()
+        subscription.dispose()
+    }
+
+
     fun callTransactionAPI() {
         var txnResponse: Single<Response<TransactionResult>>? = null
         val api = RetrofitClient().getRetrofit().create(TransactionApi::class.java)
