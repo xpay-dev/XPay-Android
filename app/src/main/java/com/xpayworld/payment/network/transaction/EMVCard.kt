@@ -29,18 +29,18 @@ data class EMVCard (var data: Hashtable<String, String>) {
 
     init {
         cardholderName = data["cardholderName"].toString()
-        expiryDate = if (data.contains("expiryDate")) data["expiryDate"].toString() else data["5F24"].toString()
+        expiryDate = if (data.containsKey("expiryDate")) data["expiryDate"].toString() else data["5F24"].toString()
         emvICCData = data["C2"].toString()
         ksn = if (data.containsKey("C0")) data["C0"].toString() else data["ksn"].toString()
-
+        epb = data["epb"].toString()
         epbksn = data["c1"].toString()
         maskedPan = if (data.containsKey("C4")) data["C4"].toString() else data["maskedPAN"].toString()
-        appId = data["cardholderName"].toString()
-        encTrack1 = data["cardholderName"].toString()
+        appId = if(data.containsKey("4f")) data["4f"].toString() else  data["9f06"].toString()
+        encTrack1 = ""
         encTrack2 =  if (data.containsKey("encTrack2Eq")) data["encTrack2Eq"].toString() else data["encTrack2"].toString()
-        encTrack3 = data["cardholderName"].toString()
+        encTrack3 = ""
 
-        serviceCode = data["cardholderName"].toString()
+        serviceCode = if(data.containsKey("5F30")) data["5F30"].toString() else  data["serviceCode"].toString()
         cardNumber =if (data.contains("pan")) data["pan"].toString() else  data["5A"].toString()
         cardXNumber = "XXX-XXX-XXX-${maskedPan.substring(maskedPan.length - 4)}"
 

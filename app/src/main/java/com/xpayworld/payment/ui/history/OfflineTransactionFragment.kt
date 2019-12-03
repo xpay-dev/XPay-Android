@@ -44,10 +44,15 @@ class OfflineTransactionFragment : BaseFragment(){
         recyclerView.adapter = adapter
 
         viewModel.callOfflineTransaction()
+
         viewModel.transResponse.observe(this , Observer {
             recyclerView.visibility = View.VISIBLE
             adapter.updatePostList(it)
             tvStatus.visibility = View.GONE
+        })
+
+        viewModel.loadingVisibility.observe(this, Observer {
+            if (it) showProgress() else hideProgress()
         })
     }
 
@@ -61,8 +66,8 @@ class OfflineTransactionFragment : BaseFragment(){
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.offline_upload -> {
-                viewModel.callTransactionDelete()
-               // viewModel.callforBatchUpload()
+                //viewModel.callTransactionDelete()
+                viewModel.callforBatchUpload()
             }
         }
         return false

@@ -61,7 +61,7 @@ class LinkFragment : BaseFragment() {
         transaction.currencyCode = data.currencyCode
 
 
-        if (isTransactionOffline){
+        if (data.isOffine){
 
             val strAmount = "${data.amountPurchase}".removePrefix(".")
             val direction = LinkFragmentDirections.actionLinkFragmentToProcessTranactionFragment(strAmount)
