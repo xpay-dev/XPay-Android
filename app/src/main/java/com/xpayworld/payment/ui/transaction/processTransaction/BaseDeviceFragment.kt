@@ -285,9 +285,7 @@ abstract class BaseDeviceFragment : BaseFragment()  {
 
         override fun onReturnEncryptPinResult(p0: Boolean, p1: Hashtable<String, String>?) {
 
-
-
-
+            transaction.epb = p1?.get("epb").toString()
         }
 
         override fun onAudioDeviceUnplugged() {
@@ -666,7 +664,7 @@ abstract class BaseDeviceFragment : BaseFragment()  {
 
             if (pinEntryResult == BBDeviceController.PinEntryResult.ENTERED) run {
                 if (data.containsKey("epb")) {
-                    data.get("epb")
+                  transaction.epb = data.get("epb").toString()
                 }
                 if (data.containsKey("ksn")) {
                     data.get("ksn")
