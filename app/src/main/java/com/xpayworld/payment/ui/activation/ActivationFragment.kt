@@ -15,12 +15,7 @@ import kotlinx.android.synthetic.main.fragment_activation_code.*
 import androidx.fragment.app.viewModels
 import com.xpayworld.payment.util.InjectorUtil
 import androidx.navigation.fragment.findNavController
-import com.bbpos.bbdevice.BBDeviceController
-import com.xpayworld.payment.data.AppDatabase
-import com.xpayworld.payment.data.EMVCardData
 import com.xpayworld.payment.databinding.FragmentActivationCodeBinding
-import com.xpayworld.payment.network.transaction.EMVCard
-import kotlin.collections.HashMap
 
 
 class ActivationFragment : BaseFragment() {

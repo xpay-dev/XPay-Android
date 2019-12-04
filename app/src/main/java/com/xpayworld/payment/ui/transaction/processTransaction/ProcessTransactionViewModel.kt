@@ -1,14 +1,11 @@
 package com.xpayworld.payment.ui.transaction.processTransaction
 
 import android.content.Context
-import android.content.Intent
 import androidx.lifecycle.MutableLiveData
 import com.google.gson.GsonBuilder
-import com.xpayworld.payment.data.EMVCardData
 import com.xpayworld.payment.network.RetrofitClient
 import com.xpayworld.payment.network.transaction.*
 import com.xpayworld.payment.util.*
-import com.xpayworld.sdk.XPAY_RESPONSE
 import com.xpayworld.sdk.XpayResponse
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -87,7 +84,7 @@ class ProcessTransactionViewModel : BaseViewModel() {
     fun callOfflineTransction(context : Context){
 
         val trans = transaction
-        val emv = trans.emvCard!!
+        val emv = trans.card!!
 
 
        val timeStamp = SimpleDateFormat("MM/dd/yyyy HH:mm:ss").format(Date())
@@ -95,11 +92,10 @@ class ProcessTransactionViewModel : BaseViewModel() {
                 amount = trans.amount,
                 orderId = trans.orderId,
                 timestamp =  timeStamp  ,
-                posEntry = trans.posEntryMode,
                 currency = trans.currency,
                 currencyCode = trans.currencyCode,
                 isOffline =  true,
-                emvCard = trans.emvCard!!,
+                card = trans.card!!,
                 device = 7
         )
 

@@ -4,9 +4,6 @@ import com.google.gson.annotations.SerializedName
 import com.xpayworld.payment.network.PosWsRequest
 import com.xpayworld.payment.util.paymentType
 import com.xpayworld.payment.util.posRequest
-import java.time.Instant
-import java.time.format.DateTimeFormatter
-import java.util.function.DoubleBinaryOperator
 
 
 class TransactionPurchase(txn: Transaction) {
@@ -58,17 +55,14 @@ class TransactionPurchase(txn: Transaction) {
         card.amount = txn.amount
         card.currency = txn.currency
         card.epb = ""
-        card.emvICCData = txn.emvCard?.emvICCData ?: ""
-        card.epbKsn = txn.emvCard?.epbksn ?: ""
-        card.expMonth = txn.emvCard?.expiryMonth ?: ""
-        card.expYear = txn.emvCard?.expiryYear ?: ""
+        card.emvICCData = txn.card?.emvICCData ?: ""
+        card.epbKsn = txn.card?.epbksn ?: ""
+        card.expMonth = txn.card?.expiryMonth ?: ""
+        card.expYear = txn.card?.expiryYear ?: ""
         card.isFallback = txn?.isFallback ?: false
-        card.ksn = txn.emvCard?.ksn ?: ""
+        card.ksn = txn.card?.ksn ?: ""
         card.merchantOrderId = txn.orderId
-        card.nameOnCard = txn.emvCard?.cardholderName ?: ""
-        card.track1 = txn.emvCard?.encTrack1 ?: ""
-        card.track2 = txn.emvCard?.encTrack2 ?: ""
-        card.track3 = txn.emvCard?.encTrack3 ?: ""
+        card.track2 = txn.card?.encTrack2 ?: ""
         card.refNumberApp = posRequest!!.activationKey +""+ System.currentTimeMillis()
         cardInfo = card
         posWsRequest = posRequest

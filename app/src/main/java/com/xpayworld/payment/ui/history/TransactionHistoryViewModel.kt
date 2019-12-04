@@ -13,14 +13,7 @@ import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
-import io.reactivex.schedulers.Timed
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 import retrofit2.Response
-import java.util.*
-import java.util.logging.Handler
-import kotlin.concurrent.schedule
-import kotlin.concurrent.timer
 
 class TransactionHistoryViewModel(val context: Context): BaseViewModel(){
 
@@ -163,7 +156,7 @@ class TransactionHistoryViewModel(val context: Context): BaseViewModel(){
         transResponse.value = trans
     }
 
-    fun callTransactionAPI( callBack: ((Boolean) -> Unit)? = null) {
+   private fun callTransactionAPI( callBack: ((Boolean) -> Unit)? = null) {
         var txnResponse: Single<Response<TransactionResult>>? = null
         val api = RetrofitClient().getRetrofit().create(TransactionApi::class.java)
 
@@ -209,23 +202,9 @@ class TransactionHistoryViewModel(val context: Context): BaseViewModel(){
                 dispatch.enter()
                 if (!txn.isSync){
                     txnDao.updateTransaction(true,txn.orderId)
+                    val  trans = Transaction()
 
-                   val  trans = Transaction()
-
-                    val emvData = Hashtable<String , String>()
-                    emvData["expiryDate"] = txn.emvCard.expiryDate
-                    emvData["C2"] = txn.emvCard.emvICCData
-                    emvData["4f"] = txn.emvCard.appId
-                    emvData["encTrack2Eq"] = txn.emvCard.encTrack2
-                    emvData["epb"] = txn.emvCard.epb
-                    emvData["c1"] = txn.emvCard.epbksn
-                    emvData["ksn"] = txn.emvCard.ksn
-                    emvData["serviceCode"] = txn.emvCard.serviceCode
-                    emvData["cardholderName"] = txn.emvCard.cardholderName
-
-                    trans.posEntryMode = txn.posEntry
-
-                    trans.emvCard = EMVCard(emvData)
+                    trans.card = transaction.card
 
                     trans.orderId = txn.orderId
                     trans.isOffline = txn.isOffline
@@ -233,7 +212,7 @@ class TransactionHistoryViewModel(val context: Context): BaseViewModel(){
                     trans.currencyCode = txn.currencyCode
                     trans.currency = txn.currency
 
-                    if (trans.posEntryMode == 0) {
+                    if (trans.card!!.posEntry == 90) {
                         trans.paymentType = PaymentType.CREDIT(TransactionPurchase.Action.SWIPE)
                     } else {
                         trans.paymentType = PaymentType.CREDIT(TransactionPurchase.Action.EMV)

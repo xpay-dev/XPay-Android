@@ -9,18 +9,20 @@ import android.media.AudioManager
 import android.media.MediaPlayer
 import android.os.Bundle
 import android.os.Handler
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.MutableLiveData
 import androidx.navigation.findNavController
 import com.bbpos.bbdevice.BBDeviceController
+import com.bbpos.bbdevice.BBDeviceController.CheckCardMode
+import com.bbpos.bbdevice.BBDeviceController.CheckCardResult
 import com.bbpos.bbdevice.CAPK
 import com.bbpos.bbdevice.ota.BBDeviceOTAController
-import com.bbpos.bbdevice.BBDeviceController.CheckCardResult
 import com.xpayworld.payment.R
-import com.xpayworld.payment.data.EMVCardData
-import com.xpayworld.payment.network.transaction.EMVCard
+import com.xpayworld.payment.data.CardData
 import com.xpayworld.payment.network.transaction.PaymentType
 import com.xpayworld.payment.network.transaction.TransactionPurchase
 import com.xpayworld.payment.ui.base.kt.BaseFragment
@@ -43,11 +45,12 @@ abstract class BaseDeviceFragment : BaseFragment()  {
 
     // Preference Fragment
     private val DEVICE_NAMES = arrayOf("WP")
+    private val checkCardMode: CheckCardMode? = null
 
     internal var bbDeviceController: BBDeviceController? = null
     internal lateinit var otaController: BBDeviceOTAController
     private var listener: MyBBdeviceControllerListener? = null
-    var emvCard =  EMVCardData()
+    var cardData =  CardData()
 
     val toolbarTitle: MutableLiveData<String> = MutableLiveData()
     val startAnimation: MutableLiveData<Boolean> = MutableLiveData()
@@ -75,7 +78,7 @@ abstract class BaseDeviceFragment : BaseFragment()  {
         currentFragment = navHostFragment.childFragmentManager.fragments[0]
 
         listener = MyBBdeviceControllerListener()
-        bbDeviceController = BBDeviceController.getInstance(requireActivity(), listener)
+        bbDeviceController = BBDeviceController.getInstance(currentFragment.requireContext(), listener)
         BBDeviceController.setDebugLogEnabled(true)
 
         if (currentFragment is ProcessTransactionFragment){
@@ -87,10 +90,11 @@ abstract class BaseDeviceFragment : BaseFragment()  {
                 checkBluetoothPermission.value = false
             }
         }
+
     }
 
-    fun startTransaction() {
 
+    fun startTransaction() {
         cancelVisibility.value = View.INVISIBLE
         if (bbDeviceController!!.connectionMode == BBDeviceController.ConnectionMode.SERIAL) return
         bbDeviceController!!.startSerial()
@@ -125,33 +129,33 @@ abstract class BaseDeviceFragment : BaseFragment()  {
 //        INSERT_OR_TAP(6)
 
 
-        var checkCardMode = BBDeviceController.CheckCardMode.SWIPE_OR_INSERT_OR_TAP
+        var checkCardMode =  CheckCardMode.SWIPE_OR_INSERT_OR_TAP
         when(transaction.cardCaptureMethod){
             0-> {
-                checkCardMode =  BBDeviceController.CheckCardMode.SWIPE
+                checkCardMode =  CheckCardMode.SWIPE
             }
             1->{
-                checkCardMode =  BBDeviceController.CheckCardMode.INSERT
+                checkCardMode =  CheckCardMode.INSERT
             }
             2-> {
-                checkCardMode =  BBDeviceController.CheckCardMode.TAP
+                checkCardMode =  CheckCardMode.TAP
             }
             3-> {
-                checkCardMode =  BBDeviceController.CheckCardMode.SWIPE_OR_INSERT
+                checkCardMode =   CheckCardMode.SWIPE_OR_INSERT
             }
             4->{
-                checkCardMode =  BBDeviceController.CheckCardMode.SWIPE_OR_TAP
+                checkCardMode =   CheckCardMode.SWIPE_OR_TAP
             }
             5->{
-                checkCardMode =  BBDeviceController.CheckCardMode.SWIPE_OR_INSERT_OR_TAP
+                checkCardMode =  CheckCardMode.SWIPE_OR_INSERT_OR_TAP
             }
             6->{
-                checkCardMode =  BBDeviceController.CheckCardMode.INSERT_OR_TAP
+                checkCardMode =   CheckCardMode.INSERT_OR_TAP
             }
         }
 
 
-        data.put("checkCardMode",checkCardMode )
+        data["checkCardMode"] = checkCardMode
         startAnimation.value = true
         toolbarTitle.value = "Please confirm amount"
         bbDeviceController!!.startEmv(data)
@@ -159,7 +163,6 @@ abstract class BaseDeviceFragment : BaseFragment()  {
 
     private fun promptForAmount() {
         val input: Hashtable<String, Any> = Hashtable() //define empty hashmap
-
         // Amount
         var currencyCharacters = listOf(BBDeviceController.CurrencyCharacter.P, BBDeviceController.CurrencyCharacter.H, BBDeviceController.CurrencyCharacter.P)
         input.put("amount", String.format("%.2f", amountStr.toInt() / 100.0))
@@ -249,27 +252,14 @@ abstract class BaseDeviceFragment : BaseFragment()  {
             println("maskedPan : ${decodeData["C4"]}")
 
 
-            emvCard.emvICCData =  decodeData["C2"].toString()
-            emvCard.expiryDate =  decodeData["5F24"].toString()
-            emvCard.ksn = decodeData["C0"].toString()
+            cardData.emvICCData =  decodeData["C2"].toString()
+            cardData.expiryDate =  decodeData["5F24"].toString()
+            cardData.ksn = decodeData["C0"].toString()
+            cardData.cardNumber = decodeData["5A"].toString()
 
-//            cardholderName = data["cardholderName"].toString()
-//            expiryDate = if (data.containsKey("expiryDate")) data["expiryDate"].toString() else data["5F24"].toString()
-//            emvICCData = data["C2"].toString()
-//            ksn = if (data.containsKey("C0")) data["C0"].toString() else data["ksn"].toString()
 //
-//            epbksn = ""
-//            maskedPan = if (data.containsKey("C4")) data["C4"].toString() else data["maskedPAN"].toString()
-//            appId = data["cardholderName"].toString()
-//            encTrack1 = data["cardholderName"].toString()
-//            encTrack2 = ""
-//            encTrack3 = ""
-//            serviceCode = data["cardholderName"].toString()
-//
-//            cardNumber =if (data.contains("pan")) data["pan"].toString() else  data["5A"].toString()
-//            cardXNumber = "XXX-XXX-XXX-${maskedPan.substring(maskedPan.length - 4)}"
 
-            transaction.emvCard = emvCard
+            transaction.card = cardData
             proceedTransaction.value =  true
 
             onlineProcessResult.observe(currentFragment ,androidx.lifecycle.Observer {
@@ -324,40 +314,21 @@ abstract class BaseDeviceFragment : BaseFragment()  {
 
         }
 
-        override fun onReturnReadGprsSettingsResult(p0: Boolean, p1: Hashtable<String, Any>?) {
+        override fun onReturnReadGprsSettingsResult(p0: Boolean, p1: Hashtable<String, Any>?) {}
 
-        }
+        override fun onRequestClearDisplay() {}
 
-        override fun onRequestClearDisplay() {
+        override fun onRequestTerminalTime() {}
 
-        }
+        override fun onAudioAutoConfigError(p0: BBDeviceController.AudioAutoConfigError?) {}
 
-        override fun onRequestTerminalTime() {
+        override fun onReturnReadTerminalSettingResult(p0: Hashtable<String, Any>?) {}
 
-        }
+        override fun onReturnVasResult(p0: BBDeviceController.VASResult?, p1: Hashtable<String, Any>?) {}
 
-        override fun onAudioAutoConfigError(p0: BBDeviceController.AudioAutoConfigError?) {
+        override fun onReturnControlLEDResult(p0: Boolean, p1: String?) {}
 
-        }
-
-
-
-        override fun onReturnReadTerminalSettingResult(p0: Hashtable<String, Any>?) {
-
-        }
-
-        override fun onReturnVasResult(p0: BBDeviceController.VASResult?, p1: Hashtable<String, Any>?) {
-
-        }
-
-
-        override fun onReturnControlLEDResult(p0: Boolean, p1: String?) {
-
-        }
-
-        override fun onReturnRemoveCAPKResult(p0: Boolean) {
-
-        }
+        override fun onReturnRemoveCAPKResult(p0: Boolean) {}
 
         override fun onBTReturnScanResults(foundDevices: MutableList<BluetoothDevice>?) {
             deviceArr = foundDevices!!
@@ -373,8 +344,6 @@ abstract class BaseDeviceFragment : BaseFragment()  {
             else {
                 deviceListAdapter.updatePostList(deviceArr)
             }
-
-
         }
 
         override fun onEnterStandbyMode() {
@@ -476,8 +445,6 @@ abstract class BaseDeviceFragment : BaseFragment()  {
 
         override fun onRequestFinalConfirm() {
             bbDeviceController?.sendFinalConfirmResult(true)
-
-
         }
 
         override fun onReturnBarcode(p0: String?) {
@@ -604,45 +571,28 @@ abstract class BaseDeviceFragment : BaseFragment()  {
             if(checkCardResult == CheckCardResult.MSR) {
                 paymentType  = PaymentType.CREDIT(TransactionPurchase.Action.SWIPE)
 
-//                val formatID = decodeData["formatID"]
-//                val maskedPAN = decodeData["maskedPAN"]
-//                val PAN = decodeData["pan"]
-//                val cardHolderName = decodeData["cardholderName"]
-//                val ksn = decodeData["ksn"]
-//                val serviceCode = decodeData["serviceCode"]
-//                val encTracks = decodeData["encTracks"]
-//                val encTrack1 = decodeData["encTrack1"]
-//                val encTrack2 = decodeData["encTrack2"]
-//                val encTrack3 = decodeData["encTrack3"]
-//                val encWorkingKey = decodeData["encWorkingKey"]
-//                val posEntryMode = decodeData["posEntryMode"]
-//                println(encTrack1)
-//                println(encTrack2)
-//                println(ksn)
-//                println(maskedPAN)
-//                println(posEntryMode)
-
                 var expiryDate = decodeData["expiryDate"].toString()
 
-                emvCard.ksn = decodeData["ksn"].toString()
-                emvCard.maskedPan = decodeData["maskedPAN"].toString()
-                emvCard.expiryDate =  expiryDate
-                emvCard.expiryYear = expiryDate.substring(2)
-                emvCard.expiryMonth = expiryDate.substring(2..4)
-                emvCard.encTrack2 = decodeData["serviceCode"].toString()
-                emvCard.serviceCode = decodeData["serviceCode"].toString()
-
-                transaction.emvCard = emvCard
+                cardData.ksn = decodeData["ksn"].toString()
+                cardData.cardNumber = decodeData["pan"].toString()
+                cardData.cardXNumber = decodeData["maskedPAN"].toString()
+                cardData.expiryDate =  expiryDate
+                cardData.expiryYear = expiryDate.substring(2)
+                cardData.expiryMonth = expiryDate.substring(2..4)
+                cardData.encTrack2 = decodeData["encTrack2"].toString()
+                cardData.serviceCode = decodeData["serviceCode"].toString()
+                cardData.posEntry = decodeData["posEntryMode"]!!.toInt()
+                transaction.card = cardData
                 proceedTransaction.value = true
-                transaction.posEntryMode = 0
+
 
             } else if(checkCardResult == CheckCardResult.INSERTED_CARD){
-                transaction.posEntryMode = 99
+
                 paymentType  = PaymentType.CREDIT(TransactionPurchase.Action.EMV)
                 val posEntryMode = decodeData["posEntryMode"]
                 println(posEntryMode)
             } else if (checkCardResult == CheckCardResult.TAP_CARD_DETECTED){
-                transaction.posEntryMode = 99
+
             }
 
         }
@@ -676,8 +626,6 @@ abstract class BaseDeviceFragment : BaseFragment()  {
         }
 
         override fun onReturnSetPinPadButtonsResult(p0: Boolean) {
-
-
             val direction = ProcessTransactionFragmentDirections.actionProcessTransactionToPinPadFragment(amountStr)
             view!!.findNavController().navigate(direction)
         }
@@ -724,8 +672,8 @@ abstract class BaseDeviceFragment : BaseFragment()  {
                 toolbarTitle.value = result.toString()
                 cancelTitle.value = "Done"
                 startAnimation.value = false
-                stopConnection()
             }
+            stopConnection()
         }
         override fun onDeviceReset() {
 

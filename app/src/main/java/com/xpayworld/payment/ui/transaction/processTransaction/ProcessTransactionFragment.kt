@@ -141,7 +141,7 @@ class ProcessTransactionFragment : BaseDeviceFragment() {
         })
 
         btnCancel.setOnClickListener {
-            stopConnection()
+
             if (!isTransactionOffline) {
                 view.findNavController().popBackStack(R.id.transactionFragment, true)
 

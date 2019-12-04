@@ -1,8 +1,6 @@
 package com.xpayworld.payment.network.transaction
 
-import androidx.room.Embedded
-import androidx.room.Entity
-import com.xpayworld.payment.data.EMVCardData
+import com.xpayworld.payment.data.CardData
 
 class Transaction {
     var amount = 0.0
@@ -17,9 +15,7 @@ class Transaction {
     var deviceModelVersion = ""
     var deviceOsVersion = ""
     var posAppVersion = ""
-    //swipe = 0 , emv = 99
-    var posEntryMode = 0
     var cardCaptureMethod = 5
     var device = 0
-    var emvCard : EMVCardData? = null
+    var card : CardData? = null
 }

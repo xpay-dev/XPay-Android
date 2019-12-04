@@ -14,7 +14,6 @@ import androidx.room.*
         var action: Int = 0,
         var transType: String = "Offline",
         var accounType: Int = 0,
-        var posEntry: Int = 0,
         var currencyCode : String = "618",
         var currency: String = "PHP",
         var orderId : String = "",
@@ -26,7 +25,7 @@ import androidx.room.*
         var posAppVersion: String = "",
         var device: Int = 0,
         @Embedded
-        var emvCard : EMVCardData
+        var card : CardData
 )
  {
      @PrimaryKey(autoGenerate = true)
