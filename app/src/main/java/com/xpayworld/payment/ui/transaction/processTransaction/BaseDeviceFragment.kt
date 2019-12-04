@@ -76,13 +76,13 @@ abstract class BaseDeviceFragment : BaseFragment()  {
         currentFragment = navHostFragment.childFragmentManager.fragments[0]
 
         listener = MyBBdeviceControllerListener()
-        bbDeviceController = BBDeviceController.getInstance(context, listener)
+        bbDeviceController = BBDeviceController.getInstance(requireActivity(), listener)
         BBDeviceController.setDebugLogEnabled(true)
 
         if (currentFragment is ProcessTransactionFragment){
-            if (!SharedPrefStorage(context!!).isEmpty(WISE_PAD) && isBluetoothPermissionGranted()){
+            if (!SharedPrefStorage(requireActivity()).isEmpty(WISE_PAD) && isBluetoothPermissionGranted()){
                 startBluetoothConnection()
-            } else if (!SharedPrefStorage(context!!).isEmpty(WISE_POS)){
+            } else if (!SharedPrefStorage(requireActivity()).isEmpty(WISE_POS)){
                 startTransaction()
             } else {
                 checkBluetoothPermission.value = false
@@ -285,7 +285,7 @@ abstract class BaseDeviceFragment : BaseFragment()  {
 
         override fun onReturnEncryptPinResult(p0: Boolean, p1: Hashtable<String, String>?) {
 
-
+            transaction.epb = p1?.get("epb").toString()
         }
 
         override fun onAudioDeviceUnplugged() {
@@ -665,7 +665,7 @@ abstract class BaseDeviceFragment : BaseFragment()  {
 
             if (pinEntryResult == BBDeviceController.PinEntryResult.ENTERED) run {
                 if (data.containsKey("epb")) {
-                    data.get("epb")
+                  transaction.epb = data.get("epb").toString()
                 }
                 if (data.containsKey("ksn")) {
                     data.get("ksn")

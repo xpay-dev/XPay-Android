@@ -75,10 +75,8 @@ class EnterAmountFragment : BaseFragment() {
                 paymentType.debit.stringValue
                 paymentType.accountType
             }
-
         }
 
-        callforBatchUpload()
 
 
         // output
@@ -94,26 +92,6 @@ class EnterAmountFragment : BaseFragment() {
 
 
 
-    fun callforBatchUpload(){
-        val txn =   InjectorUtil.getTransactionRepository(requireContext()).getTransaction()
-
-
-            val dispatch = DispatchGroup()
-
-            for (transaction in txn) {
-
-                dispatch.enter()
-
-                Timer().schedule(10){
-                    println("finish")
-                    dispatch.leave()
-                }
-            }
-            dispatch.notify {
-                println("finish")
-            }
-
-    }
 
     override fun onResume() {
         super.onResume()

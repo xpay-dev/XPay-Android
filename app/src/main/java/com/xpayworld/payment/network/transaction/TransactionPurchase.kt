@@ -57,7 +57,7 @@ class TransactionPurchase(txn: Transaction) {
         val card = CardInfo()
         card.amount = txn.amount
         card.currency = txn.currency
-        card.epb = txn.epb
+        card.epb = ""
         card.emvICCData = txn.emvCard?.emvICCData ?: ""
         card.epbKsn = txn.emvCard?.epbksn ?: ""
         card.expMonth = txn.emvCard?.expiryMonth ?: ""

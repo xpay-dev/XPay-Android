@@ -204,32 +204,29 @@ class TransactionHistoryViewModel(val context: Context): BaseViewModel(){
         val txnDao = InjectorUtil.getTransactionRepository(context)
 
         val dispatch = DispatchGroup()
-
-            for (txn in txnDao.getTransaction()) {
+        loadingVisibility.value = true
+        for (txn in txnDao.getTransaction()) {
                 dispatch.enter()
                 if (!txn.isSync){
                     txnDao.updateTransaction(true,txn.orderId)
 
                    val  trans = Transaction()
+
+                    val emvData = Hashtable<String , String>()
+                    emvData["expiryDate"] = txn.emvCard.expiryDate
+                    emvData["C2"] = txn.emvCard.emvICCData
+                    emvData["4f"] = txn.emvCard.appId
+                    emvData["encTrack2Eq"] = txn.emvCard.encTrack2
+                    emvData["epb"] = txn.emvCard.epb
+                    emvData["c1"] = txn.emvCard.epbksn
+                    emvData["ksn"] = txn.emvCard.ksn
+                    emvData["serviceCode"] = txn.emvCard.serviceCode
+                    emvData["cardholderName"] = txn.emvCard.cardholderName
+
                     trans.posEntryMode = txn.posEntry
-                    trans.emvCard?.appId = txn.emvCard.appId
-                    trans.emvCard?.appReferredName = txn.emvCard.appReferredName
-                    trans.emvCard?.cardNumber = txn.emvCard.cardNumber
-                    trans.emvCard?.cardXNumber = txn.emvCard.cardXNumber
-                    trans.emvCard?.cardholderName = txn.emvCard.cardholderName
-                    trans.emvCard?.emvICCData = txn.emvCard.emvICCData
-                    trans.emvCard?.encTrack1 = txn.emvCard.encTrack1
-                    trans.emvCard?.encTrack2 = txn.emvCard.encTrack2
-//                  trans.emvCard?.epb = txn.emvCard.epb
-                    trans.emvCard?.epbksn = txn.emvCard.epbksn
-                    trans.emvCard?.encTrack3 = txn.emvCard.encTrack3
-                    trans.emvCard?.expiryDate = txn.emvCard.expiryDate
-                    trans.emvCard?.expiryMonth = txn.emvCard.expiryMonth
-                    trans.emvCard?.expiryYear = txn.emvCard.expiryYear
-                    trans.emvCard?.ksn = txn.emvCard.ksn
-                    trans.emvCard?.maskedPan = txn.emvCard.maskedPan
-                    trans.emvCard?.serviceCode = txn.emvCard.serviceCode
-                    trans.emvCard?.serialNumber = txn.emvCard.serialNumber
+
+                    trans.emvCard = EMVCard(emvData)
+
                     trans.orderId = txn.orderId
                     trans.isOffline = txn.isOffline
                     trans.amount = txn.amount
@@ -249,17 +246,18 @@ class TransactionHistoryViewModel(val context: Context): BaseViewModel(){
 
                     callTransactionAPI(callBack = {isSuccess ->
                         if (isSuccess){
-                            txnDao.deleteTranscation(trans.orderId)
+                           txnDao.deleteTranscation(trans.orderId)
                         }else {
                             txnDao.updateTransaction(false,trans.orderId)
                         }
+                        dispatch.leave()
                     })
                 }
             }
             dispatch.notify {
-                println("finish")
+                callOfflineTransaction()
+                loadingVisibility.value = false
             }
-
     }
 }
 

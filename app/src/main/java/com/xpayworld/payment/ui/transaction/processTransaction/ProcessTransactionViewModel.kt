@@ -32,7 +32,7 @@ class ProcessTransactionViewModel : BaseViewModel() {
 
     override fun onCleared() {
         super.onCleared()
-        subscription.dispose()
+       //subscription.dispose()
     }
 
 
@@ -132,6 +132,7 @@ class ProcessTransactionViewModel : BaseViewModel() {
         xPayResponse.maskedCard = emv.cardXNumber
         xPayResponse.expiry = emv.expiryDate
         val gson = GsonBuilder().setPrettyPrinting().create()
+        onlineAuthResult.value = "8A023030"
         offlineTransaction.value = gson.toJson(xPayResponse)
 
     }
