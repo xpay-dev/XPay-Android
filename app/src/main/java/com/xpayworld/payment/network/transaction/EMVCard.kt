@@ -33,13 +33,12 @@ data class EMVCard (var data: Hashtable<String, String>) {
         emvICCData = data["C2"].toString()
         ksn = if (data.containsKey("C0")) data["C0"].toString() else data["ksn"].toString()
 
-        epbksn = data["c1"].toString()
+        epbksn = ""
         maskedPan = if (data.containsKey("C4")) data["C4"].toString() else data["maskedPAN"].toString()
         appId = data["cardholderName"].toString()
         encTrack1 = data["cardholderName"].toString()
-        encTrack2 =  if (data.containsKey("encTrack2Eq")) data["encTrack2Eq"].toString() else data["encTrack2"].toString()
-        encTrack3 = data["cardholderName"].toString()
-
+        encTrack2 = ""
+        encTrack3 = ""
         serviceCode = data["cardholderName"].toString()
         cardNumber =if (data.contains("pan")) data["pan"].toString() else  data["5A"].toString()
         cardXNumber = "XXX-XXX-XXX-${maskedPan.substring(maskedPan.length - 4)}"

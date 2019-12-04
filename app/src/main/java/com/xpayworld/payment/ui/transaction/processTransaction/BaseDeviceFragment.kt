@@ -482,6 +482,7 @@ abstract class BaseDeviceFragment : BaseFragment()  {
         }
 
         override fun onReturnEncryptDataResult(p0: Boolean, p1: Hashtable<String, String>?) {
+            transaction.epb = p1?.get("epb").toString()
 
         }
 

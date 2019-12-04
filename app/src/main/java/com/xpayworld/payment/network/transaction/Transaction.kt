@@ -20,5 +20,6 @@ class Transaction {
     var posEntryMode = 0
     var cardCaptureMethod = 5
     var device = 0
+    var epb = ""
     var emvCard : EMVCard? = null
 }

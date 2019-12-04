@@ -220,7 +220,7 @@ class TransactionHistoryViewModel(val context: Context): BaseViewModel(){
                     trans.emvCard?.emvICCData = txn.emvCard.emvICCData
                     trans.emvCard?.encTrack1 = txn.emvCard.encTrack1
                     trans.emvCard?.encTrack2 = txn.emvCard.encTrack2
-                    trans.emvCard?.epb = txn.emvCard.epb
+//                  trans.emvCard?.epb = txn.emvCard.epb
                     trans.emvCard?.epbksn = txn.emvCard.epbksn
                     trans.emvCard?.encTrack3 = txn.emvCard.encTrack3
                     trans.emvCard?.expiryDate = txn.emvCard.expiryDate
