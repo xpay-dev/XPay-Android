@@ -14,9 +14,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.findNavController
 import com.google.gson.GsonBuilder
 import com.xpayworld.payment.R
-import com.xpayworld.payment.data.Transaction
 import com.xpayworld.payment.databinding.FragmentProcessTransactionBinding
-import com.xpayworld.payment.databinding.FragmentReceiptBinding
 import com.xpayworld.payment.network.PosWsResponse
 import com.xpayworld.payment.ui.dashboard.DrawerLocker
 import com.xpayworld.payment.ui.dashboard.ToolbarDelegate
@@ -106,12 +104,12 @@ class ProcessTransactionFragment : BaseDeviceFragment() {
 
         if (!isTransactionOffline){
             // Calling Transaction API
-            onProcessTransaction.observe(this, Observer {
+            proceedTransaction.observe(this, Observer {
                 viewModel?.callTransactionAPI()
             })
         } else {
             // process offline transaction
-            onProcessTransaction.observe(this, Observer {
+            proceedTransaction.observe(this, Observer {
                 viewModel?.callOfflineTransction(requireContext())
             })
 

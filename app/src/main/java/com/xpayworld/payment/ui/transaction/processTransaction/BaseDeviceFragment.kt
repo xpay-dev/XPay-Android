@@ -7,7 +7,6 @@ import android.content.pm.PackageManager
 import android.graphics.Rect
 import android.media.AudioManager
 import android.media.MediaPlayer
-import android.opengl.Visibility
 import android.os.Bundle
 import android.os.Handler
 import android.view.View
@@ -20,15 +19,14 @@ import com.bbpos.bbdevice.CAPK
 import com.bbpos.bbdevice.ota.BBDeviceOTAController
 import com.bbpos.bbdevice.BBDeviceController.CheckCardResult
 import com.xpayworld.payment.R
+import com.xpayworld.payment.data.EMVCardData
 import com.xpayworld.payment.network.transaction.EMVCard
 import com.xpayworld.payment.network.transaction.PaymentType
 import com.xpayworld.payment.network.transaction.TransactionPurchase
 import com.xpayworld.payment.ui.base.kt.BaseFragment
-import com.xpayworld.payment.ui.preference.Device
 import com.xpayworld.payment.ui.preference.DeviceAdapter
 import com.xpayworld.payment.ui.preference.PreferenceFragment
 import com.xpayworld.payment.util.*
-import okhttp3.internal.notify
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -49,6 +47,7 @@ abstract class BaseDeviceFragment : BaseFragment()  {
     internal var bbDeviceController: BBDeviceController? = null
     internal lateinit var otaController: BBDeviceOTAController
     private var listener: MyBBdeviceControllerListener? = null
+    var emvCard =  EMVCardData()
 
     val toolbarTitle: MutableLiveData<String> = MutableLiveData()
     val startAnimation: MutableLiveData<Boolean> = MutableLiveData()
@@ -60,7 +59,7 @@ abstract class BaseDeviceFragment : BaseFragment()  {
     var deviceArr : MutableList<BluetoothDevice> = arrayListOf()
 
     // Process Transaction Fragment
-    val onProcessTransaction : MutableLiveData<EMVCard> = MutableLiveData()
+    val proceedTransaction : MutableLiveData<Boolean> = MutableLiveData()
     val onTransactionResult : MutableLiveData<Boolean> = MutableLiveData()
     val onlineProcessResult : MutableLiveData<String> = MutableLiveData()
     val onReceiptData: MutableLiveData<ByteArray> = MutableLiveData()
@@ -249,8 +248,29 @@ abstract class BaseDeviceFragment : BaseFragment()  {
             println("emvICCData : ${decodeData["C2"]}")
             println("maskedPan : ${decodeData["C4"]}")
 
-            transaction.emvCard = EMVCard(decodeData)
-            onProcessTransaction.value =  EMVCard(decodeData)
+
+            emvCard.emvICCData =  decodeData["C2"].toString()
+            emvCard.expiryDate =  decodeData["5F24"].toString()
+            emvCard.ksn = decodeData["C0"].toString()
+
+//            cardholderName = data["cardholderName"].toString()
+//            expiryDate = if (data.containsKey("expiryDate")) data["expiryDate"].toString() else data["5F24"].toString()
+//            emvICCData = data["C2"].toString()
+//            ksn = if (data.containsKey("C0")) data["C0"].toString() else data["ksn"].toString()
+//
+//            epbksn = ""
+//            maskedPan = if (data.containsKey("C4")) data["C4"].toString() else data["maskedPAN"].toString()
+//            appId = data["cardholderName"].toString()
+//            encTrack1 = data["cardholderName"].toString()
+//            encTrack2 = ""
+//            encTrack3 = ""
+//            serviceCode = data["cardholderName"].toString()
+//
+//            cardNumber =if (data.contains("pan")) data["pan"].toString() else  data["5A"].toString()
+//            cardXNumber = "XXX-XXX-XXX-${maskedPan.substring(maskedPan.length - 4)}"
+
+            transaction.emvCard = emvCard
+            proceedTransaction.value =  true
 
             onlineProcessResult.observe(currentFragment ,androidx.lifecycle.Observer {
                 bbDeviceController?.sendOnlineProcessResult(it)
@@ -285,7 +305,7 @@ abstract class BaseDeviceFragment : BaseFragment()  {
 
         override fun onReturnEncryptPinResult(p0: Boolean, p1: Hashtable<String, String>?) {
 
-            transaction.epb = p1?.get("epb").toString()
+
         }
 
         override fun onAudioDeviceUnplugged() {
@@ -482,7 +502,7 @@ abstract class BaseDeviceFragment : BaseFragment()  {
         }
 
         override fun onReturnEncryptDataResult(p0: Boolean, p1: Hashtable<String, String>?) {
-            transaction.epb = p1?.get("epb").toString()
+
 
         }
 
@@ -584,28 +604,36 @@ abstract class BaseDeviceFragment : BaseFragment()  {
             if(checkCardResult == CheckCardResult.MSR) {
                 paymentType  = PaymentType.CREDIT(TransactionPurchase.Action.SWIPE)
 
-                val formatID = decodeData["formatID"]
-                val maskedPAN = decodeData["maskedPAN"]
-                val PAN = decodeData["pan"]
-                val expiryDate = decodeData["expiryDate"]
-                val cardHolderName = decodeData["cardholderName"]
-                val ksn = decodeData["ksn"]
-                val serviceCode = decodeData["serviceCode"]
-                val encTracks = decodeData["encTracks"]
-                val encTrack1 = decodeData["encTrack1"]
-                val encTrack2 = decodeData["encTrack2"]
-                val encTrack3 = decodeData["encTrack3"]
-                val encWorkingKey = decodeData["encWorkingKey"]
-                val posEntryMode = decodeData["posEntryMode"]
-                println(encTrack1)
-                println(encTrack2)
-                println(ksn)
-                println(expiryDate)
-                println(maskedPAN)
-                println(posEntryMode)
+//                val formatID = decodeData["formatID"]
+//                val maskedPAN = decodeData["maskedPAN"]
+//                val PAN = decodeData["pan"]
+//                val cardHolderName = decodeData["cardholderName"]
+//                val ksn = decodeData["ksn"]
+//                val serviceCode = decodeData["serviceCode"]
+//                val encTracks = decodeData["encTracks"]
+//                val encTrack1 = decodeData["encTrack1"]
+//                val encTrack2 = decodeData["encTrack2"]
+//                val encTrack3 = decodeData["encTrack3"]
+//                val encWorkingKey = decodeData["encWorkingKey"]
+//                val posEntryMode = decodeData["posEntryMode"]
+//                println(encTrack1)
+//                println(encTrack2)
+//                println(ksn)
+//                println(maskedPAN)
+//                println(posEntryMode)
 
-                transaction.emvCard = EMVCard(decodeData)
-                onProcessTransaction.value =  EMVCard(decodeData)
+                var expiryDate = decodeData["expiryDate"].toString()
+
+                emvCard.ksn = decodeData["ksn"].toString()
+                emvCard.maskedPan = decodeData["maskedPAN"].toString()
+                emvCard.expiryDate =  expiryDate
+                emvCard.expiryYear = expiryDate.substring(2)
+                emvCard.expiryMonth = expiryDate.substring(2..4)
+                emvCard.encTrack2 = decodeData["serviceCode"].toString()
+                emvCard.serviceCode = decodeData["serviceCode"].toString()
+
+                transaction.emvCard = emvCard
+                proceedTransaction.value = true
                 transaction.posEntryMode = 0
 
             } else if(checkCardResult == CheckCardResult.INSERTED_CARD){
@@ -665,7 +693,7 @@ abstract class BaseDeviceFragment : BaseFragment()  {
 
             if (pinEntryResult == BBDeviceController.PinEntryResult.ENTERED) run {
                 if (data.containsKey("epb")) {
-                  transaction.epb = data.get("epb").toString()
+                   data.get("epb").toString()
                 }
                 if (data.containsKey("ksn")) {
                     data.get("ksn")

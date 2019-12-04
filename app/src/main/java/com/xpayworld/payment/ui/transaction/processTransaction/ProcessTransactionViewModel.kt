@@ -89,26 +89,6 @@ class ProcessTransactionViewModel : BaseViewModel() {
         val trans = transaction
         val emv = trans.emvCard!!
 
-        val emvData = EMVCardData(
-                cardholderName = emv.cardholderName,
-                cardNumber = emv.cardNumber,
-                ksn = emv.ksn,
-                emvICCData = emv.emvICCData ,
-                expiryDate =  emv.expiryDate,
-                expiryMonth =  emv.expiryMonth,
-                encTrack1 =  emv.encTrack1,
-                encTrack2 = emv.encTrack2,
-                encTrack3 = emv.encTrack3,
-                appReferredName = emv.appReferredName,
-                epb = emv.epb,
-                epbksn = emv.epbksn,
-                cardXNumber = emv.cardXNumber,
-                expiryYear = emv.expiryYear,
-                trackEncoding = emv.trackEncoding,
-                maskedPan = emv.maskedPan,
-                serialNumber = emv.serialNumber,
-                serviceCode = emv.serviceCode,
-                appId = emv.appId)
 
        val timeStamp = SimpleDateFormat("MM/dd/yyyy HH:mm:ss").format(Date())
         val transRepository = com.xpayworld.payment.data.Transaction(
@@ -119,7 +99,7 @@ class ProcessTransactionViewModel : BaseViewModel() {
                 currency = trans.currency,
                 currencyCode = trans.currencyCode,
                 isOffline =  true,
-                emvCard = emvData,
+                emvCard = trans.emvCard!!,
                 device = 7
         )
 
