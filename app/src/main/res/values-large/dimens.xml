@@ -1,13 +1,13 @@
 <resources>
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="text_numpad">24sp</dimen>
-    <dimen name="text_size_all">18sp</dimen>
-    <dimen name="btn_height">45dp</dimen>
+    <dimen name="text_size_all">30sp</dimen>
+    <dimen name="btn_height">60dp</dimen>
     <dimen name="numpad_size">70dp</dimen>
     <dimen name="text_label_all">23sp</dimen>
-    <dimen name="btn_text">17sp</dimen>
-    <dimen name="text_txn_currency">20sp</dimen>
-    <dimen name="text_txn_amount">50sp</dimen>
+    <dimen name="btn_text">25sp</dimen>
+    <dimen name="text_txn_currency">28sp</dimen>
+    <dimen name="text_txn_amount">60sp</dimen>
     <dimen name="navigation_drawer_header_height">120dp</dimen>
     <dimen name="navigation_drawer_header_padding">16dp</dimen>
     <dimen name="navigation_drawer_image_width">100dp</dimen>

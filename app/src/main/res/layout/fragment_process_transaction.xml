@@ -111,9 +111,10 @@
             android:layout_marginBottom="24dp"
             android:background="@drawable/btn_primary_black_pressed"
             android:fontFamily="@font/corsa_grotesk_regular"
+            android:textColor="@color/btn_text_white_color"
             android:text="Cancel"
             android:textAllCaps="false"
-            android:textColor="@color/btn_text_white_color"
+
             android:textSize="@dimen/btn_text"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

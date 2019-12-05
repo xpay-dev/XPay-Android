@@ -32,7 +32,7 @@ object InjectorUtil  {
         return  EnterPinModelViewModelFactory(context)
     }
 
-    fun provideEnterAmountViewModelFactory(context: Context): EnterAmountViewModelFactory{
+    fun provideAmountViewModelFactory(context: Context): EnterAmountViewModelFactory{
         return EnterAmountViewModelFactory(context)
     }
     fun provideActivationViewModelFactor(context: Context): ActivationViewModelFactory{

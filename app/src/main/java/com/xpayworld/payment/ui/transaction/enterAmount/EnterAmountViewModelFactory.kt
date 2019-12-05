@@ -7,6 +7,6 @@ import androidx.lifecycle.ViewModelProvider
 class  EnterAmountViewModelFactory( private  val context: Context) : ViewModelProvider.NewInstanceFactory(){
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        return EnterAmountViewModel(context) as T
+        return AmountViewModel(context) as T
     }
 }

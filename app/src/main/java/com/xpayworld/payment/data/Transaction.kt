@@ -5,10 +5,8 @@ import androidx.room.*
 
 @Entity
  data class Transaction (
-
         @ColumnInfo(name = "amount")
         var amount: Double = 0.0,
-
         @ColumnInfo(name = "trans_date")
         var timestamp: String = "",
         var action: Int = 0,
@@ -25,8 +23,7 @@ import androidx.room.*
         var posAppVersion: String = "",
         var device: Int = 0,
         @Embedded
-        var card : CardData
-)
+        var card : CardData)
  {
      @PrimaryKey(autoGenerate = true)
      var id: Long = 0

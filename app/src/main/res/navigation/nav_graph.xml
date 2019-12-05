@@ -138,7 +138,6 @@
             app:argType="string" />
     </fragment>
 
-
     <fragment
         android:id="@+id/receiptFragment"
         android:name="com.xpayworld.payment.ui.transaction.receipt.ReceiptFragment"
@@ -152,8 +151,6 @@
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right"
            />
-
-
         <argument
             android:name="transaction"
             app:argType="string" />
@@ -167,23 +164,17 @@
         android:name="com.xpayworld.payment.ui.logout.LogoutFragment"
         android:label="Log out"
         tools:layout="@layout/fragment_logout"/>
-
-
-
     <fragment
         android:id="@+id/linkFragment"
         android:name="com.xpayworld.payment.ui.link.LinkFragment"
         android:label="fragment_link"
         tools:layout="@layout/fragment_link" >
-        <action
-            android:id="@+id/action_linkFragment_to_process_tranaction_Fragment"
-            app:destination="@id/processTransactionFragment"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left" />
         <argument
             android:name="dataRequest"
             app:argType="string" />
+        <action
+            android:id="@+id/action_linkFragment_to_payAmountFragment"
+            app:destination="@id/payAmountFragment" />
     </fragment>
 
     <fragment
@@ -191,5 +182,17 @@
         android:name="com.xpayworld.payment.ui.history.OfflineTransactionFragment"
         android:label="Offline Transaction"
         tools:layout="@layout/fragment_transaction_offline" />
+    <fragment
+        android:id="@+id/payAmountFragment"
+        android:name="com.xpayworld.payment.ui.transaction.enterAmount.PayAmountFragment"
+        android:label="Transaction"
+        tools:layout="@layout/fragment_pay_amount" >
+        <argument
+            android:name="amount"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_payAmountFragment_to_processTransactionFragment"
+            app:destination="@id/processTransactionFragment" />
+    </fragment>
 
 </navigation>

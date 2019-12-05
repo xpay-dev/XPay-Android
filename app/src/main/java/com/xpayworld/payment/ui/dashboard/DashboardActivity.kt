@@ -86,7 +86,7 @@ class DashboardActivity : BaseActivity(), DrawerLocker, ToolbarDelegate {
 
         // Configure the navigation
         val navHost = nav_host_fragment as NavHostFragment
-         val   graph = navHost.navController
+        val graph = navHost.navController
                 .navInflater.inflate(R.navigation.nav_graph)
         graph.startDestination = R.id.linkFragment
         navController.setGraph(graph,b)
