@@ -86,12 +86,10 @@ class ProcessTransactionViewModel : BaseViewModel() {
         val trans = transaction
         val emv = trans.card!!
 
-
-        val timeStamp = SimpleDateFormat("MM/dd/yyyy HH:mm:ss").format(Date())
         val transRepository = com.xpayworld.payment.data.Transaction(
                 amount = trans.amount,
                 orderId = trans.orderId,
-                timestamp =  timeStamp  ,
+                timestamp =  System.currentTimeMillis() ,
                 currency = trans.currency,
                 currencyCode = trans.currencyCode,
                 isOffline =  true,

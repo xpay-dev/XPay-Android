@@ -15,6 +15,7 @@ class Transaction {
     var deviceModelVersion = ""
     var deviceOsVersion = ""
     var posAppVersion = ""
+    var timestamp : Long = 0L
     var cardCaptureMethod = 5
     var device = 0
     var card : CardData? = null

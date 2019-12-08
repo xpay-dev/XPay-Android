@@ -8,24 +8,24 @@ class Signature(
     img: String = "" ,
     imgLen: String = "" ,
     mobileType: Int = 0,
-    transNumber: Int = 0){
+    transNumber: String = ""){
 
         @SerializedName("Image")
         var imageStr : String? = null
         @SerializedName("ImageLen")
         var imageLenStr : String? = null
         @SerializedName("MobileAppTransType")
-        var mobileAppTransTypeInt : Int? = 0
+        var mobileAppTransType : Int? = 0
         @SerializedName("TransNumber")
-        var transNumberInt : Int? = 0
+        var transNumber : String? = ""
         @SerializedName("POSWSRequest")
         var posWsRequest : PosWsRequest? = null
 
         init {
             imageStr = img
             imageLenStr = imgLen
-            mobileAppTransTypeInt = mobileType
-            transNumberInt = transNumber
+            mobileAppTransType = mobileType
+            this.transNumber = transNumber
             posWsRequest = posRequest
         }
 }

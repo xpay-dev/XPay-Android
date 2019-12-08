@@ -8,7 +8,7 @@ import androidx.room.*
         @ColumnInfo(name = "amount")
         var amount: Double = 0.0,
         @ColumnInfo(name = "trans_date")
-        var timestamp: String = "",
+        var timestamp: Long = 0,
         var action: Int = 0,
         var transType: String = "Offline",
         var accounType: Int = 0,

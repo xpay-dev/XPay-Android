@@ -63,7 +63,7 @@ class LinkFragment : BaseFragment() {
 
         if (data.isOffine){
 
-            val strAmount = "${data.amountPurchase}".removePrefix(".")
+            val strAmount = "${data.amountPurchase}".replace(".", "")
             val direction = LinkFragmentDirections.actionLinkFragmentToPayAmountFragment(strAmount)
             findNavController().navigate(direction)
             return

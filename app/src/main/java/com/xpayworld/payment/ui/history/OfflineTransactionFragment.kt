@@ -10,14 +10,10 @@ import com.xpayworld.payment.R
 import com.xpayworld.payment.databinding.FragmentTransactionHistoryBinding
 import com.xpayworld.payment.network.TransactionResponse
 import com.xpayworld.payment.ui.base.kt.BaseFragment
-import com.xpayworld.payment.ui.dashboard.DrawerLocker
-import com.xpayworld.payment.ui.transaction.receipt.ReceiptFragmentDirections
+
 import com.xpayworld.payment.util.InjectorUtil
-import kotlinx.android.synthetic.main.fragment_preference.*
-import kotlinx.android.synthetic.main.fragment_preference.recyclerView
 import kotlinx.android.synthetic.main.fragment_transaction_history.*
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
+
 
 class OfflineTransactionFragment : BaseFragment(){
 

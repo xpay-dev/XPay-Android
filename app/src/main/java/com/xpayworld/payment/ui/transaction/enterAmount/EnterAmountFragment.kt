@@ -66,6 +66,7 @@ class EnterAmountFragment : BaseFragment() {
             if (len == 0 && (v as Button).text == "0")  return@setOnClickListener
             amountStr += (v as Button).text
             viewModel.displayAmount.value = formattedAmount(amountStr)
+            viewModel.amountStr.value = amountStr
           }
         }
 

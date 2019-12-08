@@ -106,7 +106,7 @@
             app:layout_constraintGuide_percent="0.5" />
 
         <com.kyanogen.signatureview.SignatureView
-            android:id="@+id/signature_view"
+            android:id="@+id/vwSignature"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginStart="8dp"
@@ -141,6 +141,16 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.2"
             app:layout_constraintStart_toStartOf="@+id/guideline7" />
+
+        <TextView
+            android:id="@+id/lblSignature"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Please put your signature here"
+            app:layout_constraintBottom_toBottomOf="@+id/vwSignature"
+            app:layout_constraintEnd_toEndOf="@+id/vwSignature"
+            app:layout_constraintStart_toStartOf="@+id/vwSignature"
+            app:layout_constraintTop_toTopOf="@+id/vwSignature" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

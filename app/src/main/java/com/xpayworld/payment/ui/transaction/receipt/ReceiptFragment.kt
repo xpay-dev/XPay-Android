@@ -49,11 +49,9 @@ class ReceiptFragment: BaseDeviceFragment()  {
         val gson = Gson()
          txn =  gson.fromJson(transaction, TransactionResponse::class.java)
 
-
         if (mResponse != ""){
             response = gson.fromJson(mResponse,PosWsResponse::class.java)
             binding.response = response!!
-            binding.btnDone.visibility = View.INVISIBLE
         }
 
         binding.txns = txn
@@ -68,9 +66,10 @@ class ReceiptFragment: BaseDeviceFragment()  {
         lblMerchantAddress.text = address
 
         setHasOptionsMenu(true)
+        val receipt = viewModel.getReceiptSerial(requireContext(),txn =  txn!! , posStatus =  response!!)
+        onReceiptData.value = receipt
         btnDone.setOnClickListener {
-            val receipt = viewModel.getReceiptSerial(requireContext(),txn =  txn!! , posStatus =  response!!)
-            onReceiptData.value = receipt
+
             bbDeviceController?.startPrint(1,60)
 
             clReceipt.startAnimation(AnimationUtils.loadAnimation(context!!, R.anim.receipt_out))

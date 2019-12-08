@@ -218,10 +218,13 @@ class ReceiptViewModel(context: Context) : BaseViewModel(){
             canvas.drawText(txn.currency + ' ' + txn.total, x.toFloat(), y.toFloat(), paintText)
 
 
+            val imageCommand = BBDeviceController.getImageCommand(bitmap, 150)
+            baos.write(imageCommand, 0, imageCommand.size)
+
             return baos.toByteArray()
 
         } catch ( e : Exception) {
-            e.printStackTrace();
+            e.printStackTrace()
         }
 
         return null

@@ -20,6 +20,8 @@ import com.xpayworld.payment.ui.history.TransactionHistoryViewModelFactory
 import com.xpayworld.payment.ui.link.LinkViewModel
 import com.xpayworld.payment.ui.link.LinkViewModelFactory
 import com.xpayworld.payment.ui.transaction.receipt.ReceiptViewModelFactory
+import com.xpayworld.payment.ui.transaction.signature.SignatureViewModel
+import com.xpayworld.payment.ui.transaction.signature.SignatureViewModelFactory
 
 
 object InjectorUtil  {
@@ -46,6 +48,10 @@ object InjectorUtil  {
     fun provideTransactionHistoryViewModel(context: Context): TransactionHistoryViewModelFactory{
         return  TransactionHistoryViewModelFactory(context)
 
+    }
+
+    fun provideSignatureViewModel(context: Context): SignatureViewModelFactory{
+        return  SignatureViewModelFactory(context)
     }
 
     fun provideLinkViewModel(context: Context) : LinkViewModelFactory{

@@ -4,21 +4,18 @@ import android.Manifest
 import android.bluetooth.BluetoothDevice
 import android.content.Context
 import android.content.pm.PackageManager
-import android.graphics.Rect
+import android.graphics.*
 import android.media.AudioManager
 import android.media.MediaPlayer
 import android.os.Bundle
 import android.os.Handler
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.MutableLiveData
 import androidx.navigation.findNavController
 import com.bbpos.bbdevice.BBDeviceController
-import com.bbpos.bbdevice.BBDeviceController.CheckCardMode
-import com.bbpos.bbdevice.BBDeviceController.CheckCardResult
+import com.bbpos.bbdevice.BBDeviceController.*
 import com.bbpos.bbdevice.CAPK
 import com.bbpos.bbdevice.ota.BBDeviceOTAController
 import com.xpayworld.payment.R
@@ -27,8 +24,9 @@ import com.xpayworld.payment.network.transaction.PaymentType
 import com.xpayworld.payment.network.transaction.TransactionPurchase
 import com.xpayworld.payment.ui.base.kt.BaseFragment
 import com.xpayworld.payment.ui.preference.DeviceAdapter
-import com.xpayworld.payment.ui.preference.PreferenceFragment
+import com.xpayworld.payment.ui.transaction.receipt.ReceiptFragment
 import com.xpayworld.payment.util.*
+import java.io.ByteArrayOutputStream
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -78,8 +76,8 @@ abstract class BaseDeviceFragment : BaseFragment()  {
         currentFragment = navHostFragment.childFragmentManager.fragments[0]
 
         listener = MyBBdeviceControllerListener()
-        bbDeviceController = BBDeviceController.getInstance(currentFragment.requireContext(), listener)
-        BBDeviceController.setDebugLogEnabled(true)
+        bbDeviceController = getInstance(currentFragment.requireContext(), listener)
+        setDebugLogEnabled(true)
 
         if (currentFragment is ProcessTransactionFragment){
             if (!SharedPrefStorage(requireActivity()).isEmpty(WISE_PAD) && isBluetoothPermissionGranted()){
@@ -90,14 +88,17 @@ abstract class BaseDeviceFragment : BaseFragment()  {
                 checkBluetoothPermission.value = false
             }
         }
+        else if (currentFragment is ReceiptFragment){
+            bbDeviceController?.startSerial()
+        }
 
     }
 
 
     fun startTransaction() {
         cancelVisibility.value = View.INVISIBLE
-        if (bbDeviceController!!.connectionMode == BBDeviceController.ConnectionMode.SERIAL) return
-        bbDeviceController!!.startSerial()
+        if (bbDeviceController?.connectionMode == ConnectionMode.SERIAL) return
+        bbDeviceController?.startSerial()
         cancelVisibility.value = View.VISIBLE
         toolbarTitle.value = "Initializing..."
     }
@@ -168,11 +169,25 @@ abstract class BaseDeviceFragment : BaseFragment()  {
         input.put("amount", String.format("%.2f", amountStr.toInt() / 100.0))
         input.put("transactionType", BBDeviceController.TransactionType.GOODS)
         input.put("currencyCode", transaction.currencyCode)
-        bbDeviceController!!.setAmount(input)
+        bbDeviceController?.setAmount(input)
     }
 
+
     fun stopConnection() {
-        bbDeviceController!!.releaseBBDeviceController()
+        when (bbDeviceController!!.connectionMode) {
+            ConnectionMode.BLUETOOTH -> {
+                bbDeviceController?.disconnectBT()
+            }
+            ConnectionMode.AUDIO -> {
+                bbDeviceController?.stopAudio()
+            }
+            ConnectionMode.SERIAL -> {
+                bbDeviceController?.stopSerial()
+            }
+            ConnectionMode.USB -> {
+                bbDeviceController?.stopUsb()
+            }
+        }
         deviceArr.clear()
         deviceListAdapter.notifyDataSetChanged()
     }
@@ -221,8 +236,8 @@ abstract class BaseDeviceFragment : BaseFragment()  {
         }
 
         override fun onBTConnected(pairedObjects: BluetoothDevice?) {
-            if (currentFragment is PreferenceFragment) return
-            startEmv()
+            if (currentFragment is ProcessTransactionFragment)
+              startEmv()
         }
 
         override fun onReturnApduResult(p0: Boolean, p1: Hashtable<String, Any>?) {
@@ -456,12 +471,15 @@ abstract class BaseDeviceFragment : BaseFragment()  {
         }
 
         override fun onRequestPrintData(p0: Int, p1: Boolean) {
-            bbDeviceController?.sendPrintData(onReceiptData.value)
+
+            onReceiptData.observe(currentFragment, androidx.lifecycle.Observer {
+                bbDeviceController?.sendPrintData(it)
+            })
 
         }
 
         override fun onSerialConnected() {
-            startEmv()
+            if (currentFragment is ProcessTransactionFragment) startEmv()
         }
 
         override fun onReturnBatchData(p0: String?) {
@@ -724,6 +742,5 @@ abstract class BaseDeviceFragment : BaseFragment()  {
         }
     }
 
-
-
 }
+

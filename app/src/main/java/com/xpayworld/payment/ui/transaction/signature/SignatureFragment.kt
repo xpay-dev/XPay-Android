@@ -1,23 +1,32 @@
 package com.xpayworld.payment.ui.transaction.signature
 
+import android.R
+import android.graphics.Bitmap
 import android.os.Bundle
+import android.util.Base64
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
 import com.google.gson.GsonBuilder
+import com.kyanogen.signatureview.SignatureView
 import com.xpayworld.payment.databinding.FragmentSignatureBinding
 import com.xpayworld.payment.ui.base.kt.BaseFragment
 import com.xpayworld.payment.ui.transaction.processTransaction.ARG_AMOUNT
+import com.xpayworld.payment.util.InjectorUtil
 import com.xpayworld.payment.util.formattedAmount
 import com.xpayworld.payment.util.transactionResponse
 import kotlinx.android.synthetic.main.fragment_signature.*
+import java.io.ByteArrayOutputStream
 
 
 class SignatureFragment : BaseFragment() {
 
     var amountStr = ""
-
+    private val viewModel: SignatureViewModel by viewModels {
+        InjectorUtil.provideSignatureViewModel(requireContext())
+    }
     override fun onCreateView(
             inflater: LayoutInflater,
             container: ViewGroup?,
@@ -34,16 +43,35 @@ class SignatureFragment : BaseFragment() {
         }
     }
 
-    private fun bindView() {
-        tvAmount.setText(formattedAmount(amountStr))
-    }
+
     override fun initView(view: View , container: ViewGroup?) {
-        bindView()
+
+        tvAmount.text = formattedAmount(amountStr)
+
         btnSubmit.setOnClickListener {
+
+            if (!vwSignature.isBitmapEmpty) {
+            val sign = vwSignature.signatureBitmap
+            val baos = ByteArrayOutputStream()
+            sign.compress(Bitmap.CompressFormat.PNG, 100, baos)
+            val b = baos.toByteArray()
+            val imageStr = b.toHexString()
+            viewModel.callSignatureAPI(imgStr = imageStr , imageLen = "${imageStr.length}",transNumber = transactionResponse!!.transNumber!!)
             val gson = GsonBuilder().setPrettyPrinting().create()
             val gsonStr = gson.toJson(transactionResponse)
-            val direction = SignatureFragmentDirections.actionSignatureFragmentToReceiptFragment(gsonStr,"")
+            val respStr = gson.toJson(transactionResponse?.result)
+            val direction = SignatureFragmentDirections.actionSignatureFragmentToReceiptFragment(gsonStr,respStr)
             it.findNavController().navigate(direction)
+            }
+        }
+        btnClear.setOnClickListener {
+            vwSignature.clearCanvas()
+        }
+    }
+
+    fun ByteArray.toHexString() : String {
+        return this.joinToString("") {
+            java.lang.String.format("%02x", it)
         }
     }
 }

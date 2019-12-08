@@ -22,7 +22,7 @@ class AmountViewModel(context: Context) : BaseViewModel() {
     val okClickListener = View.OnClickListener { onClickOk(it) }
     val deviceError : MutableLiveData<Pair<String,String>> = MutableLiveData()
     //GG7C-BY7B-JF5A-HNN7
-    var amountStr = ""
+    val amountStr : MutableLiveData<String> = MutableLiveData()
 
     init {
         displayAmount.value = "0.00"
@@ -34,10 +34,16 @@ class AmountViewModel(context: Context) : BaseViewModel() {
             deviceError.value = Pair("No Device found","Please go to preference to pair device")
             return
         }
-        if (amountStr.isEmpty()) return
-        transaction.amount = ( amountStr.toInt()/100.0)
-        val direction = EnterAmountFragmentDirections.actionEnterAmountFragmentToProcessTranactionFragment(amountStr)
-        v.findNavController().navigate(direction)
+        if (amountStr.value!!.isEmpty()) return
+        transaction.amount = ( amountStr.value!!.toInt()/100.0)
+        if (isTransactionOffline){
+            val direction = PayAmountFragmentDirections.actionPayAmountFragmentToProcessTransactionFragment(amountStr.value!!)
+            v.findNavController().navigate(direction)
+        } else {
+            val direction = EnterAmountFragmentDirections.actionEnterAmountFragmentToProcessTranactionFragment(amountStr.value!!)
+            v.findNavController().navigate(direction)
+        }
+
     }
 
 

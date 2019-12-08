@@ -14,6 +14,8 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import retrofit2.Response
+import java.text.SimpleDateFormat
+import java.util.*
 
 class TransactionHistoryViewModel(val context: Context): BaseViewModel(){
 
@@ -22,10 +24,6 @@ class TransactionHistoryViewModel(val context: Context): BaseViewModel(){
     val navigateToReceipt : MutableLiveData<Pair<List<TransactionResponse>, PosWsResponse>> = MutableLiveData()
 
     private lateinit var subscription: Disposable
-
-    override fun onCleared() {
-        super.onCleared()
-    }
 
 
     fun callTransLookUpAPI(text: Observable<String>){
@@ -117,7 +115,7 @@ class TransactionHistoryViewModel(val context: Context): BaseViewModel(){
                             }
                             val hasError = result?.body()?.response?.posWsResponse?.errNumber != 0.0
 
-                            if (!hasError) {
+                            if (hasError) {
                                 val errorNumber = "REQUEST ERROR "+result.body()?.response?.posWsResponse?.errNumber!!
                                 val errorMessage = result.body()?.response?.posWsResponse?.message!!
                                 val message = Pair(errorNumber,errorMessage)
@@ -139,20 +137,23 @@ class TransactionHistoryViewModel(val context: Context): BaseViewModel(){
     }
 
     fun callOfflineTransaction(){
-
         val trans = mutableListOf<TransactionResponse>()
-
            val txn = InjectorUtil.getTransactionRepository(context).getTransaction()
                 txn.forEach {
+                    if (it.isSync){
+                        val txnDao = InjectorUtil.getTransactionRepository(context)
+                        txnDao.deleteTranscation( it.orderId)
+                        return@forEach
+                    }
                     val data = TransactionResponse()
                     data.transType = "Offline"
-                    data.timestamp = it.timestamp
+                    data.timestamp = convertLongToTime(it.timestamp)
                     data.total = "${it.amount}"
                     data.currency = it.currency
                     data.transNumber = it.orderId
                     trans.add(data)
-                }
 
+                }
         transResponse.value = trans
     }
 
@@ -161,6 +162,10 @@ class TransactionHistoryViewModel(val context: Context): BaseViewModel(){
         val api = RetrofitClient().getRetrofit().create(TransactionApi::class.java)
 
         val txnPurchase = TransactionPurchase(transaction)
+        // attached transaction date if offline
+        if (transaction.timestamp != 0L){
+            txnPurchase.cardInfo?.refNumberApp = posRequest?.activationKey +""+ transaction.timestamp
+        }
 
         when (val mPaymentType = paymentType) {
             is PaymentType.DEBIT -> {
@@ -178,31 +183,33 @@ class TransactionHistoryViewModel(val context: Context): BaseViewModel(){
         subscription = txnResponse!!
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .doOnSubscribe { loadingVisibility.value = true }
-                .doAfterTerminate { loadingVisibility.value = false }
+                .doOnSubscribe {loadingVisibility.value = true }
+                .doAfterTerminate {loadingVisibility.value = false }
                 .subscribe({ result ->
                     if (!result.isSuccessful) {
-                       callBack?.invoke(false)
+                        subscription.dispose()
+                        callBack?.invoke(false)
                         return@subscribe
                     }
                     callBack?.invoke(true)
                     subscription.dispose()
                 }, {
                     callBack?.invoke(false)
+                    subscription.dispose()
                  })
     }
 
     fun callforBatchUpload(){
 
-        val txnDao = InjectorUtil.getTransactionRepository(context)
+       val txnDao = InjectorUtil.getTransactionRepository(context)
 
         val dispatch = DispatchGroup()
         loadingVisibility.value = true
         for (txn in txnDao.getTransaction()) {
-                dispatch.enter()
                 if (!txn.isSync){
+                    dispatch.enter()
                     txnDao.updateTransaction(true,txn.orderId)
-                    val  trans = Transaction()
+                    val trans = Transaction()
 
                     trans.card = transaction.card
 
@@ -211,8 +218,10 @@ class TransactionHistoryViewModel(val context: Context): BaseViewModel(){
                     trans.amount = txn.amount
                     trans.currencyCode = txn.currencyCode
                     trans.currency = txn.currency
+                    trans.timestamp = txn.timestamp
 
-                    if (trans.card!!.posEntry == 90) {
+
+                    if (trans.card?.posEntry == 90) {
                         trans.paymentType = PaymentType.CREDIT(TransactionPurchase.Action.SWIPE)
                     } else {
                         trans.paymentType = PaymentType.CREDIT(TransactionPurchase.Action.EMV)
@@ -224,23 +233,25 @@ class TransactionHistoryViewModel(val context: Context): BaseViewModel(){
                     transaction  = trans
 
                     callTransactionAPI(callBack = {isSuccess ->
-                        if (isSuccess){
-                           txnDao.deleteTranscation(trans.orderId)
-                        }else {
-                            txnDao.updateTransaction(false,trans.orderId)
+                        if (!isSuccess) {
+                            txnDao.updateTransaction(false, trans.orderId)
                         }
                         dispatch.leave()
                     })
                 }
             }
             dispatch.notify {
-                callOfflineTransaction()
                 loadingVisibility.value = false
+                callOfflineTransaction()
             }
     }
 }
 
-
+fun convertLongToTime(time: Long): String {
+    val date = Date(time)
+    val format = SimpleDateFormat("MM/dd/yyyy HH:mm:ss")
+    return format.format(date)
+}
 
 
 class DispatchGroup {
