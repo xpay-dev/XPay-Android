@@ -4,9 +4,16 @@
     tools:context="com.xpayworld.payment.ui.dashboard.DashboardActivity">
 
     <item
-        android:id="@+id/offline_upload"
+        android:id="@+id/actionOffline"
         android:orderInCategory="100"
         android:iconTint="@android:color/white"
-        android:title="Upload"
-        app:showAsAction="always" />
+        android:title="Offline Transaction"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/actionDevice"
+        android:orderInCategory="100"
+        android:iconTint="@android:color/white"
+        android:title="Preference"
+        app:showAsAction="never" />
 </menu>

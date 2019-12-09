@@ -1,16 +1,14 @@
 package com.xpayworld.payment.ui.transaction.signature
 
-import android.R
 import android.graphics.Bitmap
 import android.os.Bundle
-import android.util.Base64
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
 import com.google.gson.GsonBuilder
-import com.kyanogen.signatureview.SignatureView
 import com.xpayworld.payment.databinding.FragmentSignatureBinding
 import com.xpayworld.payment.ui.base.kt.BaseFragment
 import com.xpayworld.payment.ui.transaction.processTransaction.ARG_AMOUNT
@@ -56,6 +54,7 @@ class SignatureFragment : BaseFragment() {
             sign.compress(Bitmap.CompressFormat.PNG, 100, baos)
             val b = baos.toByteArray()
             val imageStr = b.toHexString()
+
             viewModel.callSignatureAPI(imgStr = imageStr , imageLen = "${imageStr.length}",transNumber = transactionResponse!!.transNumber!!)
             val gson = GsonBuilder().setPrettyPrinting().create()
             val gsonStr = gson.toJson(transactionResponse)
@@ -64,10 +63,21 @@ class SignatureFragment : BaseFragment() {
             it.findNavController().navigate(direction)
             }
         }
+
         btnClear.setOnClickListener {
             vwSignature.clearCanvas()
+            lblSignature.visibility = View.VISIBLE
+        }
+
+        vwSignature.setOnTouchListener { v, event ->
+            if (event.action == MotionEvent.ACTION_MOVE) { //do something
+                lblSignature.visibility = View.INVISIBLE
+            }
+            true
         }
     }
+
+
 
     fun ByteArray.toHexString() : String {
         return this.joinToString("") {
