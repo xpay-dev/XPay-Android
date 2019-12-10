@@ -18,6 +18,10 @@ class TransactionRepository private constructor(
         transDao.updateSync(isSync = isSync, orderId =  orderId)
     }
 
+    fun updateSignatureTransaction(sign : String , orderId: String){
+        transDao.updateSignature(sign,orderId)
+    }
+
     fun  deleteTranscation(orderId: String){
         transDao.deleteTransaction(orderId= orderId)
     }

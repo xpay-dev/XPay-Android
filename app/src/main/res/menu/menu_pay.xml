@@ -7,7 +7,7 @@
         android:id="@+id/actionOffline"
         android:orderInCategory="100"
         android:iconTint="@android:color/white"
-        android:title="Offline Transaction"
+        android:title="History"
         app:showAsAction="never" />
 
     <item

@@ -1,27 +1,31 @@
 package com.xpayworld.payment.ui.transaction.signature
 
+import android.app.Activity
+import android.content.Intent
 import android.graphics.Bitmap
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.navigation.findNavController
 import com.google.gson.GsonBuilder
 import com.xpayworld.payment.databinding.FragmentSignatureBinding
 import com.xpayworld.payment.ui.base.kt.BaseFragment
 import com.xpayworld.payment.ui.transaction.processTransaction.ARG_AMOUNT
-import com.xpayworld.payment.util.InjectorUtil
-import com.xpayworld.payment.util.formattedAmount
-import com.xpayworld.payment.util.transactionResponse
+import com.xpayworld.payment.util.*
+import com.xpayworld.sdk.XPAY_REQUEST
+import com.xpayworld.sdk.XPAY_RESPONSE
 import kotlinx.android.synthetic.main.fragment_signature.*
 import java.io.ByteArrayOutputStream
+import com.xpayworld.payment.ui.dashboard.DashboardActivity as DashboardActivity1
 
 
 class SignatureFragment : BaseFragment() {
 
     var amountStr = ""
+    var imageStr = ""
     private val viewModel: SignatureViewModel by viewModels {
         InjectorUtil.provideSignatureViewModel(requireContext())
     }
@@ -53,14 +57,13 @@ class SignatureFragment : BaseFragment() {
             val baos = ByteArrayOutputStream()
             sign.compress(Bitmap.CompressFormat.PNG, 100, baos)
             val b = baos.toByteArray()
-            val imageStr = b.toHexString()
+                imageStr = b.toHexString()
+                if (IS_TRANSACTION_OFFLINE){
+                  this.actionTransactionOffline()
+                } else {
+                    actionTransactionOnline()
+                }
 
-            viewModel.callSignatureAPI(imgStr = imageStr , imageLen = "${imageStr.length}",transNumber = transactionResponse!!.transNumber!!)
-            val gson = GsonBuilder().setPrettyPrinting().create()
-            val gsonStr = gson.toJson(transactionResponse)
-            val respStr = gson.toJson(transactionResponse?.result)
-            val direction = SignatureFragmentDirections.actionSignatureFragmentToReceiptFragment(gsonStr,respStr)
-            it.findNavController().navigate(direction)
             }
         }
 
@@ -69,12 +72,28 @@ class SignatureFragment : BaseFragment() {
             lblSignature.visibility = View.VISIBLE
         }
 
-        vwSignature.setOnTouchListener { v, event ->
-            if (event.action == MotionEvent.ACTION_MOVE) { //do something
-                lblSignature.visibility = View.INVISIBLE
-            }
-            true
-        }
+        (activity as DashboardActivity1).UserInteraction.observe(this , Observer {
+            lblSignature.visibility = View.INVISIBLE
+        })
+    }
+
+    fun actionTransactionOffline(){
+        val txnDao = InjectorUtil.getTransactionRepository(requireContext())
+        txnDao.updateSignatureTransaction(imageStr, transaction.orderId)
+        val i = Intent()
+        i.putExtra(XPAY_RESPONSE, SDK_XPAY_RESPONSE)
+        activity!!.setResult(Activity.RESULT_OK,i)
+        activity?.finish()
+    }
+
+
+    fun actionTransactionOnline(){
+        viewModel.callSignatureAPI(imgStr = imageStr , imageLen = "${imageStr.length}",transNumber = transactionResponse!!.transNumber!!)
+        val gson = GsonBuilder().setPrettyPrinting().create()
+        val gsonStr = gson.toJson(transactionResponse)
+        val respStr = gson.toJson(transactionResponse?.result)
+        val direction = SignatureFragmentDirections.actionSignatureFragmentToReceiptFragment(gsonStr,respStr)
+        view?.findNavController()?.navigate(direction)
     }
 
 

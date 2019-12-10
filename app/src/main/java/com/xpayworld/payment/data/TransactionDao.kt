@@ -20,4 +20,7 @@ interface  TransactionDao {
 
     @Query("UPDATE `transaction` SET isSync = :isSync WHERE orderId = :orderId")
     fun updateSync(isSync: Boolean , orderId: String)
+
+    @Query("UPDATE `transaction` SET signature = :sign WHERE orderId = :orderId")
+    fun updateSignature(sign: String , orderId: String)
 }

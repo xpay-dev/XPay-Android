@@ -18,6 +18,7 @@ import android.os.Handler
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.MutableLiveData
 import androidx.navigation.findNavController
 import com.xpayworld.payment.R
 import com.xpayworld.payment.ui.activation.ActivationFragment
@@ -35,6 +36,7 @@ abstract  class BaseActivity : AppCompatActivity() ,BaseFragment.CallBack{
 
     lateinit var navHostFragment : Fragment
     lateinit var currentFragment : Fragment
+    public val UserInteraction :  MutableLiveData<String> =  MutableLiveData()
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -111,7 +113,7 @@ abstract  class BaseActivity : AppCompatActivity() ,BaseFragment.CallBack{
 
     override fun onUserInteraction() {
         super.onUserInteraction()
-
+        UserInteraction.value = ""
         stopHandler()
         startHandler()
     }

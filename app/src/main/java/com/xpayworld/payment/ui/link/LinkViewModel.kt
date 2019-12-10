@@ -79,7 +79,7 @@ class LinkViewModel (private val context : Context) : BaseViewModel(){
 
                                 val rToken =  result.body()!!.result.rToken!!
                                 sharedPref.writeMessage(RTOKEN,rToken)
-                                posRequest?.rToken = rToken
+                                POS_REQUEST?.rToken = rToken
 
                                 callUpdateApp(callback = {
                                     navigateToNextEntry.value = true

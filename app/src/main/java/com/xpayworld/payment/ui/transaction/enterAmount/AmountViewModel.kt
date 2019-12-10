@@ -2,18 +2,10 @@ package com.xpayworld.payment.ui.transaction.enterAmount
 
 import android.content.Context
 import android.view.View
-import android.widget.Button
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModel
 import androidx.navigation.findNavController
-import com.xpayworld.payment.R
 import com.xpayworld.payment.network.PosWsRequest
-import com.xpayworld.payment.network.transaction.PaymentType
-import com.xpayworld.payment.network.transaction.TransactionPurchase
 import com.xpayworld.payment.util.*
-import io.reactivex.disposables.Disposable
 
 
 class AmountViewModel(context: Context) : BaseViewModel() {
@@ -26,7 +18,7 @@ class AmountViewModel(context: Context) : BaseViewModel() {
 
     init {
         displayAmount.value = "0.00"
-        posRequest = PosWsRequest(context)
+        POS_REQUEST = PosWsRequest(context)
     }
 
     private fun onClickOk(v: View) {
@@ -36,7 +28,7 @@ class AmountViewModel(context: Context) : BaseViewModel() {
         }
         if (amountStr.value!!.isEmpty()) return
         transaction.amount = ( amountStr.value!!.toInt()/100.0)
-        if (isTransactionOffline){
+        if (IS_TRANSACTION_OFFLINE){
             val direction = PayAmountFragmentDirections.actionPayAmountFragmentToProcessTransactionFragment(amountStr.value!!)
             v.findNavController().navigate(direction)
         } else {

@@ -48,6 +48,7 @@ class PayAmountFragment : BaseFragment(){
         paymentType  = PaymentType.CREDIT(TransactionPurchase.Action.EMV)
     }
     override fun initView(view: View, container: ViewGroup?) {
+        setHasOptionsMenu(true)
         btnPay.setOnClickListener(viewModel.okClickListener)
         viewModel.deviceError.observe(this , Observer { msg ->
             showError(msg.first,msg.second)
@@ -65,9 +66,13 @@ class PayAmountFragment : BaseFragment(){
         when (item.itemId) {
             R.id.actionOffline -> {
 
+                val direction = PayAmountFragmentDirections.actionPayAmountFragmentToOfflineTransactionFragment()
+                view?.findNavController()?.navigate(direction)
+
             }
             R.id.actionDevice ->{
-
+                val direction = PayAmountFragmentDirections.actionPayAmountFragmentToPreferenceFragment()
+                view?.findNavController()?.navigate(direction)
             }
         }
         return false

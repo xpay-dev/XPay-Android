@@ -14,16 +14,14 @@ import io.reactivex.schedulers.Schedulers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import retrofit2.Response
-
-import java.text.SimpleDateFormat
 import java.util.*
+
 
 class ProcessTransactionViewModel : BaseViewModel() {
 
 
     val onlineAuthResult: MutableLiveData<String> = MutableLiveData()
     val transactionError : MutableLiveData<String> = MutableLiveData()
-    val offlineTransaction : MutableLiveData<String> = MutableLiveData()
     private lateinit var subscription: Disposable
 
 
@@ -70,7 +68,6 @@ class ProcessTransactionViewModel : BaseViewModel() {
                         onlineAuthResult.value = "8A023035"
                     } else {
                         transactionResponse = body
-//                        onlineAuthResult.value = "8A023030${body?.authNumber ?:""}"
                         onlineAuthResult.value = "8A023030"
                     }
                     subscription.dispose()
@@ -85,6 +82,23 @@ class ProcessTransactionViewModel : BaseViewModel() {
 
         val trans = transaction
         val emv = trans.card!!
+
+        val cardExpiry = emv.expiryDate
+        val cardYear = "20${cardExpiry.substring(0..2)}".toInt()
+        val cardMonth = cardExpiry.substring(2..4).toInt()
+
+
+        val calendar: Calendar = Calendar.getInstance()
+        val year: Int = calendar.get(Calendar.YEAR)
+        val month: Int = calendar.get(Calendar.MONTH)
+
+
+        if ((cardYear <= year) && cardMonth < month){
+            requestError.value= -2
+
+            return@callOfflineTransction
+        }
+
 
         val transRepository = com.xpayworld.payment.data.Transaction(
                 amount = trans.amount,
@@ -102,13 +116,15 @@ class ProcessTransactionViewModel : BaseViewModel() {
         }
 
         var xPayResponse = XpayResponse()
+        xPayResponse.response = "0"
         xPayResponse.cardNumber = emv.cardNumber
         xPayResponse.maskedCard = emv.cardXNumber
         xPayResponse.expiry = emv.expiryDate
-        val gson = GsonBuilder().setPrettyPrinting().create()
-        onlineAuthResult.value = "8A023030"
-        offlineTransaction.value = gson.toJson(xPayResponse)
+        xPayResponse.responseMsg =  "APPROVED"
 
+        val gson = GsonBuilder().setPrettyPrinting().create()
+        SDK_XPAY_RESPONSE = gson.toJson(xPayResponse)
+        onlineAuthResult.value = "8A023030"
     }
 
     fun randomAlphaNumericString(desiredStrLength: Int): String {

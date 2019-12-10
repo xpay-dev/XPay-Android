@@ -54,12 +54,11 @@ class LinkFragment : BaseFragment() {
 
         // initialization
         externalPackageName = data.appPackageName
-        isTransactionOffline = data.isOffine
+        IS_TRANSACTION_OFFLINE = data.isOffine
         transaction.orderId = data.transactionId
         transaction.cardCaptureMethod = data.cardCaptureMethod
         transaction.currency = data.currency
         transaction.currencyCode = data.currencyCode
-
 
         if (data.isOffine){
 
@@ -83,10 +82,6 @@ class LinkFragment : BaseFragment() {
             showNetworkError(title = "REQUEST ERROR ${response.errNumber}", callBack = {
 
                 val gson = GsonBuilder().setPrettyPrinting().create()
-//                val i = Intent(activity, LinkActivity::class.java)
-//                i.putExtra(XPAY_RESPONSE,)
-//                startActivity(i)
-
                 val i = Intent()
                 i.putExtra(XPAY_RESPONSE,  gson.toJson(response))
                 activity?.setResult(Activity.RESULT_OK, i)
@@ -97,7 +92,7 @@ class LinkFragment : BaseFragment() {
 
         viewModel.navigateToNextEntry.observe(this, Observer {
 
-            isSDK = true
+            IS_SDK = true
 
             paymentType = PaymentType.CREDIT(TransactionPurchase.Action.EMV)
             transaction.amount = data.amountPurchase

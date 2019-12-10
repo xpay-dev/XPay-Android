@@ -14,18 +14,20 @@ import com.xpayworld.payment.network.TransactionResponse
 import com.xpayworld.payment.network.transaction.PaymentType
 import com.xpayworld.payment.network.transaction.Transaction
 import com.xpayworld.payment.network.updateApp.UpdateAppResponse
+import com.xpayworld.sdk.XpayResponse
 import java.text.DecimalFormat
 
 // Global Variables
 
 var paymentType : PaymentType? = null
-var posRequest  : PosWsRequest? = null
+var POS_REQUEST  : PosWsRequest? = null
 var transactionResponse : TransactionResponse? = null
 var transaction =  Transaction()
 var merchantDetails = UpdateAppResponse().merchantDetails
-var isSDK = false
-var isTransactionOffline = false
+var IS_SDK = false
+var IS_TRANSACTION_OFFLINE = false
 var externalPackageName = ""
+var SDK_XPAY_RESPONSE = ""
 
 
 fun formattedAmount(amount : String) : String {

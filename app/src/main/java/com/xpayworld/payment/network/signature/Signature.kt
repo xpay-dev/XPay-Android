@@ -2,7 +2,7 @@ package com.xpayworld.payment.network.signature
 
 import com.google.gson.annotations.SerializedName
 import com.xpayworld.payment.network.PosWsRequest
-import com.xpayworld.payment.util.posRequest
+import com.xpayworld.payment.util.POS_REQUEST
 
 class Signature(
     img: String = "" ,
@@ -26,6 +26,6 @@ class Signature(
             imageLenStr = imgLen
             mobileAppTransType = mobileType
             this.transNumber = transNumber
-            posWsRequest = posRequest
+            posWsRequest = POS_REQUEST
         }
 }

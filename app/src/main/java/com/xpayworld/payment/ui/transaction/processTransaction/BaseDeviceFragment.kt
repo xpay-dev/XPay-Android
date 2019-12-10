@@ -265,12 +265,14 @@ abstract class BaseDeviceFragment : BaseFragment()  {
             println("ksn : ${decodeData["C0"]}")
             println("emvICCData : ${decodeData["C2"]}")
             println("maskedPan : ${decodeData["C4"]}")
+            println("PAN : ${decodeData["5A"]}")
 
 
             cardData.emvICCData =  decodeData["C2"].toString()
             cardData.expiryDate =  decodeData["5F24"].toString()
             cardData.ksn = decodeData["C0"].toString()
             cardData.cardNumber = decodeData["5A"].toString()
+            cardData.cardXNumber = decodeData["C4"].toString()
 
 //
 
@@ -595,7 +597,7 @@ abstract class BaseDeviceFragment : BaseFragment()  {
                 cardData.cardNumber = decodeData["pan"].toString()
                 cardData.cardXNumber = decodeData["maskedPAN"].toString()
                 cardData.expiryDate =  expiryDate
-                cardData.expiryYear = expiryDate.substring(2)
+                cardData.expiryYear = expiryDate.substring(0..2)
                 cardData.expiryMonth = expiryDate.substring(2..4)
                 cardData.encTrack2 = decodeData["encTrack2"].toString()
                 cardData.serviceCode = decodeData["serviceCode"].toString()

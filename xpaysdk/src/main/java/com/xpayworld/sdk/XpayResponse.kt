@@ -14,4 +14,7 @@ class  XpayResponse {
 
     @SerializedName("card_expiry")
     var expiry= ""
+
+    @SerializedName("response_message")
+    var responseMsg = ""
 }

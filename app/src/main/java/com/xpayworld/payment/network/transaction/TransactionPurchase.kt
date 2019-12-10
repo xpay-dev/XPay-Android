@@ -3,7 +3,7 @@ package com.xpayworld.payment.network.transaction
 import com.google.gson.annotations.SerializedName
 import com.xpayworld.payment.network.PosWsRequest
 import com.xpayworld.payment.util.paymentType
-import com.xpayworld.payment.util.posRequest
+import com.xpayworld.payment.util.POS_REQUEST
 
 
 class TransactionPurchase(txn: Transaction) {
@@ -63,9 +63,9 @@ class TransactionPurchase(txn: Transaction) {
         card.ksn = txn.card?.ksn ?: ""
         card.merchantOrderId = txn.orderId
         card.track2 = txn.card?.encTrack2 ?: ""
-        card.refNumberApp = posRequest!!.activationKey +""+ System.currentTimeMillis()
+        card.refNumberApp = POS_REQUEST!!.activationKey +""+ System.currentTimeMillis()
         cardInfo = card
-        posWsRequest = posRequest
+        posWsRequest = POS_REQUEST
 //       posWsRequest?.systemMode = "TESTBANK"3
 
         when (val mPaymentType = paymentType) {

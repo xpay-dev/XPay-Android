@@ -31,7 +31,7 @@ class TransactionHistoryViewModel(val context: Context): BaseViewModel(){
         val sharedPref = context.let { SharedPrefStorage(it) }
 
         val history = TransLookUp()
-        history.posWsRequest =  posRequest
+        history.posWsRequest =  POS_REQUEST
         history.mobileAppId = sharedPref.readMessage(MOBILE_APP_ID)
         history.accountId = sharedPref.readMessage(ACCOUNT_ID)
         history.mobileAppTransType = 1
@@ -90,7 +90,7 @@ class TransactionHistoryViewModel(val context: Context): BaseViewModel(){
     fun callTransactionAPI(txn : TransactionResponse){
         val sharedPref = context.let { SharedPrefStorage(it) }
         val history = TransLookUp()
-        history.posWsRequest =  posRequest
+        history.posWsRequest =  POS_REQUEST
         history.mobileAppId = sharedPref.readMessage(MOBILE_APP_ID)
         history.accountId = sharedPref.readMessage(ACCOUNT_ID)
         history.mobileAppTransType = 1
@@ -164,7 +164,7 @@ class TransactionHistoryViewModel(val context: Context): BaseViewModel(){
         val txnPurchase = TransactionPurchase(transaction)
         // attached transaction date if offline
         if (transaction.timestamp != 0L){
-            txnPurchase.cardInfo?.refNumberApp = posRequest?.activationKey +""+ transaction.timestamp
+            txnPurchase.cardInfo?.refNumberApp = POS_REQUEST?.activationKey +""+ transaction.timestamp
         }
 
         when (val mPaymentType = paymentType) {

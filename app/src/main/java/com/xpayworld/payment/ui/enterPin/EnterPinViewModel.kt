@@ -33,26 +33,6 @@ class EnterPinViewModel(private val context: Context) : BaseViewModel() {
     init {
         toolbarVisibility.value = false
         pinCode.value = ""
-//
-//        GlobalScope.launch {
-//            val transRepository = Transaction(
-//                    amount = 1002.00,
-//                    cardData = "asdasdddd",
-//                    currency = "PHPsss",
-//                    transNumber = "sdas",
-//                    transDate = "ddd",
-//                    merchantName =  "dasda",
-//                    posEntry = 1
-//            )
-//
-//            InjectorUtil.getTransactionRepository(context).createTransaction(transRepository)
-//
-//            val  trans =  InjectorUtil.getTransactionRepository(context).getTransaction()
-//
-//            trans.value?.forEach {
-//                Log.i("Fetch Records", "Id:  : ${it.cardData}")
-//            }
-//        }
     }
 
     override fun onCleared() {

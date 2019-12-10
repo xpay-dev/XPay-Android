@@ -19,10 +19,11 @@ import com.xpayworld.payment.network.PosWsResponse
 import com.xpayworld.payment.ui.dashboard.DrawerLocker
 import com.xpayworld.payment.ui.dashboard.ToolbarDelegate
 import com.xpayworld.payment.util.formattedAmount
-import com.xpayworld.payment.util.isSDK
-import com.xpayworld.payment.util.isTransactionOffline
+import com.xpayworld.payment.util.IS_SDK
+import com.xpayworld.payment.util.IS_TRANSACTION_OFFLINE
 import com.xpayworld.payment.util.transaction
 import com.xpayworld.sdk.XPAY_RESPONSE
+import com.xpayworld.sdk.XpayResponse
 import kotlinx.android.synthetic.main.fragment_process_transaction.*
 
 
@@ -75,7 +76,7 @@ class ProcessTransactionFragment : BaseDeviceFragment() {
         viewModel?.networkError?.observe(this, Observer {
             btnCancel.visibility = View.INVISIBLE
             showNetworkError(title = it ,callBack = {
-                if (isSDK){
+                if (IS_SDK){
                     activity?.finish()
                 } else {
                     view.findNavController().popBackStack(R.id.transactionFragment, true)
@@ -89,7 +90,7 @@ class ProcessTransactionFragment : BaseDeviceFragment() {
                 btnCancel.visibility = View.INVISIBLE
 
                 showError(title = "REQUEST ERROR ${response.errNumber}", message = response.message?: "", callBack = {
-                    if (isSDK){
+                    if (IS_SDK){
                         val gson = GsonBuilder().setPrettyPrinting().create()
                         val i = Intent()
                         i.putExtra(XPAY_RESPONSE,gson.toJson(response))
@@ -99,10 +100,29 @@ class ProcessTransactionFragment : BaseDeviceFragment() {
                         view.findNavController().popBackStack(R.id.transactionFragment, true)
                     }
               })
+            } else if (it is Int){
+                if (it == -2){
+                    showError(title = "TRANSACTION DECLINED", message = "You're card has already expired", callBack = {
+                        if (IS_SDK){
+                            val gson = GsonBuilder().setPrettyPrinting().create()
+                            val i = Intent()
+
+                            var xPayResponse = XpayResponse()
+                            xPayResponse.response = "-2"
+                            xPayResponse.cardNumber =  ""
+                            xPayResponse.maskedCard = ""
+                            xPayResponse.expiry = ""
+                            xPayResponse.responseMsg =  "DECLINED"
+                            i.putExtra(XPAY_RESPONSE,gson.toJson(xPayResponse))
+                            activity!!.setResult(Activity.RESULT_OK,i)
+                            activity?.finish()
+                        }
+                    })
+                }
             }
         })
 
-        if (!isTransactionOffline){
+        if (!IS_TRANSACTION_OFFLINE){
             // Calling Transaction API
             proceedTransaction.observe(this, Observer {
                 viewModel?.callTransactionAPI()
@@ -112,18 +132,7 @@ class ProcessTransactionFragment : BaseDeviceFragment() {
             proceedTransaction.observe(this, Observer {
                 viewModel?.callOfflineTransction(requireContext())
             })
-
         }
-
-        // Execute offline transaction
-        viewModel?.offlineTransaction?.observe(this , Observer {
-            val i = Intent()
-            i.putExtra(XPAY_RESPONSE,it)
-
-            println(i)
-            activity!!.setResult(Activity.RESULT_OK,i)
-            activity?.finish()
-        })
 
         // Transaction API Result
         viewModel?.onlineAuthResult?.observe(this, Observer {
@@ -142,7 +151,7 @@ class ProcessTransactionFragment : BaseDeviceFragment() {
 
         btnCancel.setOnClickListener {
 
-            if (!isTransactionOffline) {
+            if (!IS_TRANSACTION_OFFLINE) {
                 view.findNavController().popBackStack(R.id.transactionFragment, true)
 
             } else {

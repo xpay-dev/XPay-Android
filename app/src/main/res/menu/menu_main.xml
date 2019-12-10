@@ -18,11 +18,7 @@
             android:orderInCategory="100"
             android:title="Transaction Offline"
             app:showAsAction="never" />
-        <item
-            android:id="@+id/reportsFragment"
-            android:orderInCategory="100"
-            android:title="Reports"
-            app:showAsAction="never" />
+
         <item
             android:id="@+id/preferenceFragment"
             android:orderInCategory="100"

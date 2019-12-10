@@ -22,6 +22,7 @@ import androidx.room.*
         var deviceOsVersion: String = "",
         var posAppVersion: String = "",
         var device: Int = 0,
+        var signature: String = "",
         @Embedded
         var card : CardData)
  {
