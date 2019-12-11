@@ -65,10 +65,8 @@ class PayAmountFragment : BaseFragment(){
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.actionOffline -> {
-
                 val direction = PayAmountFragmentDirections.actionPayAmountFragmentToOfflineTransactionFragment()
                 view?.findNavController()?.navigate(direction)
-
             }
             R.id.actionDevice ->{
                 val direction = PayAmountFragmentDirections.actionPayAmountFragmentToPreferenceFragment()

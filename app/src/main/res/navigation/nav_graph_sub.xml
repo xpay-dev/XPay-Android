@@ -13,6 +13,6 @@
     <fragment
         android:id="@+id/actionOfflineTransaction"
         android:name="com.xpayworld.payment.ui.history.OfflineTransactionFragment"
-        android:label="Offline  Transaction"
+        android:label="History"
         tools:layout="@layout/fragment_transaction_offline"/>
 </navigation>

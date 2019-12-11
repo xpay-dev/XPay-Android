@@ -4,17 +4,11 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.content.pm.PackageManager
 import android.os.Build
+import android.os.Build.VERSION
 import android.os.Bundle
+import android.os.Handler
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import com.xpayworld.payment.ui.dialog.ErrorDialog
-import com.xpayworld.payment.util.CustomDialog
-import dagger.android.AndroidInjection
-import androidx.core.app.ComponentActivity.ExtraData
-import androidx.core.content.ContextCompat.getSystemService
-import android.icu.lang.UCharacter.GraphemeClusterBreak.T
-import android.os.Build.VERSION
-import android.os.Handler
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -23,8 +17,10 @@ import androidx.navigation.findNavController
 import com.xpayworld.payment.R
 import com.xpayworld.payment.ui.activation.ActivationFragment
 import com.xpayworld.payment.ui.dashboard.UserInteraction
+import com.xpayworld.payment.ui.dialog.ErrorDialog
 import com.xpayworld.payment.ui.enterPin.EnterPinFragment
-import com.xpayworld.payment.ui.transaction.processTransaction.BaseDeviceFragment
+import com.xpayworld.payment.util.CustomDialog
+import dagger.android.AndroidInjection
 
 
 abstract  class BaseActivity : AppCompatActivity() ,BaseFragment.CallBack{
@@ -39,11 +35,9 @@ abstract  class BaseActivity : AppCompatActivity() ,BaseFragment.CallBack{
     public val UserInteraction :  MutableLiveData<String> =  MutableLiveData()
 
     override fun onCreate(savedInstanceState: Bundle?) {
-
         super.onCreate(savedInstanceState)
         dialog = CustomDialog(applicationContext)
         initView()
-
         requestPermission()
 
         handler = Handler()

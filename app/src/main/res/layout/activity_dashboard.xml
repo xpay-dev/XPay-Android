@@ -6,6 +6,10 @@
     tools:context=".ui.dashboard.DashboardActivity">
 
 
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
     <androidx.drawerlayout.widget.DrawerLayout
         android:id="@+id/drawer_layout"
         android:layout_width="match_parent"
@@ -59,5 +63,6 @@
             app:itemTextColor="@color/white"
             app:menu="@menu/menu_main" />
     </androidx.drawerlayout.widget.DrawerLayout>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
 </layout>

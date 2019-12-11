@@ -13,6 +13,7 @@ import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.Button
 import android.widget.TextView
+import androidx.core.view.ViewCompat
 import androidx.fragment.app.Fragment
 import com.xpayworld.payment.R
 import com.xpayworld.payment.ui.dashboard.UserInteraction
@@ -29,16 +30,6 @@ abstract class BaseFragment : Fragment() , UserInteraction {
     var handler: Handler? = null
     var r: Runnable? = null
 
-//    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-//        val view: View? = if (getLayout() is Int) {
-//            inflater.inflate((getLayout() as Int), container, false)
-//        } else {
-//            getLayout() as View
-//        }
-//
-//        mContainer = container
-//        return view
-//    }
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
