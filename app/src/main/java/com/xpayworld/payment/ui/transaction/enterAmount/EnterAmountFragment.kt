@@ -47,7 +47,7 @@ class EnterAmountFragment : BaseFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            amountStr = it.getString(ARG_AMOUNT).toString()
+            amountStr = it.getString(ARG_AMOUNT).toString() ?: ""
         }
         paymentType  = PaymentType.CREDIT(TransactionPurchase.Action.EMV)
     }
@@ -56,9 +56,9 @@ class EnterAmountFragment : BaseFragment() {
     override fun initView(view: View,container: ViewGroup?) {
         // Numpad Button
         // Numpad Button Image
+        amountStr = ""
         btnNumpad = listOf(btn1, btn2, btn3, btn4, btn5, btn6, btn7, btn8, btn9, btn0)
         btnTransType = listOf(btnCredit,btnDebit)
-
         // Numpad Click Listener
         btnNumpad.forEach { it.setOnClickListener { v ->
             val len = amountStr.length

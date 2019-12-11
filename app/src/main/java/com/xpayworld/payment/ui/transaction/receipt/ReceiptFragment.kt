@@ -67,11 +67,10 @@ class ReceiptFragment: BaseDeviceFragment()  {
 
         setHasOptionsMenu(true)
         val receipt = viewModel.getReceiptSerial(requireContext(),txn =  txn!! , posStatus =  response!!)
+        bbDeviceController?.startSerial()
         onReceiptData.value = receipt
         btnDone.setOnClickListener {
-
             bbDeviceController?.startPrint(1,60)
-
             clReceipt.startAnimation(AnimationUtils.loadAnimation(context!!, R.anim.receipt_out))
         }
     }
@@ -85,7 +84,8 @@ class ReceiptFragment: BaseDeviceFragment()  {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.receipt_item_done -> {
-                val direction = ReceiptFragmentDirections.actionReceiptFragmentToTransactionFragment("")
+                stopConnection()
+                val direction = ReceiptFragmentDirections.actionReceiptFragmentToTransactionFragment()
                  view!!.findNavController().navigate(direction)
                 (activity as DrawerLocker).drawerEnabled(true)
             }

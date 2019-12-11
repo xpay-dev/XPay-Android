@@ -99,7 +99,6 @@ class ProcessTransactionViewModel : BaseViewModel() {
             return@callOfflineTransction
         }
 
-
         val transRepository = com.xpayworld.payment.data.Transaction(
                 amount = trans.amount,
                 orderId = trans.orderId,
@@ -115,7 +114,7 @@ class ProcessTransactionViewModel : BaseViewModel() {
             InjectorUtil.getTransactionRepository(context).createTransaction(transRepository)
         }
 
-        var xPayResponse = XpayResponse()
+        val xPayResponse = XpayResponse()
         xPayResponse.response = "0"
         xPayResponse.cardNumber = emv.cardNumber
         xPayResponse.maskedCard = emv.cardXNumber

@@ -18,6 +18,7 @@ class AmountViewModel(context: Context) : BaseViewModel() {
 
     init {
         displayAmount.value = "0.00"
+
         POS_REQUEST = PosWsRequest(context)
     }
 

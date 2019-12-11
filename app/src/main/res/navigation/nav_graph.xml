@@ -35,7 +35,7 @@
         tools:layout="@layout/fragment_enter_pin">
         <action
             android:id="@+id/action_enterPinFragment_to_transactionFragment"
-            app:destination="@id/transactionFragment"
+            app:destination="@id/enterAmountFragment"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left" />
@@ -43,7 +43,7 @@
 
 
     <fragment
-        android:id="@+id/transactionFragment"
+        android:id="@+id/enterAmountFragment"
         android:name="com.xpayworld.payment.ui.transaction.enterAmount.EnterAmountFragment"
         android:label="Transaction"
         tools:layout="@layout/fragment_enter_amount">
@@ -54,9 +54,6 @@
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right" />
-        <argument
-            android:name="amount"
-            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/historyFragment"
@@ -112,7 +109,8 @@
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right" />
+            app:popExitAnim="@anim/slide_out_right"
+            app:popUpToInclusive="true"/>
         <argument
             android:name="amount"
             app:argType="string" />
@@ -141,7 +139,7 @@
         tools:layout="@layout/fragment_receipt">
         <action
             android:id="@+id/action_receiptFragment_to_transactionFragment"
-            app:destination="@id/transactionFragment"
+            app:destination="@id/enterAmountFragment"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"

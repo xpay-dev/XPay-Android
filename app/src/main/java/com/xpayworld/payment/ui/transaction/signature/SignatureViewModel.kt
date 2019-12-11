@@ -17,7 +17,7 @@ class SignatureViewModel (context: Context): BaseViewModel() {
 
     override fun onCleared() {
         super.onCleared()
-        subscription.dispose()
+        //subscription.dispose()
     }
 
     fun callSignatureAPI(imgStr: String ,imageLen : String , transNumber : String){

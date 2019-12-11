@@ -40,6 +40,8 @@ class ProcessTransactionFragment : BaseDeviceFragment() {
             savedInstanceState: Bundle?
     ): View? {
         val binding = FragmentProcessTransactionBinding.inflate(inflater, container, false)
+
+
         return binding.root
     }
 
@@ -79,7 +81,7 @@ class ProcessTransactionFragment : BaseDeviceFragment() {
                 if (IS_SDK){
                     activity?.finish()
                 } else {
-                    view.findNavController().popBackStack(R.id.transactionFragment, true)
+                    view.findNavController().popBackStack(R.id.enterAmountFragment, true)
                 }
             })
         })
@@ -97,7 +99,7 @@ class ProcessTransactionFragment : BaseDeviceFragment() {
                         activity!!.setResult(Activity.RESULT_OK,i)
                         activity?.finish()
                     } else {
-                        view.findNavController().popBackStack(R.id.transactionFragment, true)
+                        view.findNavController().popBackStack(R.id.enterAmountFragment,false)
                     }
               })
             } else if (it is Int){
@@ -142,7 +144,7 @@ class ProcessTransactionFragment : BaseDeviceFragment() {
         // Device Transaction Result
         onTransactionResult.observe(this, Observer {
             val direction = ProcessTransactionFragmentDirections.actionProcessTransactionToSignatureFragment(amountStr)
-            if (it) view.findNavController().navigate(direction)
+            if (it) view.findNavController().navigate(direction )
         })
 
         cancelTitle.observe(this, Observer {
@@ -151,8 +153,9 @@ class ProcessTransactionFragment : BaseDeviceFragment() {
 
         btnCancel.setOnClickListener {
 
+            stopConnection()
             if (!IS_TRANSACTION_OFFLINE) {
-                view.findNavController().popBackStack(R.id.transactionFragment, true)
+                view.findNavController().popBackStack(R.id.enterAmountFragment, false)
 
             } else {
                 val i = Intent()

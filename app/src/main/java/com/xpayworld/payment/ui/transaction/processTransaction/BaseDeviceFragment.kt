@@ -31,6 +31,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 
+
 const val ARG_AMOUNT = "amount"
 abstract class BaseDeviceFragment : BaseFragment()  {
 
@@ -88,19 +89,16 @@ abstract class BaseDeviceFragment : BaseFragment()  {
                 checkBluetoothPermission.value = false
             }
         }
-        else if (currentFragment is ReceiptFragment){
-            bbDeviceController?.startSerial()
-        }
+
 
     }
-
 
     fun startTransaction() {
         cancelVisibility.value = View.INVISIBLE
         if (bbDeviceController?.connectionMode == ConnectionMode.SERIAL) return
+        toolbarTitle.value = "Initializing..."
         bbDeviceController?.startSerial()
         cancelVisibility.value = View.VISIBLE
-        toolbarTitle.value = "Initializing..."
     }
 
     fun startBluetoothConnection(){
@@ -111,7 +109,7 @@ abstract class BaseDeviceFragment : BaseFragment()  {
     private fun startEmv() {
         val data: Hashtable<String, Any> = Hashtable() //define empty hashmap
 
-        data["emvOption"] = BBDeviceController.EmvOption.START
+        data["emvOption"] = EmvOption.START
         data["orderID"] = "0123456789ABCDEF0123456789ABCDEF"
         data["randomNumber"] = "012345"
 
@@ -174,7 +172,7 @@ abstract class BaseDeviceFragment : BaseFragment()  {
 
 
     fun stopConnection() {
-        when (bbDeviceController!!.connectionMode) {
+        when (bbDeviceController?.connectionMode) {
             ConnectionMode.BLUETOOTH -> {
                 bbDeviceController?.disconnectBT()
             }
@@ -188,6 +186,8 @@ abstract class BaseDeviceFragment : BaseFragment()  {
                 bbDeviceController?.stopUsb()
             }
         }
+        bbDeviceController?.releaseBBDeviceController()
+        bbDeviceController = null
         deviceArr.clear()
         deviceListAdapter.notifyDataSetChanged()
     }
@@ -196,12 +196,12 @@ abstract class BaseDeviceFragment : BaseFragment()  {
         return ContextCompat.checkSelfPermission(context!!, Manifest.permission.BLUETOOTH) == PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(context!!, Manifest.permission.BLUETOOTH_ADMIN) == PackageManager.PERMISSION_GRANTED
     }
 
-    private inner class MyBBdeviceControllerListener : BBDeviceController.BBDeviceControllerListener {
-        override fun onReturnUpdateAIDResult(p0: Hashtable<String, BBDeviceController.TerminalSettingStatus>?) {
+    private inner class MyBBdeviceControllerListener : BBDeviceControllerListener {
+        override fun onReturnUpdateAIDResult(p0: Hashtable<String, TerminalSettingStatus>?) {
 
         }
 
-        override fun onReturnAccountSelectionResult(p0: BBDeviceController.AccountSelectionResult?, p1: Int) {
+        override fun onReturnAccountSelectionResult(p0: AccountSelectionResult?, p1: Int) {
 
         }
 
@@ -217,14 +217,12 @@ abstract class BaseDeviceFragment : BaseFragment()  {
             bbDeviceController?.selectApplication(0)
         }
 
-        override fun onRequestDisplayText(displayText: BBDeviceController.DisplayText?) {
-
+        override fun onRequestDisplayText(displayText: DisplayText?) {
             toolbarTitle.value = displayText.toString()
-
         }
 
-        override fun onReturnPrintResult(p0: BBDeviceController.PrintResult?) {
-
+        override fun onReturnPrintResult(p0: PrintResult?) {
+            stopConnection()
         }
 
         override fun onReturnDisableAccountSelectionResult(p0: Boolean) {
@@ -257,24 +255,13 @@ abstract class BaseDeviceFragment : BaseFragment()  {
         }
 
         override fun onRequestOnlineProcess(tlv: String?) {
-            val decodeData = BBDeviceController.decodeTlv(tlv)
-
-            println(decodeData["C0"])
-            println(tlv)
-
-            println("ksn : ${decodeData["C0"]}")
-            println("emvICCData : ${decodeData["C2"]}")
-            println("maskedPan : ${decodeData["C4"]}")
-            println("PAN : ${decodeData["5A"]}")
-
+            val decodeData =  decodeTlv(tlv)
 
             cardData.emvICCData =  decodeData["C2"].toString()
             cardData.expiryDate =  decodeData["5F24"].toString()
             cardData.ksn = decodeData["C0"].toString()
             cardData.cardNumber = decodeData["5A"].toString()
             cardData.cardXNumber = decodeData["C4"].toString()
-
-//
 
             transaction.card = cardData
             proceedTransaction.value =  true
@@ -302,7 +289,7 @@ abstract class BaseDeviceFragment : BaseFragment()  {
 
         }
 
-        override fun onReturnPhoneNumber(p0: BBDeviceController.PhoneEntryResult?, p1: String?) {
+        override fun onReturnPhoneNumber(p0:  PhoneEntryResult?, p1: String?) {
 
         }
 
@@ -561,25 +548,25 @@ abstract class BaseDeviceFragment : BaseFragment()  {
 
         }
 
-        override fun onWaitingForCard(cardMode: BBDeviceController.CheckCardMode?) {
+        override fun onWaitingForCard(cardMode: CheckCardMode?) {
             cancelTitle.value = "Cancel"
             when (cardMode) {
-                BBDeviceController.CheckCardMode.INSERT -> {
+                CheckCardMode.INSERT -> {
                     toolbarTitle.value = "Please insert card"
                 }
-                BBDeviceController.CheckCardMode.SWIPE -> {
+                CheckCardMode.SWIPE -> {
                     toolbarTitle.value = "Please swipe card"
                 }
-                BBDeviceController.CheckCardMode.SWIPE_OR_INSERT -> {
+                 CheckCardMode.SWIPE_OR_INSERT -> {
                     toolbarTitle.value = "Please swipe/insert card"
                 }
-                BBDeviceController.CheckCardMode.SWIPE_OR_TAP -> {
+                 CheckCardMode.SWIPE_OR_TAP -> {
                     toolbarTitle.value = "Please swipe/tap card"
                 }
-                BBDeviceController.CheckCardMode.INSERT_OR_TAP -> {
+                CheckCardMode.INSERT_OR_TAP -> {
                     toolbarTitle.value = "Please inert/tap card"
                 }
-                BBDeviceController.CheckCardMode.SWIPE_OR_INSERT_OR_TAP -> {
+                 CheckCardMode.SWIPE_OR_INSERT_OR_TAP -> {
                     toolbarTitle.value = "Please swipe/insert/tap card"
                 }
             }
@@ -617,9 +604,9 @@ abstract class BaseDeviceFragment : BaseFragment()  {
 
         }
 
-        override fun onRequestPinEntry(pinEntrySource: BBDeviceController.PinEntrySource?) {
+        override fun onRequestPinEntry(pinEntrySource: PinEntrySource?) {
 
-            if (pinEntrySource == BBDeviceController.PinEntrySource.SMARTPOS) {
+            if (pinEntrySource ==  PinEntrySource.SMARTPOS) {
                 pinButtonLayout = Hashtable()
 
                 pinButtonLayout["key1"] = Rect(50, 400, 255, 550)
@@ -650,16 +637,10 @@ abstract class BaseDeviceFragment : BaseFragment()  {
             view!!.findNavController().navigate(direction)
         }
 
-        override fun onReturnPinEntryResult(pinEntryResult: BBDeviceController.PinEntryResult?, data: Hashtable<String, String>) {
-            cancelVisibility.value = View.INVISIBLE
-            if (currentFragment is PinPadFragment){
+        override fun onReturnPinEntryResult(pinEntryResult: PinEntryResult?, data: Hashtable<String, String>) {
 
-                val direction = PinPadFragmentDirections.actionPinPadFragmentToProcessTransaction(amountStr)
-                view!!.findNavController().navigate(direction)
 
-            }
-
-            if (pinEntryResult == BBDeviceController.PinEntryResult.ENTERED) run {
+            if (pinEntryResult == PinEntryResult.ENTERED) run {
                 if (data.containsKey("epb")) {
                    data.get("epb").toString()
                 }
@@ -672,27 +653,34 @@ abstract class BaseDeviceFragment : BaseFragment()  {
                 if (data.containsKey("encWorkingKey")) {
                     data.get("encWorkingKey")
                 }
-            } else if (pinEntryResult == BBDeviceController.PinEntryResult.BYPASS) {
+            } else if (pinEntryResult == PinEntryResult.BYPASS) {
 
-            } else if (pinEntryResult == BBDeviceController.PinEntryResult.CANCEL) {
+            } else if (pinEntryResult == PinEntryResult.CANCEL) {
 
-            } else if (pinEntryResult == BBDeviceController.PinEntryResult.TIMEOUT) {
+            } else if (pinEntryResult == PinEntryResult.TIMEOUT) {
 
             }
+
             cancelVisibility.value = View.INVISIBLE
+            if (currentFragment is PinPadFragment){
+                val direction = PinPadFragmentDirections.actionPinPadFragmentToProcessTransaction(amountStr)
+                view!!.findNavController().navigate(direction)
+            }
 
         }
 
-        override fun onReturnTransactionResult(result: BBDeviceController.TransactionResult?) {
+        override fun onReturnTransactionResult(result: TransactionResult?) {
 
-            if (result == BBDeviceController.TransactionResult.APPROVED){
+            if (result == TransactionResult.APPROVED){
                 onTransactionResult.value = true
             }
             else {
                 toolbarTitle.value = result.toString()
+                cancelVisibility.value = View.VISIBLE
                 cancelTitle.value = "Done"
                 startAnimation.value = false
             }
+
             stopConnection()
         }
         override fun onDeviceReset() {
@@ -703,7 +691,7 @@ abstract class BaseDeviceFragment : BaseFragment()  {
 
         }
 
-        override fun onReturnDisplayPromptResult(p0: BBDeviceController.DisplayPromptResult?) {
+        override fun onReturnDisplayPromptResult(p0: DisplayPromptResult?) {
 
         }
 
@@ -715,14 +703,16 @@ abstract class BaseDeviceFragment : BaseFragment()  {
 
         }
 
-        override fun onReturnUpdateWiFiSettingsResult(p0: Boolean, p1: Hashtable<String, BBDeviceController.TerminalSettingStatus>?) {
+        override fun onReturnUpdateWiFiSettingsResult(p0: Boolean, p1: Hashtable<String,TerminalSettingStatus>?) {
 
         }
 
-        override fun onError(p0: BBDeviceController.Error?, errorStr: String?) {
+        override fun onError(p0: Error?, errorStr: String?) {
             toolbarTitle.value = errorStr
+            cancelVisibility.value = View.VISIBLE
             cancelTitle.value = "Done"
             startAnimation.value = false
+            stopConnection()
 
         }
 

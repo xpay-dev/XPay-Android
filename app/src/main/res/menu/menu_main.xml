@@ -4,7 +4,7 @@
     tools:context="com.xpayworld.payment.ui.dashboard.DashboardActivity">
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/transactionFragment"
+            android:id="@+id/enterAmountFragment"
             android:orderInCategory="100"
             android:title="Transaction"
             app:showAsAction="never" />
