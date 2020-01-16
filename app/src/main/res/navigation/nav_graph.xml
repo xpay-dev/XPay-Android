@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/enterPinFragment">
+    app:startDestination="@id/shopeFragment">
 
 <!--    <dialog-->
 <!--        android:id="@+id/errorDialog"-->
@@ -193,6 +193,15 @@
         <action
             android:id="@+id/action_payAmountFragment_to_offlineTransactionFragment"
             app:destination="@id/offlineTransactionFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/shopeFragment"
+        android:name="com.xpayworld.payment.ui.transaction.shope.ShopeFragment"
+        android:label="Products"
+        tools:layout="@layout/fragment_shope" >
+        <action
+            android:id="@+id/action_shopeFragment_to_processTransactionFragment"
+            app:destination="@id/processTransactionFragment" />
     </fragment>
 
 </navigation>
