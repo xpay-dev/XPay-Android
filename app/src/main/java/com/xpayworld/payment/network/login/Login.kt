@@ -15,10 +15,10 @@ class Login (context : Context) {
     var pin = ""
 
     @SerializedName("Password")
-    var password = "M_HPay12"
+    var password = ""
 
     @SerializedName("Username")
-     var userName = "M_HPay"
+     var userName = ""
 
     @SerializedName("POSWSRequest")
      var posWsRequest: PosWsRequest? = null

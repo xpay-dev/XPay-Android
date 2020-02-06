@@ -8,8 +8,8 @@ class  ApiConstants {
         const val Content = "Content-Type: text/json"
         const val Charset = "Accept-Charset: utf-8"
         const val ActivateApp =  "activateapp"
-        const val API_HOST1  = "http://mondepay.com/PosService/POSWebserviceJSON.svc/"
-        const val API_HOST = "https://dashboard.xpay.world/forxpay/webservice/POSWebServiceJSON.svc/"
+        const val API_HOST = "http://mondepay.com/gateway/POSWebserviceJSON.svc/"
+        const val API_HOST1 = "https://dashboard.xpay.world/forxpay/webservice/POSWebServiceJSON.svc/"
         const val API_HOST_= "https://ph.veritaspay.com/paymayav2/webservice/POSWebServiceJSON.svc/"
       // http://13.250.116.190:95/POSWebserviceJSON.svc
         const val EmailReceipt = "EmailReceipt"

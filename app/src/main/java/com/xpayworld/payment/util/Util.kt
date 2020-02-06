@@ -8,13 +8,12 @@ import android.content.pm.PackageManager
 import android.os.Build
 import android.telephony.TelephonyManager
 import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 import com.xpayworld.payment.network.PosWsRequest
 import com.xpayworld.payment.network.TransactionResponse
 import com.xpayworld.payment.network.transaction.PaymentType
 import com.xpayworld.payment.network.transaction.Transaction
 import com.xpayworld.payment.network.updateApp.UpdateAppResponse
-import com.xpayworld.sdk.XpayResponse
+import java.security.MessageDigest
 import java.text.DecimalFormat
 
 // Global Variables
@@ -68,5 +67,19 @@ fun getDeviceIMEI(activity: Activity): String? {
     return deviceUniqueIdentifier
 }
 
-
+fun sha256(base: String): String? {
+    return try {
+        val digest: MessageDigest = MessageDigest.getInstance("SHA-256")
+        val hash: ByteArray = digest.digest(base.toByteArray(charset("UTF-8")))
+        val hexString = StringBuffer()
+        for (i in hash.indices) {
+            val hex = Integer.toHexString(0xff and hash[i].toInt())
+            if (hex.length == 1) hexString.append('0')
+            hexString.append(hex)
+        }
+        hexString.toString()
+    } catch (ex: Exception) {
+        throw RuntimeException(ex)
+    }
+}
 
