@@ -63,7 +63,7 @@ class ProcessTransactionViewModel : BaseViewModel() {
                     }
                     val body = if ( result.body()?.resultEmv != null) result.body()?.resultEmv else  result.body()?.resultSwipe
                     val hasError = body?.result?.errNumber != 0.0
-                    if (hasError) {
+                    if (hasError){
                         requestError.value = body?.result
                         onlineAuthResult.value = "8A023035"
                     } else {
@@ -116,7 +116,6 @@ class ProcessTransactionViewModel : BaseViewModel() {
 
         val xPayResponse = XpayResponse()
         xPayResponse.response = "0"
-        xPayResponse.cardNumber = emv.cardNumber
         xPayResponse.maskedCard = emv.cardXNumber
         xPayResponse.expiry = emv.expiryDate
         xPayResponse.responseMsg =  "APPROVED"

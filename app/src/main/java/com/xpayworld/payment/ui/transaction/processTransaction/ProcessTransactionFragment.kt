@@ -111,7 +111,6 @@ class ProcessTransactionFragment : BaseDeviceFragment() {
 
                             var xPayResponse = XpayResponse()
                             xPayResponse.response = "-2"
-                            xPayResponse.cardNumber =  ""
                             xPayResponse.maskedCard = ""
                             xPayResponse.expiry = ""
                             xPayResponse.responseMsg =  "DECLINED"

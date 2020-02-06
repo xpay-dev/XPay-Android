@@ -33,7 +33,6 @@ data class CardData(
 
      //   @ColumnInfo(name = "merchant_name")
         var serviceCode: String = "",
-
         var cardNumber:String = "",
 
         var cardXNumber: String = "",

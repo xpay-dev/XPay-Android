@@ -13,11 +13,7 @@
             android:orderInCategory="100"
             android:title="Transaction History"
             app:showAsAction="never" />
-        <item
-            android:id="@+id/offlineTransactionFragment"
-            android:orderInCategory="100"
-            android:title="Transaction Offline"
-            app:showAsAction="never" />
+
 
         <item
             android:id="@+id/preferenceFragment"

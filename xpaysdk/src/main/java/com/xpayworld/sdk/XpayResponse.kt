@@ -6,9 +6,6 @@ class  XpayResponse {
     @SerializedName("response")
     var response  = ""
 
-    @SerializedName("card_number")
-    var cardNumber = ""
-
     @SerializedName("masked_card")
     var maskedCard = ""
 
@@ -17,4 +14,7 @@ class  XpayResponse {
 
     @SerializedName("response_message")
     var responseMsg = ""
+
+    @SerializedName("order_id")
+    var orderId = ""
 }
