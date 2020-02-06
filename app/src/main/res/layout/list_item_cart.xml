@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.xpayworld.payment.ui.transaction.shope.ShopeAdapterViewModel" />
+
+        <variable
+            name="clickListener"
+            type="android.view.View.OnClickListener" />
+    </data>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="150dp"
+        android:layout_height="220dp"
+        android:layout_margin="10dp"
+        app:cardCornerRadius="5dp"
+        app:cardElevation="5dp"
+        app:cardPreventCornerOverlap="true"
+        app:cardUseCompatPadding="false">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/img_product"
+                android:layout_width="110dp"
+                android:layout_height="120dp"
+                android:cropToPadding="true"
+                android:src="@drawable/img_product"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.16" />
+
+            <TextView
+                android:id="@+id/tv_amount"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="@{viewModel.currency +' '+ viewModel.amount}"
+                android:textAlignment="center"
+                app:layout_constraintEnd_toEndOf="@+id/img_product"
+                app:layout_constraintStart_toStartOf="@+id/img_product"
+                app:layout_constraintTop_toBottomOf="@+id/img_product" />
+
+            <Button
+                android:id="@+id/btn_buy"
+                android:layout_width="0dp"
+                android:layout_height="35dp"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/btn_primary_black_pressed"
+                android:text="Buy"
+                android:textColor="@color/btn_text_white_color"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:onClick="@{clickListener}"
+                app:layout_constraintEnd_toEndOf="@+id/img_product"
+                app:layout_constraintStart_toStartOf="@+id/img_product"
+                app:layout_constraintTop_toBottomOf="@+id/tv_amount"
+                app:layout_constraintVertical_bias="0.0" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+</layout>
