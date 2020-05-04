@@ -4,10 +4,13 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
+import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.os.Build
 import android.telephony.TelephonyManager
 import androidx.core.app.ActivityCompat
+import androidx.security.crypto.EncryptedSharedPreferences
+import androidx.security.crypto.MasterKeys
 import com.xpayworld.payment.network.PosWsRequest
 import com.xpayworld.payment.network.TransactionResponse
 import com.xpayworld.payment.network.transaction.PaymentType
@@ -15,6 +18,7 @@ import com.xpayworld.payment.network.transaction.Transaction
 import com.xpayworld.payment.network.updateApp.UpdateAppResponse
 import java.security.MessageDigest
 import java.text.DecimalFormat
+
 
 // Global Variables
 
@@ -83,3 +87,13 @@ fun sha256(base: String): String? {
     }
 }
 
+fun getEncryptedSharedPreferences(context: Context): SharedPreferences? {
+    val masterKeyAlias = MasterKeys.getOrCreate(MasterKeys.AES256_GCM_SPEC)
+    return EncryptedSharedPreferences.create(
+            "secret_shared_prefs_file",
+            masterKeyAlias,
+            context,
+            EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
+            EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
+    )
+}

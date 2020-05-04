@@ -118,6 +118,7 @@ dependencies {
     implementation "androidx.work:work-runtime-ktx:2.2.0"
     androidTestImplementation "androidx.room:room-testing:2.2.0"
 
+    implementation "androidx.security:security-crypto:1.0.0-beta01"
 
     // reactive
     implementation 'io.reactivex.rxjava2:rxjava:2.2.10'
