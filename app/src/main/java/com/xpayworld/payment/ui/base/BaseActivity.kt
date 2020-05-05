@@ -2,6 +2,8 @@ package com.xpayworld.payment.ui.base.kt
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.app.AlertDialog
+import android.content.DialogInterface
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Build.VERSION
@@ -20,6 +22,8 @@ import com.xpayworld.payment.ui.dashboard.UserInteraction
 import com.xpayworld.payment.ui.dialog.ErrorDialog
 import com.xpayworld.payment.ui.enterPin.EnterPinFragment
 import com.xpayworld.payment.util.CustomDialog
+import com.xpayworld.payment.util.RootUtil
+import com.xpayworld.payment.util.isProbablyAnEmulator
 import dagger.android.AndroidInjection
 
 
@@ -39,6 +43,7 @@ abstract  class BaseActivity : AppCompatActivity() ,BaseFragment.CallBack{
         dialog = CustomDialog(applicationContext)
         initView()
         requestPermission()
+        displayDialogIfRootedOrEmulatorDevice()
 
         handler = Handler()
         r = Runnable {
@@ -102,6 +107,35 @@ abstract  class BaseActivity : AppCompatActivity() ,BaseFragment.CallBack{
                 }
                 return
             }
+        }
+    }
+
+    private fun displayDialogIfRootedOrEmulatorDevice(){
+
+        if (RootUtil.isDeviceRooted || isProbablyAnEmulator()) {
+            print("Device is rooted or emulator")
+            // build alert dialog
+            val dialogBuilder = AlertDialog.Builder(this)
+
+            // set message of alert dialog
+            dialogBuilder.setMessage("You are not allowed to run this application in rooted or emulator device")
+                    // if the dialog is cancelable
+                    .setCancelable(false)
+                    // positive button text and action
+                    .setPositiveButton("Ok", DialogInterface.OnClickListener {
+                        dialog, id ->
+
+                        System.exit(-1)
+                    })
+
+
+            // create dialog box
+            val alert = dialogBuilder.create()
+            // set title for alert dialog box
+            alert.setTitle("The device is rooted or emulator")
+            // show alert dialog
+            alert.show()
+
         }
     }
 
